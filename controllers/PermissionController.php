@@ -147,7 +147,7 @@ class PermissionController extends \yii\web\Controller
      * @param $id
      * @param $action
      *
-     * @return array
+     * @return string[]
      */
     public function actionAssign($id, $action)
     {
@@ -184,7 +184,7 @@ class PermissionController extends \yii\web\Controller
 
     /**
      * @param        $id
-     * @param        $target
+     * @param        string $target
      * @param string $term
      *
      * @return string

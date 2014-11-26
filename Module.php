@@ -1,7 +1,6 @@
 <?php
 
 namespace yii2mod\rbac;
-use yii2mod\rbac\assets\RbacAsset;
 
 
 /**

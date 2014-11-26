@@ -75,8 +75,8 @@ class AccessHelper
      * @static
      *
      * @param $module
-     * @param $namespace
-     * @param $prefix
+     * @param string $namespace
+     * @param string $prefix
      * @param $result
      */
     private static function getControllerRoutes($module, $namespace, $prefix, &$result)
@@ -156,7 +156,7 @@ class AccessHelper
     /**
      * @static
      *
-     * @param $group
+     * @param string $group
      *
      * @return string
      */
@@ -168,7 +168,7 @@ class AccessHelper
     /**
      * @static
      *
-     * @param $key
+     * @param string $key
      *
      * @return array
      */

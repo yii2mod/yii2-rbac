@@ -68,7 +68,7 @@ class RouteController extends Controller
     /**
      * @param $action
      *
-     * @return array
+     * @return string[]
      */
     public function actionAssign($action)
     {
@@ -96,7 +96,7 @@ class RouteController extends Controller
     }
 
     /**
-     * @param $target
+     * @param string $target
      * @param string $term
      * @param bool|string $refresh
      *
