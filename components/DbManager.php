@@ -772,7 +772,7 @@ class DbManager extends BaseManager
     }
 
     /**
-     * @param $part
+     * @param string $part
      */
     private function invalidate($part)
     {
@@ -808,7 +808,7 @@ class DbManager extends BaseManager
     }
 
     /**
-     * @param $part
+     * @param string $part
      *
      * @return bool|mixed
      */
@@ -821,7 +821,7 @@ class DbManager extends BaseManager
     }
 
     /**
-     * @param $part
+     * @param string $part
      * @param $data
      */
     private function saveToCache($part, $data)

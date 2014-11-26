@@ -160,7 +160,7 @@ class AssignmentController extends Controller
 
     /**
      * @param $id
-     * @param $target
+     * @param string $target
      * @param string $term
      *
      * @return string
