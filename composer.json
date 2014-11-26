@@ -1,0 +1,22 @@
+{
+    "name": "yii2mod/yii2-rbac",
+    "description": "User rbac module",
+    "type": "yii2-extension",
+    "keywords": ["yii2", "module"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Dmitry Semenov",
+            "email": "disemx@gmail.com"
+        }
+    ],
+    "require": {
+        "yii2mod/yii2-user": "*",
+        "yiisoft/yii2-jui": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "yii2mod\\rbac\\": ""
+        }
+    }
+}
