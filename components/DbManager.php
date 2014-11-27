@@ -296,7 +296,7 @@ class DbManager extends BaseManager
             ->insert($this->assignmentTable, [
                 'userId' => $assignment->userId,
                 'itemName' => $assignment->roleName,
-                'dateCreated' => $assignment->createdAt,
+                'createdAt' => $assignment->createdAt,
             ])->execute();
 
         if (isset($this->_assignments[$userId]) && !in_array($role->name, $this->_assignments[$userId])) {
@@ -420,7 +420,7 @@ class DbManager extends BaseManager
             ->update($this->ruleTable, [
                 'name' => $rule->name,
                 'data' => serialize($rule),
-                'dateUpdated' => $rule->updatedAt,
+                'updatedAt' => $rule->updatedAt,
             ], [
                 'name' => $name,
             ])->execute();
@@ -688,8 +688,8 @@ class DbManager extends BaseManager
             ->insert($this->ruleTable, [
                 'name' => $rule->name,
                 'data' => serialize($rule),
-                'dateCreated' => $rule->createdAt,
-                'dateUpdated' => $rule->updatedAt,
+                'createdAt' => $rule->createdAt,
+                'updatedAt' => $rule->updatedAt,
             ])->execute();
 
         if ($this->_rules !== null) {
@@ -724,7 +724,7 @@ class DbManager extends BaseManager
                 'description' => $item->description,
                 'ruleName' => $item->ruleName,
                 'data' => $item->data === null ? null : serialize($item->data),
-                'dateUpdated' => $item->updatedAt,
+                'updatedAt' => $item->updatedAt,
             ], [
                 'name' => $name,
             ])->execute();
@@ -760,8 +760,8 @@ class DbManager extends BaseManager
                 'description' => $item->description,
                 'ruleName' => $item->ruleName,
                 'data' => $item->data === null ? null : serialize($item->data),
-                'dateCreated' => $item->createdAt,
-                'dateUpdated' => $item->updatedAt,
+                'createdAt' => $item->createdAt,
+                'updatedAt' => $item->updatedAt,
             ])->execute();
 
         if ($this->_items !== null) {
@@ -925,8 +925,8 @@ class DbManager extends BaseManager
             'description' => $row['description'],
             'ruleName' => $row['ruleName'],
             'data' => $data,
-            'createdAt' => $row['dateCreated'],
-            'updatedAt' => $row['dateUpdated'],
+            'createdAt' => $row['createdAt'],
+            'updatedAt' => $row['updatedAt'],
         ]);
     }
 
