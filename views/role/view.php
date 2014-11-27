@@ -68,13 +68,13 @@ $this->render('/layouts/_sidebar');
             </div>
             <div class="col-lg-1">
                 <div class="move-buttons">
-                    <?php echo Html::a('<i class="ace-icon fa fa-arrow-left"></i>', '#', [
+                    <?php echo Html::a('<i class="glyphicon glyphicon-chevron-left"></i>', '#', [
                         'class' => 'btn btn-success',
                         'data-action' => 'delete'
                     ]);
 
                     ?>
-                    <?php echo Html::a('<i class="ace-icon fa fa-arrow-right"></i>', '#', [
+                    <?php echo Html::a('<i class="glyphicon glyphicon-chevron-right"></i>', '#', [
                         'class' => 'btn btn-success',
                         'data-action' => 'assign'
                     ]);
