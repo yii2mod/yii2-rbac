@@ -269,7 +269,7 @@ class DbManager extends BaseManager
      */
     public function removeChildren($parent)
     {
-        return false;
+        return parent::removeChildren($parent);
     }
 
     /**
