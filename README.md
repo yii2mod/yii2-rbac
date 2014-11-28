@@ -27,7 +27,18 @@ Once the extension is installed, simply modify your application configuration as
 ```php
 return [
     //....
-    'components' => [
+    'modules' => [
+        .....
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+            'modules' => [
+                'rbac' => [
+                    'class' => 'yii2mod\rbac\Module',
+                ],
+            ]
+        ],
+    ],
+  'components' => [
         ....
         'authManager' => [
             'class' => 'yii2mod\rbac\components\DbManager',
@@ -36,7 +47,17 @@ return [
     ]
 ];
 ```
-And add to your controller following code:
+You can then access Auth manager through the following URL:
+```
+http://localhost/path/to/index.php?r=admin/rbac/
+http://localhost/path/to/index.php?r=admin/rbac/route
+http://localhost/path/to/index.php?r=admin/rbac/permission
+http://localhost/path/to/index.php?r=admin/rbac/menu
+http://localhost/path/to/index.php?r=admin/rbac/role
+http://localhost/path/to/index.php?r=admin/rbac/assignment
+```
+
+For applying rules add to your controller following code:
 ```php
 use yii2mod\rbac\components\AccessControl;
 
@@ -60,3 +81,4 @@ public function behaviors()
   // Your actions
 }
 ```
+A
