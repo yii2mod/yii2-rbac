@@ -37,7 +37,7 @@ return [
 ];
 ```
 And add to your controller following code:
-```
+```php
 use yii2mod\rbac\components\AccessControl;
 
 class ExampleController extends Controller 
