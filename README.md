@@ -19,3 +19,44 @@ or add
 ```
 
 to the require section of your composer.json.
+
+Usage
+------------
+Once the extension is installed, simply modify your application configuration as follows:
+
+```php
+return [
+    //....
+    'components' => [
+        ....
+        'authManager' => [
+            'class' => 'yii2mod\rbac\components\DbManager',
+            'defaultRoles' => ['guest', 'user'],
+        ],
+    ]
+];
+```
+And add to your controller following code:
+```
+use yii2mod\rbac\components\AccessControl;
+
+class ExampleController extends Controller 
+{
+
+/**
+ * Returns a list of behaviors that this component should behave as.
+ */
+public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+            'verbs' => [
+                ...
+            ],
+        ];
+    }
+  // Your actions
+}
+```
