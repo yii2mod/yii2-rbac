@@ -38,7 +38,7 @@ $this->render('/layouts/_sidebar');
         </p>
 
         <div class="row">
-            <div class="col-lg-11">
+            <div class="col-lg-12">
                 <?php echo DetailView::widget([
                     'model' => $model,
                     'attributes' => [
@@ -66,7 +66,7 @@ $this->render('/layouts/_sidebar');
                 ]);
                 ?>
             </div>
-            <div class="col-lg-1">
+            <div class="col-lg-2">
                 <div class="move-buttons">
                     <?php echo Html::a('<i class="glyphicon glyphicon-chevron-left"></i>', '#', [
                         'class' => 'btn btn-success',

@@ -17,54 +17,54 @@ $this->render('/layouts/_sidebar');
         <h1>User: <?php echo $model->{$usernameField} ?></h1>
 
         <div class="row">
-        <div class="col-lg-4">
-            <?php
-            echo Html::textInput('search_av', '', [
-                    'class' => 'role-search form-control',
-                    'data-target' => 'available',
-                    'placeholder' => 'Search:'
-                ]) . '<br>';
-            echo Html::listBox('roles', '', $available, [
-                'id' => 'available',
-                'multiple' => true,
-                'size' => 20,
-                'style' => 'width:100%',
-                'class' => 'form-control'
-            ]);
-            ?>
-        </div>
-        <div class="col-lg-1">
-            <div class="move-buttons">
-            <?php
-            echo Html::a('<i class="glyphicon glyphicon-chevron-left"></i>', '#', [
-                    'class' => 'btn btn-success',
-                    'data-action' => 'delete'
+            <div class="col-lg-5">
+                <?php
+                echo Html::textInput('search_av', '', [
+                        'class' => 'role-search form-control',
+                        'data-target' => 'available',
+                        'placeholder' => 'Search:'
+                    ]) . '<br>';
+                echo Html::listBox('roles', '', $available, [
+                    'id' => 'available',
+                    'multiple' => true,
+                    'size' => 20,
+                    'style' => 'width:100%',
+                    'class' => 'form-control'
                 ]);
-            ?>
-            <?php
-            echo Html::a('<i class="glyphicon glyphicon-chevron-right"></i>', '#', [
-                    'class' => 'btn btn-success',
-                    'data-action' => 'assign'
-                ]);
-            ?>
+                ?>
             </div>
-        </div>
-        <div class="col-lg-4">
-            <?php
-            echo Html::textInput('search_asgn', '', [
-                    'class' => 'role-search form-control',
-                    'data-target' => 'assigned',
-                    'placeholder' => 'Search:'
-                ]) . '<br>';
-            echo Html::listBox('roles', '', $assigned, [
-                'id' => 'assigned',
-                'multiple' => true,
-                'size' => 20,
-                'style' => 'width:100%',
-                'class' => 'form-control',
-            ]);
-            ?>
-        </div>
+            <div class="col-lg-2">
+                <div class="move-buttons">
+                    <?php
+                    echo Html::a('<i class="glyphicon glyphicon-chevron-left"></i>', '#', [
+                        'class' => 'btn btn-success',
+                        'data-action' => 'delete'
+                    ]);
+                    ?>
+                    <?php
+                    echo Html::a('<i class="glyphicon glyphicon-chevron-right"></i>', '#', [
+                        'class' => 'btn btn-success',
+                        'data-action' => 'assign'
+                    ]);
+                    ?>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <?php
+                echo Html::textInput('search_asgn', '', [
+                        'class' => 'role-search form-control',
+                        'data-target' => 'assigned',
+                        'placeholder' => 'Search:'
+                    ]) . '<br>';
+                echo Html::listBox('roles', '', $assigned, [
+                    'id' => 'assigned',
+                    'multiple' => true,
+                    'size' => 20,
+                    'style' => 'width:100%',
+                    'class' => 'form-control',
+                ]);
+                ?>
+            </div>
         </div>
     </div>
 <?php
