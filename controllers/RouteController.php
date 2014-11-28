@@ -124,10 +124,15 @@ class RouteController extends Controller
             }
         } else {
             foreach ($exists as $name) {
+                if ($name[0] !== '/') {
+                    continue;
+                }
                 if (empty($term) or strpos($name, $term) !== false) {
                     $result[$name] = $name;
                 }
-                if (!in_array($name, $routes)) {
+                // extract route part from $name
+                $r = explode('&', $name);
+                if (empty($r[0]) || !in_array($r[0], $routes)) {
                     $existsOptions[$name] = ['class' => 'lost'];
                 }
             }
