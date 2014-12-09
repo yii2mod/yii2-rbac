@@ -3,15 +3,14 @@
 namespace yii2mod\rbac\components;
 
 use Yii;
-use yii\base\ActionFilter;
-use yii\web\ForbiddenHttpException;
 
 /**
  * Class AccessControl
  * @package yii2mod\rbac\components
  */
-class AccessControl extends ActionFilter
+class AccessControl extends \yii\filters\AccessControl
 {
+
     /**
      * @inheritdoc
      */
@@ -29,26 +28,7 @@ class AccessControl extends ActionFilter
             }
             $obj = $obj->module;
         } while ($obj !== null);
-        $this->denyAccess($user);
         return parent::beforeAction($action);
-    }
-
-    /**
-     * Denies the access of the user.
-     * The default implementation will redirect the user to the login page if he is a guest;
-     * if the user is already logged, a 403 HTTP exception will be thrown.
-     *
-     * @param \yii\web\User $user the current user
-     *
-     * @throws \yii\web\ForbiddenHttpException if the user is already logged in.
-     */
-    protected function denyAccess($user)
-    {
-        if ($user->getIsGuest()) {
-            $user->loginRequired();
-        } else {
-            throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
-        }
     }
 
     /**
