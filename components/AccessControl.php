@@ -12,7 +12,10 @@ class AccessControl extends \yii\filters\AccessControl
 {
 
     /**
-     * @inheritdoc
+     * This method is invoked right before an action is to be executed (after all possible filters.)
+     * You may override this method to do last-minute preparation for the action.
+     * @param Action $action the action to be executed.
+     * @return boolean whether the action should continue to be executed.
      */
     public function beforeAction($action)
     {
@@ -21,18 +24,22 @@ class AccessControl extends \yii\filters\AccessControl
         if ($user->can('/' . $actionId)) {
             return true;
         }
-        $obj = $action->controller;
+        $controller = $action->controller;
         do {
-            if ($user->can('/' . ltrim($obj->getUniqueId() . '/*', '/'))) {
+            if ($user->can('/' . ltrim($controller->getUniqueId() . '/*', '/'))) {
                 return true;
             }
-            $obj = $obj->module;
-        } while ($obj !== null);
+            $controller = $controller->module;
+        } while ($controller !== null);
+
         return parent::beforeAction($action);
     }
 
+
     /**
-     * @inheritdoc
+     * Returns a value indicating whether the filer is active for the given action.
+     * @param Action $action the action being filtered
+     * @return boolean whether the filer is active for the given action.
      */
     protected function isActive($action)
     {
@@ -44,4 +51,5 @@ class AccessControl extends \yii\filters\AccessControl
         }
         return parent::isActive($action);
     }
+
 }
