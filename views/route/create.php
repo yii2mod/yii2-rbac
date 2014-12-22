@@ -23,10 +23,10 @@ $this->render('/layouts/_sidebar');
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'route') ?>
+    <?php echo $form->field($model, 'route'); ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+        <?php echo Html::submitButton('Submit', ['class' => 'btn btn-primary']); ?>
     </div>
     <?php ActiveForm::end(); ?>
 

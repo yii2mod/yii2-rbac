@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->render('/layouts/_sidebar');
 ?>
     <div class="assignment-index">
-        <h1>User: <?php echo $model->{$usernameField} ?></h1>
+        <h1>User: <?php echo $model->{$usernameField}; ?></h1>
 
         <div class="row">
             <div class="col-lg-5">

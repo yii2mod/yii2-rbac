@@ -21,15 +21,9 @@ $this->render('/layouts/_sidebar');
         <h1><?php echo Html::encode($this->title) ?></h1>
 
         <p>
-            <?php echo Html::a('Update', [
-                'update',
-                'id' => $model->name
-            ], ['class' => 'btn btn-primary']) ?>
-            <?php
-            echo Html::a('Delete', [
-                'delete',
-                'id' => $model->name
-            ], [
+            <?php echo Html::a('Update', ['update', 'id' => $model->name], ['class' => 'btn btn-primary']); ?>
+
+            <?php echo Html::a('Delete', ['delete', 'id' => $model->name], [
                 'class' => 'btn btn-danger',
                 'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
                 'data-method' => 'post',

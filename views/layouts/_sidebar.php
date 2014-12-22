@@ -1,5 +1,7 @@
 <?php
-\yii2mod\rbac\assets\RbacAsset::register($this);
+use yii2mod\rbac\assets\RbacAsset;
+
+RbacAsset::register($this);
 $this->params['sidebar'] = [
     [
         'label' => 'Assignments',

@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->render('/layouts/_sidebar');
 ?>
 <div class="auth-item-create">
-    <h1><?php echo Html::encode($this->title) ?></h1>
+    <h1><?php echo Html::encode($this->title); ?></h1>
     <blockquote><p>A permission can be assigned to many operations.</p></blockquote>
     <?php echo $this->render('_form', [
         'model' => $model,

@@ -18,8 +18,7 @@ $this->render('/layouts/_sidebar');
 
     <div class="row">
         <div class="col-lg-5">
-            <?php
-            echo Html::textInput('search_av', '', [
+            <?php echo Html::textInput('search_av', '', [
                     'class' => 'role-search form-control',
                     'data-target' => 'available',
                     'placeholder' => 'New:'

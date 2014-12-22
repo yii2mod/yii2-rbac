@@ -23,9 +23,8 @@ $this->render('/layouts/_sidebar');
 ?>
 <div class="auth-item-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php
-    echo $this->render('_form', [
+    <h1><?php echo Html::encode($this->title); ?></h1>
+    <?php echo $this->render('_form', [
         'model' => $model,
     ]);
     ?>
