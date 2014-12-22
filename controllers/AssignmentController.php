@@ -3,6 +3,7 @@
 namespace yii2mod\rbac\controllers;
 
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Controller;
 use Yii;
@@ -19,23 +20,22 @@ use yii2mod\rbac\models\searchs\Assignment as AssignmentSearch;
 class AssignmentController extends Controller
 {
     /**
-     * @var
+     * @var string user model class
      */
     public $userClassName;
     /**
-     * @var string
+     * @var string id column name
      */
     public $idField = 'id';
     /**
-     * @var string
+     * @var string username column name
      */
     public $usernameField = 'username';
-
     /**
-     * Sea
-     * @var
+     * @var string search class name for assignments search
      */
     public $searchClass;
+
 
     /**
      * Init function
@@ -45,11 +45,14 @@ class AssignmentController extends Controller
         parent::init();
         if ($this->userClassName === null) {
             $this->userClassName = Yii::$app->getUser()->identityClass;
-            $this->userClassName = $this->userClassName ? : 'app\models\UserModel';
+            $this->userClassName = $this->userClassName ?: 'app\models\UserModel';
         }
     }
 
     /**
+     * Returns a list of behaviors that this component should behave as.
+     *
+     * Child classes may override this method to specify the behaviors they want to behave as.
      * @return array
      */
     public function behaviors()
@@ -128,37 +131,28 @@ class AssignmentController extends Controller
      */
     public function actionAssign($id, $action)
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $post = Yii::$app->request->post();
-        $roles = $post['roles'];
+        $roles = ArrayHelper::getValue($post,'roles', []);
         $manager = Yii::$app->authManager;
-        $error = [];
         if ($action == 'assign') {
             foreach ($roles as $role) {
-                try {
-                    $manager->assign($manager->getRole($role), $id);
-                } catch (\Exception $exc) {
-                    $error[] = $exc->getMessage();
-                }
+                $manager->assign($manager->getRole($role), $id);
             }
         } else {
             foreach ($roles as $role) {
-                try {
-                    $manager->revoke($manager->getRole($role), $id);
-                } catch (\Exception $exc) {
-                    $error[] = $exc->getMessage();
-                }
+                $manager->revoke($manager->getRole($role), $id);
             }
         }
         AccessHelper::refreshAuthCache();
-        Yii::$app->response->format = Response::FORMAT_JSON;
         return [
             $this->actionRoleSearch($id, 'available', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),
-            $error
         ];
     }
 
     /**
+     * Role search
      * @param $id
      * @param string $target
      * @param string $term

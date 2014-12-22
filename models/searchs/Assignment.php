@@ -11,17 +11,20 @@ use yii\data\ActiveDataProvider;
 class Assignment extends Model
 {
     /**
-     * @var
+     * @var integer id
      */
     public $id;
 
     /**
-     * @var
+     * @var string username
      */
     public $username;
 
     /**
-     * Rules
+     * Returns the validation rules for attributes.
+     *
+     * Validation rules are used by [[validate()]] to check if attribute values are valid.
+     * Child classes may override this method to declare different validation rules.
      * @return array
      */
     public function rules()
@@ -32,7 +35,11 @@ class Assignment extends Model
     }
 
     /**
-     * Attribute labels
+     * Returns the attribute labels.
+     *
+     * Attribute labels are mainly used for display purpose. For example, given an attribute
+     * `firstName`, we can declare a label `First Name` which is more user-friendly and can
+     * be displayed to end users.
      * @inheritdoc
      */
     public function attributeLabels()
