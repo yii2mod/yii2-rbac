@@ -11,8 +11,7 @@
         }
     ],
     "require": {
-        "yii2mod/yii2-user": "*",
-        "yiisoft/yii2-jui": "~2.0@dev"
+        "yii2mod/yii2-user": "*"
     },
     "autoload": {
         "psr-4": {
