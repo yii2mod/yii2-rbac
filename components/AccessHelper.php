@@ -8,26 +8,25 @@ use yii\helpers\Inflector;
 use Yii;
 
 /**
- * Description of AccessHelper
- *
- * @author MDMunir
+ * Class AccessHelper
+ * @package yii2mod\rbac\components
  */
 class AccessHelper
 {
     /**
-     *
+     * Tag - file, for invalidate tag dependency cache
      */
     const FILE_GROUP = 'file';
     /**
-     *
+     * Tag - auth, for invalidate tag dependency cache
      */
     const AUTH_GROUP = 'auth';
 
     /**
+     * Get routes
      *
      * @param bool $refresh
-     *
-     * @return array
+     * @return array|mixed
      */
     public static function getRoutes($refresh = false)
     {
@@ -45,9 +44,11 @@ class AccessHelper
     }
 
     /**
+     * Get route recursive
      *
-     * @param \yii\base\Module $module
-     * @param array            $result
+     * @param $module
+     * @param $result
+     * @throws \yii\base\InvalidConfigException
      */
     private static function getRouteRecursive($module, &$result)
     {
@@ -72,12 +73,12 @@ class AccessHelper
     }
 
     /**
-     * @static
-     *
+     * Get controller routes
      * @param $module
-     * @param string $namespace
-     * @param string $prefix
+     * @param $namespace
+     * @param $prefix
      * @param $result
+     * @throws \yii\base\InvalidConfigException
      */
     private static function getControllerRoutes($module, $namespace, $prefix, &$result)
     {
@@ -107,9 +108,10 @@ class AccessHelper
     }
 
     /**
+     * Get action routes
      *
-     * @param \yii\base\Controller $controller
-     * @param Array                $result all controller action.
+     * @param $controller
+     * @param $result
      */
     private static function getActionRoutes($controller, &$result)
     {
@@ -127,10 +129,9 @@ class AccessHelper
     }
 
     /**
-     * @static
+     * Get saved Routes
      *
      * @param bool $refresh
-     *
      * @return array|mixed
      */
     public static function getSavedRoutes($refresh = false)
@@ -154,10 +155,9 @@ class AccessHelper
 
 
     /**
-     * @static
+     * Get group
      *
-     * @param string $group
-     *
+     * @param $group
      * @return string
      */
     private static function getGroup($group)
@@ -166,10 +166,9 @@ class AccessHelper
     }
 
     /**
-     * @static
+     * Build key
      *
-     * @param string $key
-     *
+     * @param $key
      * @return array
      */
     private static function buildKey($key)
@@ -178,6 +177,7 @@ class AccessHelper
     }
 
     /**
+     * Refresh file cache
      * @static
      */
     public static function refreshFileCache()
@@ -188,6 +188,7 @@ class AccessHelper
     }
 
     /**
+     * Refresh auth cache
      * @static
      */
     public static function refreshAuthCache()
