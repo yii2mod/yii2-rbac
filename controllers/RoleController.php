@@ -4,6 +4,7 @@ namespace yii2mod\rbac\controllers;
 
 use Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\rbac\Item;
 use yii\web\NotFoundHttpException;
@@ -21,6 +22,9 @@ class RoleController extends \yii\web\Controller
 {
 
     /**
+     * Returns a list of behaviors that this component should behave as.
+     *
+     * Child classes may override this method to specify the behaviors they want to behave as.
      * @return array
      */
     public function behaviors()
@@ -36,7 +40,7 @@ class RoleController extends \yii\web\Controller
     }
 
     /**
-     * Lists all AuthItem models.
+     * Lists all roles.
      * @return mixed
      */
     public function actionIndex()
@@ -107,11 +111,9 @@ class RoleController extends \yii\web\Controller
         $model = new AuthItem(null);
         $model->type = Item::TYPE_ROLE;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Role has been saved.');
             AccessHelper::refreshAuthCache();
-            return $this->redirect([
-                'view',
-                'id' => $model->name
-            ]);
+            return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model,]);
         }
@@ -129,6 +131,7 @@ class RoleController extends \yii\web\Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Role has been saved.');
             AccessHelper::refreshAuthCache();
             return $this->redirect([
                 'view',
@@ -150,6 +153,7 @@ class RoleController extends \yii\web\Controller
     {
         $model = $this->findModel($id);
         Yii::$app->getAuthManager()->remove($model->item);
+        Yii::$app->session->setFlash('success', 'Role has been removed.');
         AccessHelper::refreshAuthCache();
         return $this->redirect(['index']);
     }
@@ -162,33 +166,29 @@ class RoleController extends \yii\web\Controller
      */
     public function actionAssign($id, $action)
     {
-        $post = Yii::$app->getRequest()->post();
-        $roles = $post['roles'];
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $post = Yii::$app->request->post();
+        $roles = ArrayHelper::getValue($post, 'roles', []);
         $manager = Yii::$app->getAuthManager();
         $parent = $manager->getRole($id);
         if ($action == 'assign') {
             foreach ($roles as $role) {
                 $child = $manager->getRole($role);
-                $child = $child ? : $manager->getPermission($role);
-                try {
-                    $manager->addChild($parent, $child);
-                } catch (\Exception $e) {
-
+                if (is_null($child)) {
+                    $child = $manager->getPermission($role);
                 }
+                $manager->addChild($parent, $child);
             }
         } else {
             foreach ($roles as $role) {
                 $child = $manager->getRole($role);
-                $child = $child ? : $manager->getPermission($role);
-                try {
-                    $manager->removeChild($parent, $child);
-                } catch (\Exception $e) {
-
+                if (is_null($child)) {
+                    $child = $manager->getPermission($role);
                 }
+                $manager->removeChild($parent, $child);
             }
         }
         AccessHelper::refreshAuthCache();
-        Yii::$app->response->format = Response::FORMAT_JSON;
         return [
             $this->actionRoleSearch($id, 'available', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])
