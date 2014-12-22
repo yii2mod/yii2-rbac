@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use Yii;
 use yii2mod\rbac\components\AccessHelper;
-use yii2mod\rbac\models\Route;
+use yii2mod\rbac\models\RouteModel;
 
 
 /**
@@ -57,7 +57,7 @@ class RouteController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Route;
+        $model = new RouteModel;
         if ($model->load(Yii::$app->getRequest()->post())) {
             if ($model->validate()) {
                 $routes = explode(',', $model->route);
@@ -82,7 +82,7 @@ class RouteController extends Controller
         $post = Yii::$app->getRequest()->post();
         $routes = ArrayHelper::getValue($post, 'routes', []);
         $manager = Yii::$app->getAuthManager();
-        $model = new Route;
+        $model = new RouteModel;
         if ($action == 'assign') {
             $model->save($routes);
         } else {

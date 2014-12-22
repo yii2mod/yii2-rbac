@@ -5,10 +5,10 @@ namespace yii2mod\rbac\models;
 use yii\base\Model;
 
 /**
- * Class Route
+ * Class RouteModel
  * @package yii2mod\rbac\models
  */
-class Route extends Model
+class RouteModel extends Model
 {
     /**
      * @var string route

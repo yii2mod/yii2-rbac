@@ -11,7 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii2mod\rbac\components\AccessHelper;
-use yii2mod\rbac\models\AuthItem;
+use yii2mod\rbac\models\AuthItemModel;
 use yii2mod\rbac\models\search\AuthItemSearch;
 
 /**
@@ -108,7 +108,7 @@ class RoleController extends Controller
      */
     public function actionCreate()
     {
-        $model = new AuthItem(null);
+        $model = new AuthItemModel(null);
         $model->type = Item::TYPE_ROLE;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Role has been saved.');
@@ -255,7 +255,7 @@ class RoleController extends Controller
     {
         $item = Yii::$app->getAuthManager()->getRole($id);
         if ($item) {
-            return new AuthItem($item);
+            return new AuthItemModel($item);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

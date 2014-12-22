@@ -5,7 +5,7 @@ namespace yii2mod\rbac\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
-use yii2mod\rbac\models\BizRule;
+use yii2mod\rbac\models\BizRuleModel;
 
 /**
  * Class BizRuleSearch
@@ -47,7 +47,7 @@ class BizRuleSearch extends Model
         $included = !($this->load($params) && $this->validate() && trim($this->name) !== '');
         foreach ($authManager->getRules() as $name => $item) {
             if ($included || stripos($item->name, $this->name) !== false) {
-                $models[$name] = new BizRule($item);
+                $models[$name] = new BizRuleModel($item);
             }
         }
         return new ArrayDataProvider([

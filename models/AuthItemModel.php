@@ -8,6 +8,7 @@ use yii\rbac\Item;
 use Yii;
 
 /**
+ * Class AuthItemModel
  * This is the model class for table "AuthItem".
  *
  * @property string  $name
@@ -18,7 +19,7 @@ use Yii;
  *
  * @property Item    $item
  */
-class AuthItem extends Model
+class AuthItemModel extends Model
 {
     /**
      * @var string

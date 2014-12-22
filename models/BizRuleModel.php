@@ -9,10 +9,10 @@ use yii2mod\rbac\components\BizRule as TBizRule;
 
 
 /**
- * Class BizRule
+ * Class BizRuleModel
  * @package yii2mod\rbac\models
  */
-class BizRule extends Model
+class BizRuleModel extends Model
 {
     /**
      * @var string name of the rule

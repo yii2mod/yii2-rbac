@@ -7,7 +7,7 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii2mod\rbac\components\AccessHelper;
-use yii2mod\rbac\models\BizRule;
+use yii2mod\rbac\models\BizRuleModel;
 use yii2mod\rbac\models\search\BizRuleSearch;
 
 /**
@@ -71,7 +71,7 @@ class RuleController extends Controller
      */
     public function actionCreate()
     {
-        $model = new BizRule(null);
+        $model = new BizRuleModel(null);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             AccessHelper::refreshAuthCache();
             Yii::$app->session->setFlash('success', 'Rule has been saved.');
@@ -130,7 +130,7 @@ class RuleController extends Controller
     {
         $item = Yii::$app->authManager->getRule($id);
         if ($item) {
-            return new BizRule($item);
+            return new BizRuleModel($item);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
