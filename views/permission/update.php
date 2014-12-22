@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 $this->title = 'Update Permission: ' . $model->name;
 $this->params['breadcrumbs'][] = [
-    'label' => 'Roles',
+    'label' => 'Permissions',
     'url' => ['index']
 ];
 $this->params['breadcrumbs'][] = [

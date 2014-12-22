@@ -9,7 +9,7 @@ use yii\helpers\Html;
 
 $this->title = 'Create Permission';
 $this->params['breadcrumbs'][] = [
-    'label' => 'Roles',
+    'label' => 'Permissions',
     'url' => ['index']
 ];
 $this->params['breadcrumbs'][] = $this->title;

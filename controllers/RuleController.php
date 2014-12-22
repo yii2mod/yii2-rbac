@@ -4,9 +4,9 @@ namespace yii2mod\rbac\controllers;
 
 use Yii;
 use yii\filters\VerbFilter;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii2mod\rbac\components\AccessHelper;
-use yii2mod\rbac\components\Controller;
 use yii2mod\rbac\models\BizRule;
 use yii2mod\rbac\models\searchs\BizRule as BizRuleSearch;
 
@@ -14,10 +14,14 @@ use yii2mod\rbac\models\searchs\BizRule as BizRuleSearch;
  * Class RuleController
  * @package yii2mod\rbac\controllers
  */
-class RuleController extends \yii\web\Controller
+class RuleController extends Controller
 {
 
     /**
+     * Returns a list of behaviors that this component should behave as.
+     *
+     * Child classes may override this method to specify the behaviors they want to behave as.
+     *
      * @return array
      */
     public function behaviors()
@@ -33,7 +37,7 @@ class RuleController extends \yii\web\Controller
     }
 
     /**
-     * Lists all AuthItem models.
+     * Lists all rules
      * @return mixed
      */
     public function actionIndex()
@@ -70,10 +74,8 @@ class RuleController extends \yii\web\Controller
         $model = new BizRule(null);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             AccessHelper::refreshAuthCache();
-            return $this->redirect([
-                'view',
-                'id' => $model->name
-            ]);
+            Yii::$app->session->setFlash('success', 'Rule has been saved.');
+            return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model,]);
         }
@@ -92,10 +94,8 @@ class RuleController extends \yii\web\Controller
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             AccessHelper::refreshAuthCache();
-            return $this->redirect([
-                'view',
-                'id' => $model->name
-            ]);
+            Yii::$app->session->setFlash('success', 'Rule has been saved.');
+            return $this->redirect(['view', 'id' => $model->name]);
         }
         return $this->render('update', ['model' => $model,]);
     }
@@ -113,6 +113,7 @@ class RuleController extends \yii\web\Controller
         $model = $this->findModel($id);
         Yii::$app->authManager->remove($model->item);
         AccessHelper::refreshAuthCache();
+        Yii::$app->session->setFlash('success', 'Rule has been deleted.');
         return $this->redirect(['index']);
     }
 
