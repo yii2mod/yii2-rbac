@@ -13,6 +13,7 @@ $this->render('/layouts/_sidebar');
     <h1>Routes</h1>
     <p>
         <?php echo Html::a('Create route', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php echo Html::a('Update', ['#'], ['class' => 'btn btn-success', 'id' => 'btn-refresh']); ?>
     </p>
 
     <div class="row">
@@ -23,7 +24,6 @@ $this->render('/layouts/_sidebar');
                     'data-target' => 'available',
                     'placeholder' => 'New:'
                 ]) . ' ';
-            echo Html::a('<span class="glyphicon glyphicon-refresh"></span>', '', ['id' => 'btn-refresh']);
             echo '<br>';
             echo Html::listBox('routes', '', $new, [
                 'id' => 'available',

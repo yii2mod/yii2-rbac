@@ -38,6 +38,8 @@ var rbac = {
         return false;
     },
     refresh: function () {
+        var refreshButton = $(this);
+        refreshButton.button('loading');
         $.get(rbac.routeSearch, {
                 target: 'available',
                 term: $('input[name="search_av"]').val(),
@@ -45,6 +47,7 @@ var rbac = {
             },
             function (html) {
                 $('#available').html(html);
+                refreshButton.button('reset');
             }
         );
         return false;

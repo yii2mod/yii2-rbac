@@ -2,7 +2,8 @@
 
 namespace yii2mod\rbac\controllers;
 
-use Exception;
+
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\Response;
@@ -19,6 +20,8 @@ class RouteController extends Controller
 {
 
     /**
+     * Index action
+     * List of available & assigned routes
      * @return string
      */
     public function actionIndex()
@@ -49,6 +52,7 @@ class RouteController extends Controller
     }
 
     /**
+     * Create route action
      * @return string
      */
     public function actionCreate()
@@ -57,8 +61,9 @@ class RouteController extends Controller
         if ($model->load(Yii::$app->getRequest()->post())) {
             if ($model->validate()) {
                 $routes = explode(',', $model->route);
-                $this->saveNew($routes);
+                $model->save($routes);
                 AccessHelper::refreshAuthCache();
+                Yii::$app->session->setFlash('success', 'Route has been saved.');
                 $this->redirect(['index']);
             }
         }
@@ -66,29 +71,27 @@ class RouteController extends Controller
     }
 
     /**
-     * @param $action
+     * Assign route action
      *
-     * @return string[]
+     * @param $action
+     * @return array
      */
     public function actionAssign($action)
     {
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         $post = Yii::$app->getRequest()->post();
-        $routes = $post['routes'];
+        $routes = ArrayHelper::getValue($post, 'routes', []);
         $manager = Yii::$app->getAuthManager();
+        $model = new Route;
         if ($action == 'assign') {
-            $this->saveNew($routes);
+            $model->save($routes);
         } else {
             foreach ($routes as $route) {
                 $child = $manager->getPermission($route);
-                try {
-                    $manager->remove($child);
-                } catch (Exception $e) {
-
-                }
+                $manager->remove($child);
             }
         }
         AccessHelper::refreshAuthCache();
-        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         return [
             $this->actionRouteSearch('available', $post['search_av']),
             $this->actionRouteSearch('assigned', $post['search_asgn'])
@@ -96,6 +99,8 @@ class RouteController extends Controller
     }
 
     /**
+     * Route search action
+     *
      * @param string $target
      * @param string $term
      * @param bool|string $refresh
@@ -141,18 +146,4 @@ class RouteController extends Controller
         return Html::renderSelectOptions('', $result, $options);
     }
 
-    /**
-     * @param $routes
-     */
-    private function saveNew($routes)
-    {
-        $manager = Yii::$app->getAuthManager();
-        foreach ($routes as $route) {
-            try {
-                $manager->add($manager->createPermission('/' . trim($route, ' /')));
-            } catch (Exception $e) {
-
-            }
-        }
-    }
 }
