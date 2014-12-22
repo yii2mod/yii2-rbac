@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var yii2mod\rbac\models\AuthItemSearch $searchModel
  */
-$this->title = 'Permission';
+$this->title = 'Permissions';
 $this->params['breadcrumbs'][] = $this->title;
 $this->render('/layouts/_sidebar');
 ?>
