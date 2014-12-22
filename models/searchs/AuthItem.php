@@ -8,38 +8,32 @@ use yii\rbac\Item;
 use Yii;
 
 /**
- * AuthItemSearch represents the model behind the search form about AuthItem.
+ * Class AuthItem
+ * @package yii2mod\rbac\models\searchs
  */
 class AuthItem extends Model
 {
 
     /**
-     * Type route
-     */
-    const TYPE_ROUTE = 101;
-
-    /**
-     * @var
+     * @var string auth item name
      */
     public $name;
-    /**
-     * @var
-     */
-    public $type;
-    /**
-     * @var
-     */
-    public $description;
-    /**
-     * @var
-     */
-    public $rule;
-    /**
-     * @var
-     */
-    public $data;
 
     /**
+     * @var integer auth item type
+     */
+    public $type;
+
+    /**
+     * @var string auth item description
+     */
+    public $description;
+
+    /**
+     * Returns the validation rules for attributes.
+     *
+     * Validation rules are used by [[validate()]] to check if attribute values are valid.
+     * Child classes may override this method to declare different validation rules.
      * @return array
      */
     public function rules()
@@ -51,7 +45,11 @@ class AuthItem extends Model
     }
 
     /**
-     * @inheritdoc
+     * Returns the attribute labels.
+     *
+     * Attribute labels are mainly used for display purpose. For example, given an attribute
+     * `firstName`, we can declare a label `First Name` which is more user-friendly and can
+     * be displayed to end users.
      */
     public function attributeLabels()
     {
@@ -59,13 +57,11 @@ class AuthItem extends Model
             'name' => 'Name',
             'type' => 'Type',
             'description' => 'Description',
-            'rule' => 'Rule',
-            'data' => 'Data',
         ];
     }
 
     /**
-     *
+     * Search
      * @param array $params
      *
      * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
