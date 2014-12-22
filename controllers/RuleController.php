@@ -8,7 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii2mod\rbac\components\AccessHelper;
 use yii2mod\rbac\models\BizRule;
-use yii2mod\rbac\models\searchs\BizRule as BizRuleSearch;
+use yii2mod\rbac\models\search\BizRuleSearch;
 
 /**
  * Class RuleController

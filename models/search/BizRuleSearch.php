@@ -1,18 +1,17 @@
 <?php
 
-namespace yii2mod\rbac\models\searchs;
+namespace yii2mod\rbac\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
-use yii2mod\rbac\models\BizRule as MBizRule;
+use yii2mod\rbac\models\BizRule;
 
 /**
- * Description of BizRule
- *
- * @author MDMunir
+ * Class BizRuleSearch
+ * @package yii2mod\rbac\models\search
  */
-class BizRule extends Model
+class BizRuleSearch extends Model
 {
     /**
      * @var string name of the rule
@@ -20,6 +19,11 @@ class BizRule extends Model
     public $name;
 
     /**
+     * Returns the validation rules for attributes.
+     *
+     * Validation rules are used by [[validate()]] to check if attribute values are valid.
+     * Child classes may override this method to declare different validation rules.
+     *
      * @return array
      */
     public function rules()
@@ -30,9 +34,9 @@ class BizRule extends Model
     }
 
     /**
+     * Search
      *
      * @param array $params
-     *
      * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
      */
     public function search($params)
@@ -43,7 +47,7 @@ class BizRule extends Model
         $included = !($this->load($params) && $this->validate() && trim($this->name) !== '');
         foreach ($authManager->getRules() as $name => $item) {
             if ($included || stripos($item->name, $this->name) !== false) {
-                $models[$name] = new MBizRule($item);
+                $models[$name] = new BizRule($item);
             }
         }
         return new ArrayDataProvider([

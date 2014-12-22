@@ -12,7 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii2mod\rbac\components\AccessHelper;
 use yii2mod\rbac\models\AuthItem;
-use yii2mod\rbac\models\searchs\AuthItem as AuthItemSearch;
+use yii2mod\rbac\models\search\AuthItemSearch;
 
 /**
  * Class PermissionController

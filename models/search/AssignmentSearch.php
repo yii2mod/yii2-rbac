@@ -1,14 +1,15 @@
 <?php
 
-namespace yii2mod\rbac\models\searchs;
+namespace yii2mod\rbac\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * AssignmentSearch represents the model behind the search form about Assignment.
+ * Class AssignmentSearch
+ * @package yii2mod\rbac\models\search
  */
-class Assignment extends Model
+class AssignmentSearch extends Model
 {
     /**
      * @var integer id
@@ -40,7 +41,8 @@ class Assignment extends Model
      * Attribute labels are mainly used for display purpose. For example, given an attribute
      * `firstName`, we can declare a label `First Name` which is more user-friendly and can
      * be displayed to end users.
-     * @inheritdoc
+     *
+     * @return array attribute labels (name => label)
      */
     public function attributeLabels()
     {

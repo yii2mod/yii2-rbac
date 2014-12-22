@@ -10,8 +10,7 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii2mod\rbac\components\AccessHelper;
-use yii2mod\rbac\models\Assignment;
-use yii2mod\rbac\models\searchs\Assignment as AssignmentSearch;
+use yii2mod\rbac\models\search\AssignmentSearch;
 
 /**
  * Class AssignmentController

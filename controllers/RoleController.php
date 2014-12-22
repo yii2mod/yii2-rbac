@@ -7,18 +7,18 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\rbac\Item;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii2mod\rbac\components\AccessHelper;
-use yii2mod\rbac\components\Controller;
 use yii2mod\rbac\models\AuthItem;
-use yii2mod\rbac\models\searchs\AuthItem as AuthItemSearch;
+use yii2mod\rbac\models\search\AuthItemSearch;
 
 /**
  * Class RoleController
  * @package yii2mod\rbac\controllers
  */
-class RoleController extends \yii\web\Controller
+class RoleController extends Controller
 {
 
     /**
