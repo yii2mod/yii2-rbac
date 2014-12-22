@@ -4,12 +4,13 @@ namespace yii2mod\rbac\controllers;
 
 use Yii;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\rbac\Item;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii2mod\rbac\components\AccessHelper;
-use yii2mod\rbac\components\Controller;
 use yii2mod\rbac\models\AuthItem;
 use yii2mod\rbac\models\searchs\AuthItem as AuthItemSearch;
 
@@ -17,10 +18,14 @@ use yii2mod\rbac\models\searchs\AuthItem as AuthItemSearch;
  * Class PermissionController
  * @package yii2mod\rbac\controllers
  */
-class PermissionController extends \yii\web\Controller
+class PermissionController extends Controller
 {
 
     /**
+     * Returns a list of behaviors that this component should behave as.
+     *
+     * Child classes may override this method to specify the behaviors they want to behave as.
+     *
      * @return array
      */
     public function behaviors()
@@ -36,7 +41,7 @@ class PermissionController extends \yii\web\Controller
     }
 
     /**
-     * Lists all AuthItem models.
+     * Lists all permissions.
      * @return mixed
      */
     public function actionIndex()
@@ -79,6 +84,7 @@ class PermissionController extends \yii\web\Controller
 
         $available = array_filter($available);
         $assigned = array_filter($assigned);
+
         return $this->render('view', [
             'model' => $model,
             'available' => $available,
@@ -97,10 +103,8 @@ class PermissionController extends \yii\web\Controller
         $model->type = Item::TYPE_PERMISSION;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             AccessHelper::refreshAuthCache();
-            return $this->redirect([
-                'view',
-                'id' => $model->name
-            ]);
+            Yii::$app->session->setFlash('success', 'Permission has been saved.');
+            return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model,]);
         }
@@ -119,10 +123,8 @@ class PermissionController extends \yii\web\Controller
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             AccessHelper::refreshAuthCache();
-            return $this->redirect([
-                'view',
-                'id' => $model->name
-            ]);
+            Yii::$app->session->setFlash('success', 'Permission has been saved.');
+            return $this->redirect(['view', 'id' => $model->name]);
         }
         return $this->render('update', ['model' => $model,]);
     }
@@ -139,6 +141,7 @@ class PermissionController extends \yii\web\Controller
     {
         $model = $this->findModel($id);
         Yii::$app->getAuthManager()->remove($model->item);
+        Yii::$app->session->setFlash('success', 'Permission has been removed.');
         AccessHelper::refreshAuthCache();
         return $this->redirect(['index']);
     }
@@ -151,31 +154,23 @@ class PermissionController extends \yii\web\Controller
      */
     public function actionAssign($id, $action)
     {
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         $post = Yii::$app->getRequest()->post();
-        $roles = $post['roles'];
+        $roles = ArrayHelper::getValue($post, 'roles', []);
         $manager = Yii::$app->getAuthManager();
         $parent = $manager->getPermission($id);
         if ($action == 'assign') {
             foreach ($roles as $role) {
                 $child = $manager->getPermission($role);
-                try {
-                    $manager->addChild($parent, $child);
-                } catch (\Exception $e) {
-
-                }
+                $manager->addChild($parent, $child);
             }
         } else {
             foreach ($roles as $role) {
                 $child = $manager->getPermission($role);
-                try {
-                    $manager->removeChild($parent, $child);
-                } catch (\Exception $e) {
-
-                }
+                $manager->removeChild($parent, $child);
             }
         }
         AccessHelper::refreshAuthCache();
-        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         return [
             $this->actionRoleSearch($id, 'available', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])
