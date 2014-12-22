@@ -9,7 +9,7 @@ use Yii;
 
 /**
  * Class AuthItem
- * @package yii2mod\rbac\models\searchs
+ * @package yii2mod\rbac\models\search
  */
 class AuthItemSearch extends Model
 {
