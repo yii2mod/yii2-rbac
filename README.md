@@ -48,6 +48,11 @@ return [
     ]
 ];
 ```
+If you use this extension separate from the [base template](https://github.com/yii2mod/base), then you need execute rbac init migration by the following command: 
+```
+php yii migrate/up --migrationPath=@yii2mod/rbac/migrations
+```
+
 You can then access Auth manager through the following URL:
 ```
 http://localhost/path/to/index.php?r=admin/rbac/
