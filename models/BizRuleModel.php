@@ -126,7 +126,12 @@ class BizRuleModel extends Model
      * Create object
      *
      * @param $id
+<<<<<<< HEAD
      * @return null|BizRuleModel
+=======
+     *
+     * @return BizRuleModel|null
+>>>>>>> 10ee4c443620a4e8feb27efcd6fb3cc1ba389e0f
      */
     public static function find($id)
     {

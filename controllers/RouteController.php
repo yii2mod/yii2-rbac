@@ -74,7 +74,7 @@ class RouteController extends Controller
      * Assign route action
      *
      * @param $action
-     * @return array
+     * @return string[]
      */
     public function actionAssign($action)
     {

@@ -254,7 +254,7 @@ class DbManager extends \yii\rbac\DbManager
      * Returns the assignment information regarding a role and a user.
      * @param string|integer $userId the user ID (see [[\yii\web\User::id]])
      * @param string $roleName the role name
-     * @return Assignment the assignment information. Null is returned if
+     * @return Item|null the assignment information. Null is returned if
      * the role is not assigned to the user.
      */
     public function getAssignment($roleName, $userId)
@@ -578,7 +578,7 @@ class DbManager extends \yii\rbac\DbManager
     /**
      * Build key cache
      * @param string $part
-     * @return mixed
+     * @return string[]
      */
     private function buildKey($part)
     {
