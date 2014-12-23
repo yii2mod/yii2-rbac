@@ -67,13 +67,19 @@ class AuthItemModel extends Model
     }
 
     /**
-     * @inheritdoc
+     * Returns the validation rules for attributes.
+     *
+     * Validation rules are used by [[validate()]] to check if attribute values are valid.
+     * Child classes may override this method to declare different validation rules.
+     * @return array validation rules
+     * @see scenarios()
      */
     public function rules()
     {
         return [
             [['ruleName'], 'in', 'range' => array_keys(Yii::$app->authManager->getRules()), 'message' => 'Rule not exists'],
             [['name', 'type'], 'required'],
+            ['name', 'existAuthItem'],
             [['type'], 'integer'],
             [['description', 'data', 'ruleName'], 'default'],
             [['name'], 'string', 'max' => 64]
@@ -81,7 +87,25 @@ class AuthItemModel extends Model
     }
 
     /**
-     * @inheritdoc
+     * Validate auth name
+     * Check if auth name already exist
+     */
+    public function existAuthItem()
+    {
+        $authItem = Yii::$app->authManager->getItem($this->name);
+        if (!empty($authItem) && $this->getIsNewRecord()) {
+            $this->addError('name', "This name has already been taken.");
+        }
+    }
+
+    /**
+     * Returns the attribute labels.
+     *
+     * Attribute labels are mainly used for display purpose. For example, given an attribute
+     * `firstName`, we can declare a label `First Name` which is more user-friendly and can
+     * be displayed to end users.
+     *
+     * @return array attribute labels (name => label)
      */
     public function attributeLabels()
     {
