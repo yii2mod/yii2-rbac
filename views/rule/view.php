@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
  */
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = [
-    'label' => 'Rules',
+    'label' => 'BizRules',
     'url' => ['index']
 ];
 $this->params['breadcrumbs'][] = $this->title;

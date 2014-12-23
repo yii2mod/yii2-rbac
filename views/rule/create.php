@@ -9,7 +9,7 @@ use yii\helpers\Html;
 
 $this->title = 'Create BizRule';
 $this->params['breadcrumbs'][] = [
-    'label' => 'Rules',
+    'label' => 'BizRules',
     'url' => ['index']
 ];
 $this->params['breadcrumbs'][] = $this->title;

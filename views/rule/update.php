@@ -8,7 +8,7 @@ use yii\helpers\Html;
  */
 $this->title = 'Update BizRule: ' . $model->name;
 $this->params['breadcrumbs'][] = [
-    'label' => 'Rules',
+    'label' => 'BizRules',
     'url' => ['index']
 ];
 $this->params['breadcrumbs'][] = [

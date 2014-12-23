@@ -5,7 +5,7 @@ namespace yii2mod\rbac\models;
 use Yii;
 use yii\base\Model;
 use yii\rbac\Rule;
-use yii2mod\rbac\components\BizRule as TBizRule;
+use yii2mod\rbac\components\BizRule;
 
 
 /**
@@ -20,34 +20,25 @@ class BizRuleModel extends Model
     public $name;
 
     /**
-     * @var integer UNIX timestamp representing the rule creation time
-     */
-    public $createdAt;
-
-    /**
-     * @var integer UNIX timestamp representing the rule updating time
-     */
-    public $updatedAt;
-
-    /**
-     *
-     * @var string
+     * @var string Simple PHP expression. Example: return Yii::$app->user->isGuest;
      */
     public $expression;
+
     /**
-     * @var string
+     * @var string class name
      */
     public $className;
 
     /**
-     * @var Rule
+     * @var object Rule
      */
     private $_item;
 
     /**
+     * Constructor.
      *
-     * @param \yii\rbac\Rule $item
-     * @param array          $config
+     * @param array $item
+     * @param array $config name-value pairs that will be used to initialize the object properties
      */
     public function __construct($item, $config = [])
     {
@@ -55,7 +46,7 @@ class BizRuleModel extends Model
         if ($item !== null) {
             $this->name = $item->name;
             $this->className = get_class($item);
-            if ($this->className === TBizRule::className()) {
+            if ($this->className === BizRule::className()) {
                 $this->expression = $item->expression;
             }
         }
@@ -63,18 +54,38 @@ class BizRuleModel extends Model
     }
 
     /**
-     * @inheritdoc
+     * Returns the validation rules for attributes.
+     *
+     * Validation rules are used by [[validate()]] to check if attribute values are valid.
+     * Child classes may override this method to declare different validation rules.
+     *
+     * @return array validation rules
+     * @see scenarios()
      */
     public function rules()
     {
         return [
             [['name'], 'required'],
+            [['name'], 'existRuleName'],
             [['expression'], 'string'],
             [['className'], 'classExists']
         ];
     }
 
     /**
+     * Validate rule name
+     * Check if rule name already exist
+     */
+    public function existRuleName()
+    {
+        $rule = Yii::$app->authManager->getRule($this->name);
+        if (!empty($rule) && $this->getIsNewRecord()) {
+            $this->addError('name', "This name has already been taken.");
+        }
+    }
+
+    /**
+     * Validate Rule
      * Check if class exist
      */
     public function classExists()
@@ -85,17 +96,25 @@ class BizRuleModel extends Model
     }
 
     /**
-     * @inheritdoc
+     * Returns the attribute labels.
+     *
+     * Attribute labels are mainly used for display purpose. For example, given an attribute
+     * `firstName`, we can declare a label `First Name` which is more user-friendly and can
+     * be displayed to end users.
+     *
+     * @return array attribute labels (name => label)
      */
     public function attributeLabels()
     {
         return [
             'name' => 'Name',
-            'expression' => 'Expresion',
+            'expression' => 'Expression',
         ];
     }
 
     /**
+     * Check if record is new
+     *
      * @return bool
      */
     public function getIsNewRecord()
@@ -104,11 +123,10 @@ class BizRuleModel extends Model
     }
 
     /**
-     * @static
+     * Create object
      *
      * @param $id
-     *
-     * @return null|BizRule
+     * @return null|BizRuleModel
      */
     public static function find($id)
     {
@@ -120,13 +138,15 @@ class BizRuleModel extends Model
     }
 
     /**
+     * Save biz rule
+     *
      * @return bool
      */
     public function save()
     {
         if ($this->validate()) {
             $manager = Yii::$app->authManager;
-            $this->className = $class = $this->className ? $this->className : TBizRule::className();
+            $this->className = $class = $this->className ? $this->className : BizRule::className();
             if ($this->_item === null) {
                 $this->_item = new $class();
                 $isNew = true;
@@ -135,14 +155,14 @@ class BizRuleModel extends Model
                 $oldName = $this->_item->name;
             }
             $this->_item->name = $this->name;
-            if ($class === TBizRule::className()) {
+            if ($class === BizRule::className()) {
                 $this->_item->expression = $this->expression;
             }
 
             if ($isNew) {
-                $manager->add($this->_item);
+                $manager->add($this->item);
             } else {
-                $manager->update($oldName, $this->_item);
+                $manager->update($oldName, $this->item);
             }
             return true;
         } else {
@@ -151,7 +171,9 @@ class BizRuleModel extends Model
     }
 
     /**
-     * @return Item
+     * Get item
+     *
+     * @return Rule
      */
     public function getItem()
     {
