@@ -126,7 +126,7 @@ class AssignmentController extends Controller
      * Assign or Revoke user role
      * @param $id
      * @param $action
-     * @return array
+     * @return string[]
      */
     public function actionAssign($id, $action)
     {
