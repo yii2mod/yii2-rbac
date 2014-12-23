@@ -22,33 +22,37 @@ use Yii;
 class AuthItemModel extends Model
 {
     /**
-     * @var string
+     * @var string auth item name
      */
     public $name;
+
     /**
-     * @var int
+     * @var int auth item type
      */
     public $type;
+
     /**
-     * @var string
+     * @var string auth item description
      */
     public $description;
+
     /**
-     * @var string
+     * @var string biz rule name
      */
     public $ruleName;
+
     /**
-     * @var null|string
+     * @var null|string additional data
      */
     public $data;
 
     /**
-     *
      * @var Item
      */
     private $_item;
 
     /**
+     * Constructor.
      *
      * @param Item  $item
      * @param array $config
@@ -119,6 +123,8 @@ class AuthItemModel extends Model
     }
 
     /**
+     * Check is new record
+     *
      * @return bool
      */
     public function getIsNewRecord()
@@ -127,11 +133,10 @@ class AuthItemModel extends Model
     }
 
     /**
-     * @static
+     * Find auth item
      *
      * @param $id
-     *
-     * @return AuthItemModel|null
+     * @return null|AuthItemModel
      */
     public static function find($id)
     {
@@ -143,6 +148,8 @@ class AuthItemModel extends Model
     }
 
     /**
+     * Save auth item
+     *
      * @return bool
      */
     public function save()
@@ -176,6 +183,7 @@ class AuthItemModel extends Model
     }
 
     /**
+     * Return item
      *
      * @return Item
      */
@@ -185,10 +193,9 @@ class AuthItemModel extends Model
     }
 
     /**
-     * @static
+     * Get type name
      *
      * @param null $type
-     *
      * @return array
      */
     public static function getTypeName($type = null)
