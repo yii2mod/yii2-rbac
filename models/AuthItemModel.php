@@ -107,7 +107,7 @@ class AuthItemModel extends Model
      *
      * @param $id
      *
-     * @return null|AuthItem
+     * @return AuthItemModel|null
      */
     public static function find($id)
     {

@@ -108,7 +108,7 @@ class BizRuleModel extends Model
      *
      * @param $id
      *
-     * @return null|BizRule
+     * @return BizRuleModel|null
      */
     public static function find($id)
     {
