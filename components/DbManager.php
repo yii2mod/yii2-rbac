@@ -73,7 +73,22 @@ class DbManager extends \yii\rbac\DbManager
      * ruleName => rule
      */
     private $_rules;
-
+    /**
+     * @var string the name of the table storing authorization items. Defaults to "auth_item".
+     */
+    public $itemTable = '{{%AuthItem}}';
+    /**
+     * @var string the name of the table storing authorization item hierarchy. Defaults to "auth_item_child".
+     */
+    public $itemChildTable = '{{%AuthItemChild}}';
+    /**
+     * @var string the name of the table storing authorization item assignments. Defaults to "auth_assignment".
+     */
+    public $assignmentTable = '{{%AuthAssignment}}';
+    /**
+     * @var string the name of the table storing rules. Defaults to "auth_rule".
+     */
+    public $ruleTable = '{{%AuthRule}}';
 
     /**
      * Initializes the application component.
