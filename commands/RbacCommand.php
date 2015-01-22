@@ -90,7 +90,7 @@ class RbacCommand extends Controller
      */
     public function actionSyncSave()
     {
-        $authItem = (new Query())->select('name, type, description, ruleName, data')->from('AuthItem')->all();
+        $authItem = (new Query())->select('name, type, description, rule_name, data')->from('AuthItem')->all();
         $authItemChild = (new Query())->select('parent, child')->from('AuthItemChild')->all();
         $authRule = (new Query())->select('name,data')->from('AuthRule')->all();
         file_put_contents($this->authItemConfig, $this->renderArray($authItem));
@@ -110,7 +110,7 @@ class RbacCommand extends Controller
             Yii::$app->db->createCommand()->delete('AuthItem')->execute();
             $authItem = require($this->authItemConfig);
             $insertAuthItemQuery = $queryBuilder->batchInsert('AuthItem', [
-                'name', 'type', 'description', 'ruleName', 'data'
+                'name', 'type', 'description', 'rule_name', 'data'
             ], $authItem);
             Yii::$app->db->createCommand($insertAuthItemQuery)->execute();
         }
@@ -133,7 +133,7 @@ class RbacCommand extends Controller
             Yii::$app->db->createCommand($insertAuthRuleQuery)->execute();
         }
         Yii::$app->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
-        Yii::$app->db->createCommand("DELETE aa FROM `AuthAssignment` aa LEFT JOIN AuthItem ai ON(aa.itemName = ai.name) WHERE ai.name IS NULL;")->execute();
+        Yii::$app->db->createCommand("DELETE aa FROM `AuthAssignment` aa LEFT JOIN AuthItem ai ON(aa.item_name = ai.name) WHERE ai.name IS NULL;")->execute();
     }
 
 }
