@@ -6,7 +6,6 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii2mod\rbac\components\AccessHelper;
 use yii2mod\rbac\models\BizRuleModel;
 use yii2mod\rbac\models\search\BizRuleSearch;
 
@@ -73,7 +72,6 @@ class RuleController extends Controller
     {
         $model = new BizRuleModel(null);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            AccessHelper::refreshAuthCache();
             Yii::$app->session->setFlash('success', 'Rule has been saved.');
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
@@ -93,7 +91,6 @@ class RuleController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            AccessHelper::refreshAuthCache();
             Yii::$app->session->setFlash('success', 'Rule has been saved.');
             return $this->redirect(['view', 'id' => $model->name]);
         }
@@ -112,7 +109,6 @@ class RuleController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->authManager->remove($model->item);
-        AccessHelper::refreshAuthCache();
         Yii::$app->session->setFlash('success', 'Rule has been deleted.');
         return $this->redirect(['index']);
     }

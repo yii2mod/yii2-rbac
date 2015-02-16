@@ -9,7 +9,6 @@ use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use yii2mod\rbac\components\AccessHelper;
 use yii2mod\rbac\models\search\AssignmentSearch;
 
 /**
@@ -132,7 +131,7 @@ class AssignmentController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $post = Yii::$app->request->post();
-        $roles = ArrayHelper::getValue($post,'roles', []);
+        $roles = ArrayHelper::getValue($post, 'roles', []);
         $manager = Yii::$app->authManager;
         if ($action == 'assign') {
             foreach ($roles as $role) {
@@ -143,7 +142,6 @@ class AssignmentController extends Controller
                 $manager->revoke($manager->getRole($role), $id);
             }
         }
-        AccessHelper::refreshAuthCache();
         return [
             $this->actionRoleSearch($id, 'available', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),

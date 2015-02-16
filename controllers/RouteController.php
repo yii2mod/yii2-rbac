@@ -2,7 +2,6 @@
 
 namespace yii2mod\rbac\controllers;
 
-
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Controller;
@@ -62,7 +61,6 @@ class RouteController extends Controller
             if ($model->validate()) {
                 $routes = explode(',', $model->route);
                 $model->save($routes);
-                AccessHelper::refreshAuthCache();
                 Yii::$app->session->setFlash('success', 'Route has been saved.');
                 $this->redirect(['index']);
             }
@@ -91,7 +89,6 @@ class RouteController extends Controller
                 $manager->remove($child);
             }
         }
-        AccessHelper::refreshAuthCache();
         return [
             $this->actionRouteSearch('available', $post['search_av']),
             $this->actionRouteSearch('assigned', $post['search_asgn'])

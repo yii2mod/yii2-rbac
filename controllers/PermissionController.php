@@ -10,7 +10,6 @@ use yii\rbac\Item;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use yii2mod\rbac\components\AccessHelper;
 use yii2mod\rbac\models\AuthItemModel;
 use yii2mod\rbac\models\search\AuthItemSearch;
 
@@ -102,7 +101,6 @@ class PermissionController extends Controller
         $model = new AuthItemModel(null);
         $model->type = Item::TYPE_PERMISSION;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-            AccessHelper::refreshAuthCache();
             Yii::$app->session->setFlash('success', 'Permission has been saved.');
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
@@ -122,7 +120,6 @@ class PermissionController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-            AccessHelper::refreshAuthCache();
             Yii::$app->session->setFlash('success', 'Permission has been saved.');
             return $this->redirect(['view', 'id' => $model->name]);
         }
@@ -142,7 +139,6 @@ class PermissionController extends Controller
         $model = $this->findModel($id);
         Yii::$app->getAuthManager()->remove($model->item);
         Yii::$app->session->setFlash('success', 'Permission has been removed.');
-        AccessHelper::refreshAuthCache();
         return $this->redirect(['index']);
     }
 
@@ -170,7 +166,6 @@ class PermissionController extends Controller
                 $manager->removeChild($parent, $child);
             }
         }
-        AccessHelper::refreshAuthCache();
         return [
             $this->actionRoleSearch($id, 'available', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])
@@ -178,8 +173,8 @@ class PermissionController extends Controller
     }
 
     /**
-     * @param        $id
-     * @param        string $target
+     * @param $id
+     * @param string $target
      * @param string $term
      *
      * @return string
@@ -219,7 +214,7 @@ class PermissionController extends Controller
      * @param string $id
      *
      * @throws \yii\web\NotFoundHttpException
-     * @return AuthItem the loaded model
+     * @return AuthItemModel the loaded model
      */
     protected function findModel($id)
     {

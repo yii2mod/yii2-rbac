@@ -54,7 +54,7 @@ class AuthItemModel extends Model
     /**
      * Constructor.
      *
-     * @param Item  $item
+     * @param Item $item
      * @param array $config
      */
     public function __construct($item, $config = [])
@@ -62,7 +62,7 @@ class AuthItemModel extends Model
         $this->_item = $item;
         if ($item !== null) {
             $this->name = $item->name;
-            $this->type = $item->type;
+            $this->type = (int)$item->type;
             $this->description = $item->description;
             $this->ruleName = $item->ruleName;
             $this->data = $item->data === null ? null : VarDumper::export($item->data);
@@ -96,9 +96,19 @@ class AuthItemModel extends Model
      */
     public function existAuthItem()
     {
-        $authItem = Yii::$app->authManager->getItem($this->name);
-        if (!empty($authItem) && $this->getIsNewRecord()) {
-            $this->addError('name', "This name has already been taken.");
+        if ($this->type === Item::TYPE_PERMISSION) {
+            $authItem = Yii::$app->authManager->getPermission($this->name);
+        } else {
+            $authItem = Yii::$app->authManager->getRole($this->name);
+        }
+        if ($this->getIsNewRecord()) {
+            if (!empty($authItem)) {
+                $this->addError('name', "This name has already been taken.");
+            }
+        } else {
+            if (!empty($authItem) && $authItem->name !== $this->item->name) {
+                $this->addError('name', "This name has already been taken.");
+            }
         }
     }
 

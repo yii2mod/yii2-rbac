@@ -134,6 +134,7 @@ class RbacCommand extends Controller
         }
         Yii::$app->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
         Yii::$app->db->createCommand("DELETE aa FROM `AuthAssignment` aa LEFT JOIN AuthItem ai ON(aa.item_name = ai.name) WHERE ai.name IS NULL;")->execute();
+        Yii::$app->cache->flush();
     }
 
 }

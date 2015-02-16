@@ -17,10 +17,6 @@ class AccessHelper
      * Tag - file, for invalidate tag dependency cache
      */
     const FILE_GROUP = 'file';
-    /**
-     * Tag - auth, for invalidate tag dependency cache
-     */
-    const AUTH_GROUP = 'auth';
 
     /**
      * Get routes
@@ -184,17 +180,6 @@ class AccessHelper
     {
         if (($cache = Yii::$app->getCache()) !== null) {
             TagDependency::invalidate($cache, static::getGroup(static::FILE_GROUP));
-        }
-    }
-
-    /**
-     * Refresh auth cache
-     * @static
-     */
-    public static function refreshAuthCache()
-    {
-        if (($cache = Yii::$app->getCache()) !== null) {
-            TagDependency::invalidate($cache, static::getGroup(static::AUTH_GROUP));
         }
     }
 }

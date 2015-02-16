@@ -10,7 +10,6 @@ use yii\rbac\Item;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use yii2mod\rbac\components\AccessHelper;
 use yii2mod\rbac\models\AuthItemModel;
 use yii2mod\rbac\models\search\AuthItemSearch;
 
@@ -112,7 +111,6 @@ class RoleController extends Controller
         $model->type = Item::TYPE_ROLE;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Role has been saved.');
-            AccessHelper::refreshAuthCache();
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('create', ['model' => $model,]);
@@ -132,11 +130,7 @@ class RoleController extends Controller
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Role has been saved.');
-            AccessHelper::refreshAuthCache();
-            return $this->redirect([
-                'view',
-                'id' => $model->name
-            ]);
+            return $this->redirect(['view', 'id' => $model->name]);
         }
         return $this->render('update', ['model' => $model,]);
     }
@@ -154,7 +148,6 @@ class RoleController extends Controller
         $model = $this->findModel($id);
         Yii::$app->getAuthManager()->remove($model->item);
         Yii::$app->session->setFlash('success', 'Role has been removed.');
-        AccessHelper::refreshAuthCache();
         return $this->redirect(['index']);
     }
 
@@ -188,7 +181,6 @@ class RoleController extends Controller
                 $manager->removeChild($parent, $child);
             }
         }
-        AccessHelper::refreshAuthCache();
         return [
             $this->actionRoleSearch($id, 'available', $post['search_av']),
             $this->actionRoleSearch($id, 'assigned', $post['search_asgn'])
