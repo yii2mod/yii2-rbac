@@ -112,43 +112,19 @@ class AccessHelper
     private static function getActionRoutes($controller, &$result)
     {
         $prefix = '/' . $controller->uniqueId . '/';
-        foreach ($controller->actions() as $id => $value) {
-            $result[] = $prefix . $id;
-        }
-        $class = new ReflectionClass($controller);
-        foreach ($class->getMethods() as $method) {
-            $name = $method->getName();
-            if ($method->isPublic() && !$method->isStatic() && strpos($name, 'action') === 0 && $name !== 'actions') {
-                $result[] = $prefix . Inflector::camel2id(substr($name, 6));
+        if ($controller->actions() !== null) {
+            foreach ($controller->actions() as $id => $value) {
+                $result[] = $prefix . $id;
             }
-        }
-    }
-
-    /**
-     * Get saved Routes
-     *
-     * @param bool $refresh
-     * @return array|mixed
-     */
-    public static function getSavedRoutes($refresh = false)
-    {
-        $key = static::buildKey(__METHOD__);
-        if ($refresh || ($cache = Yii::$app->getCache()) === null || ($result = $cache->get($key)) === false) {
-            $result = [];
-            foreach (Yii::$app->getAuthManager()->getPermissions() as $name => $value) {
-                if ($name[0] === '/' && substr($name, -1) != '*') {
-                    $result[] = $name;
+            $class = new ReflectionClass($controller);
+            foreach ($class->getMethods() as $method) {
+                $name = $method->getName();
+                if ($method->isPublic() && !$method->isStatic() && strpos($name, 'action') === 0 && $name !== 'actions') {
+                    $result[] = $prefix . Inflector::camel2id(substr($name, 6));
                 }
             }
-            if ($cache !== null) {
-                $cache->set($key, $result, 0, new TagDependency([
-                    'tags' => static::getGroup(static::AUTH_GROUP)
-                ]));
-            }
         }
-        return $result;
     }
-
 
     /**
      * Get group
