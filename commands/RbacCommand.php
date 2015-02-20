@@ -1,10 +1,12 @@
 <?php
+
 namespace yii2mod\rbac\commands;
 
 use Yii;
 use yii\console\Controller;
 use yii\db\Query;
 use yii\db\QueryBuilder;
+use yii\helpers\FileHelper;
 
 /**
  * Class RbacCommand
@@ -14,38 +16,39 @@ class RbacCommand extends Controller
 {
 
     /**
-     * @var
+     * @var string path for place auth configs
      */
-    public $basePath;
-    /**
-     * @var
-     */
-    public $authItemConfig;
-    /**
-     * @var
-     */
-    public $authItemChildConfig;
-    /**
-     * @var
-     */
-    public $authRuleConfig;
+    public $configPath = '@app/config/rbac';
 
     /**
-     *
+     * @var string auth item config name
+     */
+    public $authItemConfig = 'authItemConfig.php';
+
+    /**
+     * @var string auth item child config name
+     */
+    public $authItemChildConfig = 'authItemChildConfig.php';
+
+    /**
+     * @var string auth item rule config name
+     */
+    public $authRuleConfig = 'authRule.php';
+
+    /**
+     * Initializes the object.
      */
     public function init()
     {
-        $this->basePath = Yii::getAlias('@app');
-        $this->authItemConfig = $this->basePath . '/config/rbac/authItemConfig.php';
-        $this->authItemChildConfig = $this->basePath . '/config/rbac/authItemChildConfig.php';
-        $this->authRuleConfig = $this->basePath . '/config/rbac/authRule.php';
-        if (!is_dir($this->basePath . '/config/rbac')) {
-            mkdir($this->basePath . '/config/rbac/');
-        }
+        $basePath = Yii::getAlias($this->configPath);
+        FileHelper::createDirectory($basePath);
+        $this->authItemConfig = $basePath . DIRECTORY_SEPARATOR . $this->authItemConfig;
+        $this->authItemChildConfig = $basePath . DIRECTORY_SEPARATOR . $this->authItemChildConfig;
+        $this->authRuleConfig = $basePath . DIRECTORY_SEPARATOR . $this->authRuleConfig;
     }
 
     /**
-     * @return array behavior configurations.
+     * Returns a list of behaviors that this component should behave as.
      */
     public function behaviors()
     {
@@ -59,6 +62,11 @@ class RbacCommand extends Controller
         );
     }
 
+    /**
+     * Render array for auth configs
+     * @param $array
+     * @return string
+     */
     public function renderArray($array)
     {
         $out = "<?php return [\n";
@@ -86,7 +94,7 @@ class RbacCommand extends Controller
     }
 
     /**
-     *
+     * This command will create a new config files with data from auth tables
      */
     public function actionSyncSave()
     {
@@ -99,11 +107,10 @@ class RbacCommand extends Controller
     }
 
     /**
-     * Deploying rbac rules
+     * This command will update auth tables with data from auth configs
      */
     public function actionSyncDeploy()
     {
-
         $queryBuilder = new QueryBuilder(Yii::$app->db);
         Yii::$app->db->createCommand("SET FOREIGN_KEY_CHECKS=0;")->execute();
         if (file_exists($this->authItemConfig)) {
@@ -136,7 +143,7 @@ class RbacCommand extends Controller
         Yii::$app->db->createCommand("DELETE aa FROM `AuthAssignment` aa LEFT JOIN AuthItem ai ON(aa.item_name = ai.name) WHERE ai.name IS NULL;")->execute();
         Yii::$app->cache->flush();
     }
-    
+
     /**
      * Refresh assignment table(delete invalid data)
      * @param string $assignmentTable
@@ -148,5 +155,4 @@ class RbacCommand extends Controller
         Yii::$app->db->createCommand("DELETE FROM {$assignmentTable} WHERE user_id NOT IN (SELECT id FROM {$userTable})")->execute();
         echo "Command finished (time: " . sprintf('%.3f', microtime(true) - $time) . "s)\n";
     }
-
 }
