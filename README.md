@@ -1,6 +1,6 @@
 RBAC Manager for Yii 2
 =========
-* [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yii2mod/yii2-cms/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yii2mod/yii2-rbac/?branch=master)
+* [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yii2mod/yii2-rbac/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yii2mod/yii2-rbac/?branch=master)
 * 
 Installation
 ------------
