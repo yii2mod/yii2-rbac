@@ -136,5 +136,17 @@ class RbacCommand extends Controller
         Yii::$app->db->createCommand("DELETE aa FROM `AuthAssignment` aa LEFT JOIN AuthItem ai ON(aa.item_name = ai.name) WHERE ai.name IS NULL;")->execute();
         Yii::$app->cache->flush();
     }
+    
+    /**
+     * Refresh assignment table(delete invalid data)
+     * @param string $assignmentTable
+     * @param string $userTable
+     */
+    public function actionRefreshAssignments($assignmentTable = 'AuthAssignment', $userTable = 'User')
+    {
+        $time = microtime(true);
+        Yii::$app->db->createCommand("DELETE FROM {$assignmentTable} WHERE user_id NOT IN (SELECT id FROM {$userTable})")->execute();
+        echo "Command finished (time: " . sprintf('%.3f', microtime(true) - $time) . "s)\n";
+    }
 
 }
