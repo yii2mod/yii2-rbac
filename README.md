@@ -59,7 +59,6 @@ You can then access Auth manager through the following URL:
 http://localhost/path/to/index.php?r=admin/rbac/
 http://localhost/path/to/index.php?r=admin/rbac/route
 http://localhost/path/to/index.php?r=admin/rbac/permission
-http://localhost/path/to/index.php?r=admin/rbac/menu
 http://localhost/path/to/index.php?r=admin/rbac/role
 http://localhost/path/to/index.php?r=admin/rbac/assignment
 ```
