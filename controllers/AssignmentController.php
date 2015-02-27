@@ -2,9 +2,11 @@
 
 namespace yii2mod\rbac\controllers;
 
+use yii\db\ActiveRecord;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\rbac\Assignment;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -18,17 +20,20 @@ use yii2mod\rbac\models\search\AssignmentSearch;
 class AssignmentController extends Controller
 {
     /**
-     * @var string user model class
+     * @var ActiveRecord user model class
      */
     public $userClassName;
+
     /**
      * @var string id column name
      */
     public $idField = 'id';
+
     /**
      * @var string username column name
      */
     public $usernameField = 'username';
+
     /**
      * @var string search class name for assignments search
      */
@@ -43,7 +48,6 @@ class AssignmentController extends Controller
         parent::init();
         if ($this->userClassName === null) {
             $this->userClassName = Yii::$app->getUser()->identityClass;
-            $this->userClassName = $this->userClassName ?: 'app\models\UserModel';
         }
     }
 
@@ -61,7 +65,7 @@ class AssignmentController extends Controller
                 'actions' => [
                     'assign' => ['post'],
                 ],
-            ],
+            ]
         ];
     }
 
@@ -74,8 +78,7 @@ class AssignmentController extends Controller
         if ($this->searchClass === null) {
             $searchModel = new AssignmentSearch;
         } else {
-            $class = $this->searchClass;
-            $searchModel = new $class;
+            $searchModel = new $this->searchClass;
         }
 
         $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams(), $this->userClassName, $this->usernameField);
