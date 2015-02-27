@@ -35,6 +35,13 @@ return [
             'modules' => [
                 'rbac' => [
                     'class' => 'yii2mod\rbac\Module',
+                    //Some controller property maybe need to change. 
+                    'controllerMap' => [
+                        'assignment' => [
+                            'class' => 'yii2mod\rbac\controllers\AssignmentController',
+                            'userClassName' => 'path\to\models\User',
+                        ]
+                    ]
                 ],
             ]
         ],
