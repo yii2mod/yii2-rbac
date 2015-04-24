@@ -13,6 +13,11 @@ class AccessControl extends \yii\filters\AccessControl
 {
 
     /**
+     * @var array
+     */
+    public $params = [];
+
+    /**
      * This method is invoked right before an action is to be executed (after all possible filters.)
      * You may override this method to do last-minute preparation for the action.
      * @param InlineAction $action the action to be executed.
@@ -22,7 +27,8 @@ class AccessControl extends \yii\filters\AccessControl
     {
         $actionId = $action->getUniqueId();
         $user = Yii::$app->getUser();
-        if ($user->can('/' . $actionId)) {
+        $params = isset($this->params[$action->id]) ? $this->params[$action->id] : [];
+        if ($user->can('/' . $actionId, $params)) {
             return true;
         }
         $controller = $action->controller;
@@ -32,7 +38,6 @@ class AccessControl extends \yii\filters\AccessControl
             }
             $controller = $controller->module;
         } while ($controller !== null);
-
         return parent::beforeAction($action);
     }
 
