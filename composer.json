@@ -3,7 +3,7 @@
     "description": "User rbac module",
     "type": "yii2-extension",
     "keywords": ["yii2", "module"],
-    "license": "Apache-2.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Dmitry Semenov",
