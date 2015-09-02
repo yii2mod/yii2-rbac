@@ -51,7 +51,11 @@ return [
          'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['guest', 'user'],
-            'cache' => 'yii\caching\FileCache'
+            'cache' => 'yii\caching\FileCache',
+            'itemTable' => 'AuthItem',
+            'itemChildTable' => 'AuthItemChild',
+            'assignmentTable' => 'AuthAssignment',
+            'ruleTable' => 'AuthRule',
         ],
     ]
 ];
