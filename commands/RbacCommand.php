@@ -98,9 +98,9 @@ class RbacCommand extends Controller
      */
     public function actionSyncSave()
     {
-        $authItem = (new Query())->select('name, type, description, rule_name, data')->from('AuthItem')->all();
-        $authItemChild = (new Query())->select('parent, child')->from('AuthItemChild')->all();
-        $authRule = (new Query())->select('name,data')->from('AuthRule')->all();
+        $authItem = (new Query())->select('name, type, description, rule_name, data')->from(Yii::$app->authManager->itemTable)->all();
+        $authItemChild = (new Query())->select('parent, child')->from(Yii::$app->authManager->itemChildTable)->all();
+        $authRule = (new Query())->select('name,data')->from(Yii::$app->authManager->ruleTable)->all();
         file_put_contents($this->authItemConfig, $this->renderArray($authItem));
         file_put_contents($this->authItemChildConfig, $this->renderArray($authItemChild, true));
         file_put_contents($this->authRuleConfig, $this->renderArray($authRule, true));
@@ -112,18 +112,18 @@ class RbacCommand extends Controller
     public function actionSyncDeploy()
     {
         $queryBuilder = new QueryBuilder(Yii::$app->db);
-
+        $authItemTable = Yii::$app->authManager->itemTable;
         if ('pgsql' == Yii::$app->db->driverName) {
-            Yii::$app->db->createCommand("ALTER TABLE \"AuthItem\" DISABLE TRIGGER ALL")->execute();
+            Yii::$app->db->createCommand("ALTER TABLE \"{$authItemTable}\" DISABLE TRIGGER ALL")->execute();
         } else {
             Yii::$app->db->createCommand("SET FOREIGN_KEY_CHECKS=0;")->execute();
         }
 
         if (file_exists($this->authItemConfig)) {
-            Yii::$app->db->createCommand()->delete('AuthItem')->execute();
+            Yii::$app->db->createCommand()->delete($authItemTable)->execute();
             $authItem = require($this->authItemConfig);
             if (!empty($authItem)) {
-                $insertAuthItemQuery = $queryBuilder->batchInsert('AuthItem', [
+                $insertAuthItemQuery = $queryBuilder->batchInsert($authItemTable, [
                     'name', 'type', 'description', 'rule_name', 'data'
                 ], $authItem);
                 Yii::$app->db->createCommand($insertAuthItemQuery)->execute();
@@ -131,10 +131,10 @@ class RbacCommand extends Controller
         }
 
         if (file_exists($this->authItemChildConfig)) {
-            Yii::$app->db->createCommand()->delete('AuthItemChild')->execute();
+            Yii::$app->db->createCommand()->delete(Yii::$app->authManager->itemChildTable)->execute();
             $authItemChild = require($this->authItemChildConfig);
             if (!empty($authItemChild)) {
-                $insertAuthItemChildQuery = $queryBuilder->batchInsert('AuthItemChild', [
+                $insertAuthItemChildQuery = $queryBuilder->batchInsert(Yii::$app->authManager->itemChildTable, [
                     'parent', 'child'
                 ], $authItemChild);
                 Yii::$app->db->createCommand($insertAuthItemChildQuery)->execute();
@@ -142,10 +142,10 @@ class RbacCommand extends Controller
         }
 
         if (file_exists($this->authRuleConfig)) {
-            Yii::$app->db->createCommand()->delete('AuthRule')->execute();
+            Yii::$app->db->createCommand()->delete(Yii::$app->authManager->ruleTable)->execute();
             $authRule = require($this->authRuleConfig);
             if (!empty($authRule)) {
-                $insertAuthRuleQuery = $queryBuilder->batchInsert('AuthRule', [
+                $insertAuthRuleQuery = $queryBuilder->batchInsert(Yii::$app->authManager->ruleTable, [
                     'name', 'data'
                 ], $authRule);
                 Yii::$app->db->createCommand($insertAuthRuleQuery)->execute();
@@ -153,7 +153,7 @@ class RbacCommand extends Controller
         }
 
         if ('pgsql' == Yii::$app->db->driverName) {
-            Yii::$app->db->createCommand("ALTER TABLE \"AuthItem\" ENABLE TRIGGER ALL")->execute();
+            Yii::$app->db->createCommand("ALTER TABLE \"{$authItemTable}\" ENABLE TRIGGER ALL")->execute();
         } else {
             Yii::$app->db->createCommand("SET FOREIGN_KEY_CHECKS=1;")->execute();
         }
@@ -165,11 +165,11 @@ class RbacCommand extends Controller
 
     /**
      * Refresh assignment table(delete invalid data)
-     * @param string $assignmentTable
      * @param string $userTable
      */
-    public function actionRefreshAssignments($assignmentTable = 'AuthAssignment', $userTable = 'User')
+    public function actionRefreshAssignments($userTable = 'User')
     {
+        $assignmentTable = Yii::$app->authManager->assignmentTable;
         $time = microtime(true);
         Yii::$app->db->createCommand("DELETE FROM {$assignmentTable} WHERE user_id NOT IN (SELECT id FROM {$userTable})")->execute();
         echo "Command finished (time: " . sprintf('%.3f', microtime(true) - $time) . "s)\n";
@@ -178,19 +178,18 @@ class RbacCommand extends Controller
     /**
      * Processes assignments on sync deploy
      */
-    private function processAssignments() {
+    private function processAssignments()
+    {
+        $assignmentTable = Yii::$app->authManager->assignmentTable;
+        $authItemTable = Yii::$app->authManager->itemTable;
         if ('pgsql' == Yii::$app->db->getDriverName()) {
-            if (!Yii::$app->db->createCommand("SELECT COUNT(*) FROM \"AuthAssignment\" WHERE \"item_name\"='admin' AND \"user_id\"=1")->queryScalar()) {
-                Yii::$app->db->createCommand("INSERT INTO \"AuthAssignment\" (\"item_name\", \"user_id\") VALUES ('admin', '1');")->execute();
+            if (!Yii::$app->db->createCommand("SELECT COUNT(*) FROM \"{$assignmentTable}\" WHERE \"item_name\"='admin' AND \"user_id\"=1")->queryScalar()) {
+                Yii::$app->db->createCommand("INSERT INTO \"{$assignmentTable}\" (\"item_name\", \"user_id\") VALUES ('admin', '1');")->execute();
             }
-            if (!Yii::$app->db->createCommand("SELECT COUNT(*) FROM \"AuthAssignment\" WHERE \"item_name\"='root' AND \"user_id\"=1")->queryScalar()) {
-                Yii::$app->db->createCommand("INSERT INTO \"AuthAssignment\" (\"item_name\", \"user_id\") VALUES ('root', '1');")->execute();
-            }
-            Yii::$app->db->createCommand('DELETE FROM "AuthAssignment" WHERE item_name IN (SELECT item_name FROM "AuthAssignment" aa LEFT JOIN "AuthItem" ai ON aa.item_name = ai.name WHERE ai.name IS NULL)')->execute();
+            Yii::$app->db->createCommand('DELETE FROM ' . $assignmentTable . ' WHERE item_name IN (SELECT item_name FROM ' . $assignmentTable . ' aa LEFT JOIN ' . $authItemTable . ' ai ON aa.item_name = ai.name WHERE ai.name IS NULL)')->execute();
         } else {
-            Yii::$app->db->createCommand("INSERT IGNORE INTO `AuthAssignment` (`item_name`, `user_id`) VALUES ('admin', '1');")->execute();
-            Yii::$app->db->createCommand("INSERT IGNORE INTO `AuthAssignment` (`item_name`, `user_id`) VALUES ('root', '1');")->execute();
-            Yii::$app->db->createCommand("DELETE aa FROM `AuthAssignment` aa LEFT JOIN AuthItem ai ON(aa.item_name = ai.name) WHERE ai.name IS NULL;")->execute();
+            Yii::$app->db->createCommand("INSERT IGNORE INTO {$assignmentTable} (`item_name`, `user_id`) VALUES ('admin', '1');")->execute();
+            Yii::$app->db->createCommand("DELETE aa FROM {$assignmentTable} aa LEFT JOIN {$authItemTable} ai ON(aa.item_name = ai.name) WHERE ai.name IS NULL;")->execute();
         }
     }
 }
