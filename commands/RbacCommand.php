@@ -52,14 +52,14 @@ class RbacCommand extends Controller
      */
     public function behaviors()
     {
-        return array(
-            'cronLogger' => array(
+        return [
+            'cronLogger' => [
                 'class' => 'yii2mod\cron\behaviors\CronLoggerBehavior',
-                'actions' => array(
+                'actions' => [
                     'sync'
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
