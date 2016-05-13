@@ -1,5 +1,9 @@
-RBAC Manager for Yii 2
+Yii2 RBAC
 =========
+
+RBAC Manager for Yii 2
+
+[![Latest Stable Version](https://poser.pugx.org/yii2mod/yii2-rbac/v/stable)](https://packagist.org/packages/yii2mod/yii2-rbac) [![Total Downloads](https://poser.pugx.org/yii2mod/yii2-rbac/downloads)](https://packagist.org/packages/yii2mod/yii2-rbac) [![License](https://poser.pugx.org/yii2mod/yii2-rbac/license)](https://packagist.org/packages/yii2mod/yii2-rbac)
 
 Installation
 ------------
