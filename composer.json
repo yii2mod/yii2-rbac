@@ -15,6 +15,7 @@
         }
     ],
     "require": {
+        "yiisoft/yii2": "*",
         "yii2mod/yii2-user": "*",
         "yiisoft/yii2-jui": "*"
     },
