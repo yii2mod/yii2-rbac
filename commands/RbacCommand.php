@@ -183,12 +183,8 @@ class RbacCommand extends Controller
         $assignmentTable = Yii::$app->authManager->assignmentTable;
         $authItemTable = Yii::$app->authManager->itemTable;
         if ('pgsql' == Yii::$app->db->getDriverName()) {
-            if (!Yii::$app->db->createCommand("SELECT COUNT(*) FROM \"{$assignmentTable}\" WHERE \"item_name\"='admin' AND \"user_id\"=1")->queryScalar()) {
-                Yii::$app->db->createCommand("INSERT INTO \"{$assignmentTable}\" (\"item_name\", \"user_id\") VALUES ('admin', '1');")->execute();
-            }
             Yii::$app->db->createCommand('DELETE FROM ' . $assignmentTable . ' WHERE item_name IN (SELECT item_name FROM ' . $assignmentTable . ' aa LEFT JOIN ' . $authItemTable . ' ai ON aa.item_name = ai.name WHERE ai.name IS NULL)')->execute();
         } else {
-            Yii::$app->db->createCommand("INSERT IGNORE INTO {$assignmentTable} (`item_name`, `user_id`) VALUES ('admin', '1');")->execute();
             Yii::$app->db->createCommand("DELETE aa FROM {$assignmentTable} aa LEFT JOIN {$authItemTable} ai ON(aa.item_name = ai.name) WHERE ai.name IS NULL;")->execute();
         }
     }
