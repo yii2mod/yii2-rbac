@@ -95,7 +95,7 @@ public function behaviors()
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
             ],
         ];
     }
@@ -136,7 +136,7 @@ class Module extends \yii\base\Module
         'rbac' => [
             'class' => 'yii2mod\rbac\Module',
             'as access' => [
-                'class' => yii2mod\rbac\components\AccessControl::className()
+                'class' => yii2mod\rbac\components\AccessControl::class
             ],
         ]
     ]
