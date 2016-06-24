@@ -82,7 +82,7 @@ http://localhost/path/to/index.php?r=admin/rbac/role
 http://localhost/path/to/index.php?r=admin/rbac/assignment
 ```
 
-Applying rules:
+**Applying rules:**
 
 1) For applying rules only for `controller` add the following code:
 ```php
