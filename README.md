@@ -82,27 +82,62 @@ http://localhost/path/to/index.php?r=admin/rbac/role
 http://localhost/path/to/index.php?r=admin/rbac/assignment
 ```
 
-For applying rules add to your controller following code:
+Applying rules:
+
+1) For applying rules only for `controller` add the following code:
 ```php
 use yii2mod\rbac\components\AccessControl;
 
 class ExampleController extends Controller 
 {
 
-/**
- * Returns a list of behaviors that this component should behave as.
- */
 public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
             ],
-            'verbs' => [
-                ...
-            ],
         ];
     }
+    
   // Your actions
 }
+```
+2) For applying rules for `module` add the following code:
+```php
+
+namespace app\modules\admin;
+
+use Yii;
+use yii2mod\rbac\components\AccessControl;
+
+/**
+ * Class Module
+ * @package app\modules\admin
+ */
+class Module extends \yii\base\Module
+{
+    // some properties
+
+    /**
+     * Init module
+     */
+    public function init()
+    {
+        $this->attachBehavior('accessControl', AccessControl::class);
+        parent::init();
+    }
+}
+```
+3) Also you can apply rules via main configuration:
+```php
+'modules' => [
+      ......
+        'rbac' => [
+            'class' => 'yii2mod\rbac\Module',
+            'as access' => [
+                'class' => yii2mod\rbac\components\AccessControl::className()
+            ],
+        ]
+    ]
 ```
