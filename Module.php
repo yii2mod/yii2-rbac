@@ -2,7 +2,6 @@
 
 namespace yii2mod\rbac;
 
-
 /**
  * Class Module
  * @package yii2mod\rbac
