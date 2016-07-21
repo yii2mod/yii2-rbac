@@ -19,7 +19,6 @@ Either run
 
 ```
 php composer.phar require --prefer-dist yii2mod/yii2-rbac "*"
-php composer.phar require "yiisoft/yii2-jui": "~2.0@dev" //can't be installed via composer.json requiremtns because of DependencyResolver issue
 ```
 
 or add
