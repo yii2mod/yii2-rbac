@@ -2,18 +2,18 @@
 
 namespace yii2mod\rbac\models\search;
 
+use dosamigos\arrayquery\ArrayQuery;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\rbac\Item;
 use Yii;
 
 /**
- * Class AuthItem
+ * Class AuthItemSearch
  * @package yii2mod\rbac\models\search
  */
 class AuthItemSearch extends Model
 {
-
     /**
      * @var string auth item name
      */
@@ -30,76 +30,73 @@ class AuthItemSearch extends Model
     public $description;
 
     /**
-     * Returns the validation rules for attributes.
-     *
-     * Validation rules are used by [[validate()]] to check if attribute values are valid.
-     * Child classes may override this method to declare different validation rules.
-     * @return array
+     * @var string auth item rule name
+     */
+    public $ruleName;
+
+    /**
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['name', 'description'], 'safe'],
+            [['name', 'ruleName', 'description'], 'trim'],
             [['type'], 'integer'],
+            [['name', 'ruleName', 'description'], 'safe'],
         ];
     }
 
     /**
-     * Returns the attribute labels.
-     *
-     * Attribute labels are mainly used for display purpose. For example, given an attribute
-     * `firstName`, we can declare a label `First Name` which is more user-friendly and can
-     * be displayed to end users.
+     * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'name' => 'Name',
-            'type' => 'Type',
-            'description' => 'Description',
-            'rule' => 'Rule',
-            'data' => 'Data',
+            'name' => Yii::t('yii2mod.rbac', 'Name'),
+            'type' => Yii::t('yii2mod.rbac', 'Type'),
+            'description' => Yii::t('yii2mod.rbac', 'Description'),
+            'rule' => Yii::t('yii2mod.rbac', 'Rule'),
+            'data' => Yii::t('yii2mod.rbac', 'Data'),
         ];
     }
 
     /**
-     * Search
+     * Creates data provider instance with search query applied
+     *
      * @param array $params
      *
      * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
      */
     public function search($params)
     {
-        /* @var \yii\rbac\Manager $authManager */
-        $authManager = Yii::$app->authManager;
+        $authManager = Yii::$app->getAuthManager();
+
         if ($this->type == Item::TYPE_ROLE) {
             $items = $authManager->getRoles();
         } else {
-            $items = [];
-            if ($this->type == Item::TYPE_PERMISSION) {
-                foreach ($authManager->getPermissions() as $name => $item) {
-                    if ($name[0] !== '/') {
-                        $items[$name] = $item;
-                    }
-                }
-            } else {
-                foreach ($authManager->getPermissions() as $name => $item) {
-                    if ($name[0] === '/') {
-                        $items[$name] = $item;
-                    }
-                }
-            }
-        }
-        if ($this->load($params) && $this->validate() && (trim($this->name) !== '' || trim($this->description) !== '')) {
-            $search = strtolower(trim($this->name));
-            $desc = strtolower(trim($this->description));
-            $items = array_filter($items, function ($item) use ($search, $desc) {
-                return (empty($search) || strpos(strtolower($item->name), $search) !== false) && (empty($desc) || strpos(strtolower($item->description), $desc) !== false);
+            $items = array_filter($authManager->getPermissions(), function ($item) {
+                return $this->type == Item::TYPE_PERMISSION xor strncmp($item->name, '/', 1) === 0;
             });
         }
+
+        $query = new ArrayQuery($items);
+
+        $this->load($params);
+
+        if ($this->validate()) {
+            $query->addCondition('name', $this->name ? "~{$this->name}" : null)
+                ->addCondition('ruleName', $this->ruleName ? "~{$this->ruleName}" : null)
+                ->addCondition('description', $this->description ? "~{$this->description}" : null);
+        }
+
         return new ArrayDataProvider([
-            'allModels' => $items,
+            'allModels' => $query->find(),
+            'sort' => [
+                'attributes' => ['name']
+            ],
+            'pagination' => [
+                'pageSize' => 25
+            ]
         ]);
     }
-
 }

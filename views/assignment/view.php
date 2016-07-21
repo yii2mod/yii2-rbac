@@ -1,77 +1,28 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
+use yii\helpers\Json;
 
+/* @var $this yii\web\View */
+/* @var $model \yii2mod\rbac\models\AssignmentModel */
+/* @var $usernameField string */
 
-/**
- * @var yii\web\View                         $this
- * @var yii\data\ActiveDataProvider          $dataProvider
- * @var yii2mod\rbac\models\AssignmentSearch $searchModel
- */
-$this->title = 'Assignments';
-$this->params['breadcrumbs'][] = $this->title;
+$userName = $model->user->{$usernameField};
+$this->title = Yii::t('yii2mod.rbac', 'Assignment : {0}', $userName);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('yii2mod.rbac', 'Assignments'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $userName;
 $this->render('/layouts/_sidebar');
 ?>
-    <div class="assignment-index">
-        <h1>User: <?php echo $model->{$usernameField}; ?></h1>
+<div class="assignment-index">
 
-        <div class="row">
-            <div class="col-lg-5">
-                <?php
-                echo Html::textInput('search_av', '', [
-                        'class' => 'role-search form-control',
-                        'data-target' => 'available',
-                        'placeholder' => 'Search:'
-                    ]) . '<br>';
-                echo Html::listBox('roles', '', $available, [
-                    'id' => 'available',
-                    'multiple' => true,
-                    'size' => 20,
-                    'style' => 'width:100%',
-                    'class' => 'form-control'
-                ]);
-                ?>
-            </div>
-            <div class="col-lg-2">
-                <div class="move-buttons">
-                    <?php
-                    echo Html::a('<i class="glyphicon glyphicon-chevron-left"></i>', '#', [
-                        'class' => 'btn btn-success',
-                        'data-action' => 'delete'
-                    ]);
-                    ?>
-                    <?php
-                    echo Html::a('<i class="glyphicon glyphicon-chevron-right"></i>', '#', [
-                        'class' => 'btn btn-success',
-                        'data-action' => 'assign'
-                    ]);
-                    ?>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <?php
-                echo Html::textInput('search_asgn', '', [
-                        'class' => 'role-search form-control',
-                        'data-target' => 'assigned',
-                        'placeholder' => 'Search:'
-                    ]) . '<br>';
-                echo Html::listBox('roles', '', $assigned, [
-                    'id' => 'assigned',
-                    'multiple' => true,
-                    'size' => 20,
-                    'style' => 'width:100%',
-                    'class' => 'form-control',
-                ]);
-                ?>
-            </div>
-        </div>
-    </div>
-<?php
-$this->registerJs("rbac.init({
-        name: " . json_encode($id) . ",
-        route: '" . Url::toRoute(['role-search']) . "',
-        routeAssign: '" . Url::toRoute(['assign', 'id' => $id, 'action' => 'assign']) . "',
-        routeDelete: '" . Url::toRoute(['assign', 'id' => $id, 'action' => 'delete']) . "',
-        routeSearch: '" . Url::toRoute(['route-search']) . "'
-    });", yii\web\View::POS_READY);
+    <h1><?php echo Html::encode($this->title); ?></h1>
+
+    <?php echo $this->render('../_dualListBox', [
+        'opts' => Json::htmlEncode([
+            'items' => $model->getItems()
+        ]),
+        'assignUrl' => ['assign', 'id' => $model->userId],
+        'removeUrl' => ['remove', 'id' => $model->userId]
+    ]); ?>
+
+</div>

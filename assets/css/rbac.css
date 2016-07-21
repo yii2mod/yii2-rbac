@@ -1,5 +1,7 @@
 .move-buttons {
-    position: relative;
-    text-align: center;
-    top: 100px;
+    margin: 50px;
+}
+
+#btn-refresh {
+    margin-bottom: 10px;
 }

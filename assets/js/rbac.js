@@ -1,61 +1,50 @@
-var rbac = {
-    init: function (options) {
-        this._onSearch = false;
-        this.name = options.name;
-        this.route = options.route;
-        this.routeAssign = options.routeAssign;
-        this.routeDelete = options.routeDelete;
-        this.routeSearch = options.routeSearch;
-    },
-    roleSearch: function () {
-        if (!rbac._onSearch) {
-            rbac._onSearch = true;
-            var $this = $(this);
-            setTimeout(function () {
-                rbac._onSearch = false;
-                var data = {
-                    id: rbac.name,
-                    target: $this.data('target'),
-                    term: $this.val()
-                };
-                var target = '#' + $this.data('target');
-                $.get(rbac.route, data, function (html) {
-                    $(target).html(html);
-                });
-            }, 500);
-        }
-    },
-    action: function () {
-        var action = $(this).data('action');
-        var params = $((action == 'assign' ? '#available' : '#assigned') + ', .role-search').serialize();
-        var urlAssign = rbac.routeAssign;
-        var urlDelete = rbac.routeDelete;
-        $.post(action == 'assign' ? urlAssign : urlDelete,
-            params, function (r) {
-                $('#available').html(r[0]);
-                $('#assigned').html(r[1]);
-            }, 'json');
-        return false;
-    },
-    refresh: function () {
-        var refreshButton = $(this);
-        refreshButton.button('loading');
-        $.get(rbac.routeSearch, {
-                target: 'available',
-                term: $('input[name="search_av"]').val(),
-                refresh: true
-            },
-            function (html) {
-                $('#available').html(html);
-                refreshButton.button('reset');
-            }
-        );
-        return false;
-    }
-};
+function updateItems(r) {
+    _opts.items.available = r.available;
+    _opts.items.assigned = r.assigned;
+    search('available');
+    search('assigned');
+}
 
-$(function () {
-    $('.role-search').on('keydown', rbac.roleSearch);
-    $('a[data-action]').on('click', rbac.action);
-    $('#btn-refresh').on('click', rbac.refresh);
+$('.btn-assign').click(function () {
+    var $this = $(this);
+    var target = $this.data('target');
+    var items = $('select.list[data-target="' + target + '"]').val();
+
+    if (items && items.length) {
+        $.post($this.attr('href'), {items: items}, function (r) {
+            updateItems(r);
+        });
+    }
+    return false;
 });
+
+$('.search[data-target]').keyup(function () {
+    search($(this).data('target'));
+});
+
+function search(target) {
+    var $list = $('select.list[data-target="' + target + '"]');
+    $list.html('');
+    var q = $('.search[data-target="' + target + '"]').val();
+
+    var groups = {
+        role: [$('<optgroup label="Roles">'), false],
+        permission: [$('<optgroup label="Permission">'), false],
+        route: [$('<optgroup label="Routes">'), false],
+    };
+    $.each(_opts.items[target], function (name, group) {
+        if (name.indexOf(q) >= 0) {
+            $('<option>').text(name).val(name).appendTo(groups[group][0]);
+            groups[group][1] = true;
+        }
+    });
+    $.each(groups, function () {
+        if (this[1]) {
+            $list.append(this[0]);
+        }
+    });
+}
+
+// initial
+search('available');
+search('assigned');

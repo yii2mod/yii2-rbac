@@ -2,10 +2,10 @@
 
 namespace yii2mod\rbac\models\search;
 
+use dosamigos\arrayquery\ArrayQuery;
 use Yii;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
-use yii2mod\rbac\models\BizRuleModel;
 
 /**
  * Class BizRuleSearch
@@ -19,39 +19,39 @@ class BizRuleSearch extends Model
     public $name;
 
     /**
-     * Returns the validation rules for attributes.
-     *
-     * Validation rules are used by [[validate()]] to check if attribute values are valid.
-     * Child classes may override this method to declare different validation rules.
-     *
-     * @return array
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['name'], 'safe']
+            ['name', 'trim'],
+            ['name', 'safe']
         ];
     }
 
     /**
-     * Search
+     * Creates data provider instance with search query applied
      *
      * @param array $params
-     * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
+     *
+     * @return ArrayDataProvider
      */
     public function search($params)
     {
-        /* @var \yii\rbac\Manager $authManager */
-        $authManager = Yii::$app->authManager;
-        $models = [];
-        $included = !($this->load($params) && $this->validate() && trim($this->name) !== '');
-        foreach ($authManager->getRules() as $name => $item) {
-            if ($included || stripos($item->name, $this->name) !== false) {
-                $models[$name] = new BizRuleModel($item);
-            }
+        $query = new ArrayQuery(Yii::$app->authManager->getRules());
+
+        if ($this->load($params) && $this->validate()) {
+            $query->addCondition('name', $this->name ? "~{$this->name}" : null);
         }
+
         return new ArrayDataProvider([
-            'allModels' => $models,
+            'allModels' => $query->find(),
+            'sort' => [
+                'attributes' => ['name']
+            ],
+            'pagination' => [
+                'pageSize' => 25
+            ]
         ]);
     }
 }

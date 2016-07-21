@@ -2,15 +2,11 @@
 
 namespace yii2mod\rbac\controllers;
 
-use yii\db\ActiveRecord;
-use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\rbac\Assignment;
 use yii\web\Controller;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii2mod\rbac\models\AssignmentModel;
 use yii2mod\rbac\models\search\AssignmentSearch;
 
 /**
@@ -20,9 +16,14 @@ use yii2mod\rbac\models\search\AssignmentSearch;
 class AssignmentController extends Controller
 {
     /**
-     * @var ActiveRecord user model class
+     * @var \yii\web\IdentityInterface the class name of the [[identity]] object.
      */
-    public $userClassName;
+    public $userIdentityClass;
+
+    /**
+     * @var string search class name for assignments search
+     */
+    public $searchClass;
 
     /**
      * @var string id column name
@@ -35,58 +36,79 @@ class AssignmentController extends Controller
     public $usernameField = 'username';
 
     /**
-     * @var string search class name for assignments search
+     * @var array assignments GridView columns
      */
-    public $searchClass;
-
+    public $gridViewColumns = [];
 
     /**
-     * Init function
+     * Initializes the object.
      */
     public function init()
     {
-        parent::init();
-        if ($this->userClassName === null) {
-            $this->userClassName = Yii::$app->getUser()->identityClass;
+        if (empty($this->userIdentityClass)) {
+            $this->userIdentityClass = Yii::$app->user->identityClass;
         }
+
+        if (empty($this->gridViewColumns)) {
+            $this->gridViewColumns = [
+                $this->idField,
+                $this->usernameField,
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{view}'
+                ]
+            ];
+        }
+
+        parent::init();
     }
 
     /**
      * Returns a list of behaviors that this component should behave as.
      *
-     * Child classes may override this method to specify the behaviors they want to behave as.
      * @return array
      */
     public function behaviors()
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => 'yii\filters\VerbFilter',
                 'actions' => [
+                    'index' => ['get'],
+                    'view' => ['get'],
                     'assign' => ['post'],
-                ],
+                    'remove' => ['post']
+                ]
+            ],
+            'contentNegotiator' => [
+                'class' => 'yii\filters\ContentNegotiator',
+                'only' => ['assign', 'remove'],
+                'formats' => [
+                    'application/json' => Response::FORMAT_JSON
+                ]
             ]
         ];
     }
 
     /**
-     * Lists all Assignment models.
-     * @return mixed
+     * List of all assignments
+     *
+     * @return string
      */
     public function actionIndex()
     {
-        if ($this->searchClass === null) {
-            $searchModel = new AssignmentSearch;
+        if (empty($this->searchClass)) {
+            $searchModel = Yii::createObject(AssignmentSearch::className());
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $this->userIdentityClass, $this->idField, $this->usernameField);
         } else {
-            $searchModel = new $this->searchClass;
+            $searchModel = Yii::createObject($this->searchClass);
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         }
 
-        $dataProvider = $searchModel->search(\Yii::$app->request->getQueryParams(), $this->userClassName, $this->usernameField);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'idField' => $this->idField,
-            'usernameField' => $this->usernameField,
+            'gridViewColumns' => $this->gridViewColumns
         ]);
     }
 
@@ -94,94 +116,46 @@ class AssignmentController extends Controller
      * Displays a single Assignment model.
      *
      * @param integer $id
-     *
      * @return mixed
      */
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $authManager = Yii::$app->authManager;
-        $available = [];
-        $assigned = [];
-
-        foreach ($authManager->getRolesByUser($id) as $role) {
-            $assigned[$role->name] = $role->name;
-        }
-
-        foreach ($authManager->getRoles() as $role) {
-            if (!array_key_exists($role->name, $assigned)) {
-                $available[$role->name] = $role->name;
-            }
-        }
 
         return $this->render('view', [
             'model' => $model,
-            'id' => $id,
-            'available' => $available,
-            'assigned' => $assigned,
-            'idField' => $this->idField,
-            'usernameField' => $this->usernameField,
+            'usernameField' => $this->usernameField
         ]);
     }
 
     /**
-     * Assign or Revoke user role
-     * @param $id
-     * @param $action
-     * @return string[]
+     * Assign items
+     *
+     * @param string $id
+     * @return array
      */
-    public function actionAssign($id, $action)
+    public function actionAssign($id)
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $post = Yii::$app->request->post();
-        $roles = ArrayHelper::getValue($post, 'roles', []);
-        $manager = Yii::$app->authManager;
-        if ($action == 'assign') {
-            foreach ($roles as $role) {
-                $manager->assign($manager->getRole($role), $id);
-            }
-        } else {
-            foreach ($roles as $role) {
-                $manager->revoke($manager->getRole($role), $id);
-            }
-        }
-        return [
-            $this->actionRoleSearch($id, 'available', $post['search_av']),
-            $this->actionRoleSearch($id, 'assigned', $post['search_asgn']),
-        ];
+        $items = Yii::$app->getRequest()->post('items', []);
+        $assignmentModel = $this->findModel($id);
+        $assignmentModel->assign($items);
+
+        return $assignmentModel->getItems();
     }
 
     /**
-     * Role search
-     * @param $id
-     * @param string $target
-     * @param string $term
+     * Remove items
      *
-     * @return string
+     * @param string $id
+     * @return array
      */
-    public function actionRoleSearch($id, $target, $term = '')
+    public function actionRemove($id)
     {
-        $authManager = Yii::$app->authManager;
-        $available = [];
-        foreach ($authManager->getRoles() as $role) {
-            $available[$role->name] = $role->name;
-        }
-        $assigned = [];
-        foreach ($authManager->getRolesByUser($id) as $role) {
-            $assigned[$role->name] = $role->name;
-            unset($available[$role->name]);
-        }
-        $result = [];
-        if (!empty($term)) {
-            foreach (${$target} as $role) {
-                if (strpos($role, $term) !== false) {
-                    $result[$role] = $role;
-                }
-            }
-        } else {
-            $result = ${$target};
-        }
-        return Html::renderSelectOptions('', $result);
+        $items = Yii::$app->getRequest()->post('items', []);
+        $assignmentModel = $this->findModel($id);
+        $assignmentModel->revoke($items);
+
+        return $assignmentModel->getItems();
     }
 
     /**
@@ -189,17 +163,18 @@ class AssignmentController extends Controller
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
      * @param integer $id
+     * @return AssignmentModel the loaded model
      *
-     * @return Assignment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        $class = $this->userClassName;
-        if (($model = $class::findIdentity($id)) !== null) {
-            return $model;
+        $class = $this->userIdentityClass;
+
+        if (($user = $class::findIdentity($id)) !== null) {
+            return new AssignmentModel($user);
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('yii2mod.rbac', 'The requested page does not exist.'));
         }
     }
 }

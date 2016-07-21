@@ -5,8 +5,6 @@ namespace yii2mod\rbac\models;
 use Yii;
 use yii\base\Model;
 use yii\rbac\Rule;
-use yii2mod\rbac\components\BizRule;
-
 
 /**
  * Class BizRuleModel
@@ -20,95 +18,91 @@ class BizRuleModel extends Model
     public $name;
 
     /**
-     * @var string Simple PHP expression. Example: return Yii::$app->user->isGuest;
+     * @var integer UNIX timestamp representing the rule creation time
      */
-    public $expression;
+    public $createdAt;
 
     /**
-     * @var string class name
+     * @var integer UNIX timestamp representing the rule updating time
+     */
+    public $updatedAt;
+
+    /**
+     * @var string Rule className.
      */
     public $className;
 
     /**
-     * @var object Rule
+     * @var \yii\rbac\ManagerInterface
+     */
+    protected $manager;
+
+    /**
+     * @var Rule
      */
     private $_item;
 
     /**
-     * Constructor.
+     * BizRuleModel constructor.
      *
-     * @param array $item
-     * @param array $config name-value pairs that will be used to initialize the object properties
+     * @param \yii\rbac\Rule $item
+     * @param array $config
      */
-    public function __construct($item, $config = [])
+    public function __construct($item = null, $config = [])
     {
         $this->_item = $item;
+        $this->manager = Yii::$app->authManager;
+
         if ($item !== null) {
             $this->name = $item->name;
             $this->className = get_class($item);
-            if ($this->className === BizRule::className()) {
-                $this->expression = $item->expression;
-            }
         }
+
         parent::__construct($config);
     }
 
     /**
-     * Returns the validation rules for attributes.
-     *
-     * Validation rules are used by [[validate()]] to check if attribute values are valid.
-     * Child classes may override this method to declare different validation rules.
-     *
-     * @return array validation rules
-     * @see scenarios()
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['name'], 'existRuleName'],
-            [['expression'], 'string'],
-            [['className'], 'classExists']
+            [['name', 'className'], 'trim'],
+            [['name', 'className'], 'required'],
+            ['className', 'string'],
+            ['name', 'string', 'max' => 64],
+            ['className', 'classExists']
         ];
     }
 
     /**
-     * Validate rule name
-     * Check if rule name already exist
-     */
-    public function existRuleName()
-    {
-        $rule = Yii::$app->authManager->getRule($this->name);
-        if (!empty($rule) && $this->getIsNewRecord()) {
-            $this->addError('name', "This name has already been taken.");
-        }
-    }
-
-    /**
-     * Validate Rule
-     * Check if class exist
+     * Validate className
+     *
+     * @return void
      */
     public function classExists()
     {
-        if (!class_exists($this->className) || !is_subclass_of($this->className, Rule::className())) {
-            $this->addError('className', "Unknown Class: {$this->className}");
+        if (!class_exists($this->className)) {
+            $message = Yii::t('yii2mod.rbac', "Unknown class '{class}'", ['class' => $this->className]);
+            $this->addError('className', $message);
+            return;
+        }
+
+        if (!is_subclass_of($this->className, Rule::className())) {
+            $message = Yii::t('yii2mod.rbac', "'{class}' must extend from 'yii\\rbac\\Rule' or its child class", [
+                'class' => $this->className]);
+            $this->addError('className', $message);
         }
     }
 
     /**
-     * Returns the attribute labels.
-     *
-     * Attribute labels are mainly used for display purpose. For example, given an attribute
-     * `firstName`, we can declare a label `First Name` which is more user-friendly and can
-     * be displayed to end users.
-     *
-     * @return array attribute labels (name => label)
+     * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'name' => 'Name',
-            'expression' => 'Expression',
+            'name' => Yii::t('yii2mod.rbac', 'Name'),
+            'className' => Yii::t('yii2mod.rbac', 'Class Name'),
         ];
     }
 
@@ -132,49 +126,48 @@ class BizRuleModel extends Model
     public static function find($id)
     {
         $item = Yii::$app->authManager->getRule($id);
+
         if ($item !== null) {
-            return new self($item);
+            return new static($item);
         }
+
         return null;
     }
 
     /**
-     * Save biz rule
+     * Save rule
      *
-     * @return bool
+     * @return boolean
      */
     public function save()
     {
         if ($this->validate()) {
-            $manager = Yii::$app->authManager;
-            $this->className = $class = $this->className ? $this->className : BizRule::className();
+            $class = $this->className;
             if ($this->_item === null) {
                 $this->_item = new $class();
                 $isNew = true;
+                $oldName = false;
             } else {
                 $isNew = false;
                 $oldName = $this->_item->name;
             }
+
             $this->_item->name = $this->name;
-            if ($class === BizRule::className()) {
-                $this->_item->expression = $this->expression;
-            }
 
             if ($isNew) {
-                $manager->add($this->item);
+                $this->manager->add($this->_item);
             } else {
-                $manager->update($oldName, $this->item);
+                $this->manager->update($oldName, $this->_item);
             }
+
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * Get item
-     *
-     * @return Rule
+     * @return null|Rule
      */
     public function getItem()
     {

@@ -12,7 +12,7 @@ use yii\data\ActiveDataProvider;
 class AssignmentSearch extends Model
 {
     /**
-     * @var integer id
+     * @var string user id
      */
     public $id;
 
@@ -22,11 +22,7 @@ class AssignmentSearch extends Model
     public $username;
 
     /**
-     * Returns the validation rules for attributes.
-     *
-     * Validation rules are used by [[validate()]] to check if attribute values are valid.
-     * Child classes may override this method to declare different validation rules.
-     * @return array
+     * @inheritdoc
      */
     public function rules()
     {
@@ -36,42 +32,33 @@ class AssignmentSearch extends Model
     }
 
     /**
-     * Returns the attribute labels.
+     * Creates data provider instance with search query applied
      *
-     * Attribute labels are mainly used for display purpose. For example, given an attribute
-     * `firstName`, we can declare a label `First Name` which is more user-friendly and can
-     * be displayed to end users.
-     *
-     * @return array attribute labels (name => label)
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'username' => 'Username',
-        ];
-    }
-
-    /**
-     * Search
      * @param array $params
      * @param \yii\db\ActiveRecord $class
+     * @param $idField
      * @param string $usernameField
      *
-     * @return \yii\data\ActiveDataProvider
+     * @return ActiveDataProvider
      */
-    public function search($params, $class, $usernameField)
+    public function search($params, $class, $idField, $usernameField)
     {
         $query = $class::find();
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 20
+            ]
         ]);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
-        $query->andFilterWhere(['id' => $this->id]);
+
+        $query->andFilterWhere([$idField => $this->id]);
         $query->andFilterWhere(['like', $usernameField, $this->username]);
+
         return $dataProvider;
     }
 }

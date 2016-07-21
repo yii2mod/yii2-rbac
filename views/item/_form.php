@@ -4,9 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /**
- * @var yii\web\View $this
- * @var yii2mod\rbac\models\AuthItem $model
- * @var yii\widgets\ActiveForm $form
+ * @var $this yii\web\View
+ * @var $model yii2mod\rbac\models\AuthItemModel
  */
 ?>
 
@@ -31,7 +30,7 @@ use yii\widgets\ActiveForm;
     <?php echo $form->field($model, 'data')->textarea(['rows' => 6]); ?>
 
     <div class="form-group">
-        <?php echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
+        <?php echo Html::submitButton($model->getIsNewRecord() ? Yii::t('yii2mod.rbac', 'Create') : Yii::t('yii2mod.rbac', 'Update'), ['class' => $model->getIsNewRecord() ? 'btn btn-success' : 'btn btn-primary']); ?>
     </div>
 
     <?php ActiveForm::end(); ?>

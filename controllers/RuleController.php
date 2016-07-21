@@ -15,11 +15,8 @@ use yii2mod\rbac\models\search\BizRuleSearch;
  */
 class RuleController extends Controller
 {
-
     /**
      * Returns a list of behaviors that this component should behave as.
-     *
-     * Child classes may override this method to specify the behaviors they want to behave as.
      *
      * @return array
      */
@@ -29,14 +26,19 @@ class RuleController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
+                    'index' => ['get'],
+                    'view' => ['get'],
+                    'create' => ['get', 'post'],
+                    'update' => ['get', 'post'],
+                    'delete' => ['post']
+                ]
+            ]
         ];
     }
 
     /**
-     * Lists all rules
+     * List of all rules
+     *
      * @return mixed
      */
     public function actionIndex()
@@ -51,36 +53,40 @@ class RuleController extends Controller
     }
 
     /**
-     * Displays a single AuthItem model.
+     * Displays a single Rule item.
      *
      * @param string $id
-     *
      * @return mixed
      */
     public function actionView($id)
     {
         $model = $this->findModel($id);
+
         return $this->render('view', ['model' => $model]);
     }
 
     /**
-     * Creates a new AuthItem model.
+     * Creates a new Rule item.
+     *
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new BizRuleModel(null);
+        $model = new BizRuleModel();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Rule has been saved.');
+            Yii::$app->session->setFlash('success', Yii::t('yii2mod.rbac', 'Rule has been saved.'));
             return $this->redirect(['view', 'id' => $model->name]);
-        } else {
-            return $this->render('create', ['model' => $model,]);
         }
+
+        return $this->render('create', ['model' => $model]);
     }
 
     /**
-     * Updates an existing AuthItem model.
+     * Updates an existing Rule item.
+     *
      * If update is successful, the browser will be redirected to the 'view' page.
      *
      * @param string $id
@@ -90,15 +96,18 @@ class RuleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Rule has been saved.');
+            Yii::$app->session->setFlash('success', Yii::t('yii2mod.rbac', 'Rule has been saved.'));
             return $this->redirect(['view', 'id' => $model->name]);
         }
-        return $this->render('update', ['model' => $model,]);
+
+        return $this->render('update', ['model' => $model]);
     }
 
     /**
-     * Deletes an existing AuthItem model.
+     * Deletes an existing Rule item.
+     *
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
      * @param string $id
@@ -109,18 +118,20 @@ class RuleController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->authManager->remove($model->item);
-        Yii::$app->session->setFlash('success', 'Rule has been deleted.');
+        Yii::$app->session->setFlash('success', Yii::t('yii2mod.rbac', 'Rule has been deleted.'));
+
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the AuthItem model based on its primary key value.
+     * Finds the BizRuleModel based on its primary key value.
+     *
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
      * @param string $id
+     * @return BizRuleModel the loaded model
      *
      * @throws \yii\web\NotFoundHttpException
-     * @return AuthItem the loaded model
      */
     protected function findModel($id)
     {
@@ -128,7 +139,7 @@ class RuleController extends Controller
         if ($item) {
             return new BizRuleModel($item);
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('yii2mod.rbac', 'The requested page does not exist.'));
         }
     }
 }

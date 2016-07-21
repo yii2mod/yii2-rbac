@@ -16,7 +16,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "yii2mod/yii2-user": "*",
+        "2amigos/yii2-arrayquery-component": "*",
         "yiisoft/yii2-jui": "*"
     },
     "autoload": {

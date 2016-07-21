@@ -5,6 +5,7 @@ namespace yii2mod\rbac\tests\models;
 use Yii;
 use yii\rbac\Rule;
 use yii2mod\rbac\models\BizRuleModel;
+use yii2mod\rbac\rules\GuestRule;
 use yii2mod\rbac\tests\TestCase;
 
 /**
@@ -17,7 +18,7 @@ class BizRuleTest extends TestCase
     {
         $model = new BizRuleModel(null);
         $model->name = 'guest';
-        $model->expression = 'return Yii::$app->user->isGuest;';
+        $model->className = GuestRule::className();
 
         $this->assertTrue($model->save());
 

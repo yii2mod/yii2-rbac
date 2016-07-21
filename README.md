@@ -44,11 +44,19 @@ return [
             'modules' => [
                 'rbac' => [
                     'class' => 'yii2mod\rbac\Module',
-                    //Some controller property maybe need to change. 
+                    // Some controller property maybe need to change. 
                     'controllerMap' => [
                         'assignment' => [
                             'class' => 'yii2mod\rbac\controllers\AssignmentController',
-                            'userClassName' => 'path\to\models\User',
+                            'userIdentityClass' => 'app\models\User',
+                            'searchClass' => 'Your own search model class',
+                            'idField' => 'id',
+                            'usernameField' => 'username',
+                            'gridViewColumns' => [
+                                 'id',
+                                 'username',
+                                 'email'
+                             ]
                         ]
                     ]
                 ],
@@ -87,12 +95,11 @@ http://localhost/path/to/index.php?r=admin/rbac/assignment
 
 1) For applying rules only for `controller` add the following code:
 ```php
-use yii2mod\rbac\components\AccessControl;
+use yii2mod\rbac\filters\AccessControl;
 
 class ExampleController extends Controller 
 {
-
-public function behaviors()
+    public function behaviors()
     {
         return [
             'access' => [
@@ -100,45 +107,61 @@ public function behaviors()
             ],
         ];
     }
-    
-  // Your actions
 }
 ```
 2) For applying rules for `module` add the following code:
 ```php
 
-namespace app\modules\admin;
-
 use Yii;
-use yii2mod\rbac\components\AccessControl;
+use yii2mod\rbac\filters\AccessControl;
 
 /**
  * Class Module
- * @package app\modules\admin
  */
 class Module extends \yii\base\Module
 {
-    // some properties
-
     /**
-     * Init module
+     * @return array
      */
-    public function init()
+    public function behaviors()
     {
-        $this->attachBehavior('accessControl', AccessControl::class);
-        parent::init();
+        return [
+            AccessControl::class
+        ];
     }
 }
 ```
 3) Also you can apply rules via main configuration:
 ```php
 'modules' => [
-      ......
-        'rbac' => [
-            'class' => 'yii2mod\rbac\Module',
-            'as access' => [
-                'class' => yii2mod\rbac\components\AccessControl::class
-            ],
-        ]
+    'rbac' => [
+        'class' => 'yii2mod\rbac\Module',
+        'as access' => [
+            'class' => yii2mod\rbac\filters\AccessControl::class
+        ],
     ]
+]
+```
+
+## Internationalization
+
+All text and messages introduced in this extension are translatable under category 'yii2mod.rbac'.
+You may use translations provided within this extension, using following application configuration:
+
+```php
+return [
+    'components' => [
+        'i18n' => [
+            'translations' => [
+                'yii2mod.rbac' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@yii2mod/rbac/messages',
+                ],
+                // ...
+            ],
+        ],
+        // ...
+    ],
+    // ...
+];
 ```
