@@ -67,19 +67,16 @@ return [
         ....
          'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'defaultRoles' => ['guest', 'user'],
-            'cache' => 'yii\caching\FileCache',
-            'itemTable' => 'AuthItem',
-            'itemChildTable' => 'AuthItemChild',
-            'assignmentTable' => 'AuthAssignment',
-            'ruleTable' => 'AuthRule',
+            'defaultRoles' => ['guest', 'user']
         ],
     ]
 ];
 ```
-If you use this extension separate from the [base template](https://github.com/yii2mod/base), then you need execute rbac init migration by the following command: 
-```
-php yii migrate/up --migrationPath=@yii2mod/rbac/migrations
+After you downloaded and configured Yii2-rbac, the last thing you need to do is updating your database schema by 
+applying the migration:
+ 
+```bash
+$ php yii migrate/up --migrationPath=@yii/rbac/migrations
 ```
 
 You can then access Auth manager through the following URL:
