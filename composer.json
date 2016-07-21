@@ -1,8 +1,8 @@
 {
     "name": "yii2mod/yii2-rbac",
-    "description": "User rbac module",
+    "description": "RBAC management module for Yii2",
+    "keywords": ["yii2", "yii2-rbac", "rbac management", "yii2mod", "rbac gui", "yii rbac", "rbac module"],
     "type": "yii2-extension",
-    "keywords": ["yii2", "module"],
     "license": "MIT",
     "authors": [
         {
