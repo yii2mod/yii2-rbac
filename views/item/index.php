@@ -33,7 +33,8 @@ $this->render('/layouts/_sidebar');
             [
                 'attribute' => 'ruleName',
                 'label' => Yii::t('yii2mod.rbac', 'Rule Name'),
-                'filter' => ArrayHelper::map(Yii::$app->getAuthManager()->getRules(), 'name', 'name')
+                'filter' => ArrayHelper::map(Yii::$app->getAuthManager()->getRules(), 'name', 'name'),
+                'filterInputOptions' => ['class' => 'form-control', 'prompt' => Yii::t('yii2mod.rbac', 'Select Rule')]
             ],
             [
                 'attribute' => 'description',
