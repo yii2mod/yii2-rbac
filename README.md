@@ -161,3 +161,35 @@ return [
     // ...
 ];
 ```
+
+## Migrations
+
+You can create the console migrations for creating/updating RBAC items.
+
+**Module setup**
+
+To be able create the migrations, you need to add the following code to your console application configuration:
+
+```php
+// console.php
+'modules' => [
+    'rbac' => [
+        'class' => 'yii2mod\rbac\ConsoleModule'
+    ]
+]
+```
+
+**Usage**
+
+Below are some common usages of this command:
+ 
+```
+# creates a new migration named 'create_rule'
+php yii rbac/migrate/create create_rule
+
+# applies ALL new migrations
+php yii rbac/migrate
+
+# reverts the last applied migration
+php yii rbac/migrate/down
+```
