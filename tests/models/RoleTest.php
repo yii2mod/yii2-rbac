@@ -16,14 +16,14 @@ class RoleTest extends TestCase
 {
     public function testCreateRole()
     {
-        $model = new AuthItemModel(null);
+        $model = new AuthItemModel;
         $model->type = Item::TYPE_ROLE;
         $model->name = 'admin';
         $model->description = 'admin role';
 
         $this->assertTrue($model->save());
         $this->assertInstanceOf(Role::className(), Yii::$app->authManager->getRole('admin'));
-        
+
         return Yii::$app->authManager->getRole('admin');
     }
 

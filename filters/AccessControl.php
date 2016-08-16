@@ -3,7 +3,10 @@
 namespace yii2mod\rbac\filters;
 
 use Yii;
-use yii\base\InlineAction;
+use yii\base\Action;
+use yii\base\Module;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * Class AccessControl
@@ -17,25 +20,24 @@ class AccessControl extends \yii\filters\AccessControl
     public $params = [];
 
     /**
-     * This method is invoked right before an action is to be executed (after all possible filters.)
-     *
-     * @param InlineAction $action the action to be executed.
-     * @return boolean whether the action should continue to be executed.
+     * @var array list of action that not need to check access.
+     */
+    public $allowActions = [];
+
+    /**
+     * @inheritdoc
      */
     public function beforeAction($action)
     {
-        $actionId = $action->getUniqueId();
-        $user = Yii::$app->getUser();
-        $params = isset($this->params[$action->id]) ? $this->params[$action->id] : [];
+        $controller = $action->controller;
+        $params = ArrayHelper::getValue($this->params, $action->id, []);
 
-        if ($user->can('/' . $actionId, $params)) {
+        if (Yii::$app->user->can('/' . $action->getUniqueId(), $params)) {
             return true;
         }
 
-        $controller = $action->controller;
-
         do {
-            if ($user->can('/' . ltrim($controller->getUniqueId() . '/*', '/'))) {
+            if (Yii::$app->user->can('/' . ltrim($controller->getUniqueId() . '/*', '/'))) {
                 return true;
             }
             $controller = $controller->module;
@@ -44,23 +46,81 @@ class AccessControl extends \yii\filters\AccessControl
         return parent::beforeAction($action);
     }
 
-
     /**
-     * Returns a value indicating whether the filer is active for the given action.
-     *
-     * @param InlineAction $action the action being filtered
-     * @return boolean whether the filer is active for the given action.
+     * @inheritdoc
      */
     protected function isActive($action)
     {
-        $uniqueId = $action->getUniqueId();
-
-        if ($uniqueId === Yii::$app->getErrorHandler()->errorAction) {
-            return false;
-        } else if (Yii::$app->user->isGuest && Yii::$app->user->loginUrl == $uniqueId) {
+        if ($this->isErrorPage($action) || $this->isLoginPage($action) || $this->isAllowedAction($action)) {
             return false;
         }
 
         return parent::isActive($action);
+    }
+
+    /**
+     * Returns a value indicating whether a current url equals `errorAction` property of the ErrorHandler component
+     *
+     * @param Action $action
+     * @return bool
+     */
+    private function isErrorPage($action)
+    {
+        if ($action->getUniqueId() === Yii::$app->getErrorHandler()->errorAction) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns a value indicating whether a current url equals `loginUrl` property of the User component
+     *
+     * @param Action $action
+     * @return bool
+     */
+    private function isLoginPage($action)
+    {
+        $loginUrl = trim(Url::to(Yii::$app->user->loginUrl), '/');
+
+        if (Yii::$app->user->isGuest && $action->getUniqueId() === $loginUrl) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns a value indicating whether a current url exists in the `allowActions` list.
+     *
+     * @param Action $action
+     * @return bool
+     */
+    private function isAllowedAction($action)
+    {
+        if ($this->owner instanceof Module) {
+            $ownerId = $this->owner->getUniqueId();
+            $id = $action->getUniqueId();
+            if (!empty($ownerId) && strpos($id, $ownerId . '/') === 0) {
+                $id = substr($id, strlen($ownerId) + 1);
+            }
+        } else {
+            $id = $action->id;
+        }
+
+        foreach ($this->allowActions as $route) {
+            if (substr($route, -1) === '*') {
+                $route = rtrim($route, "*");
+                if ($route === '' || strpos($id, $route) === 0) {
+                    return true;
+                }
+            } else {
+                if ($id === $route) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
