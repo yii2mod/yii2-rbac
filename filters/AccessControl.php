@@ -20,7 +20,7 @@ class AccessControl extends \yii\filters\AccessControl
     public $params = [];
 
     /**
-     * @var array list of action that not need to check access.
+     * @var array list of actions that not need to check access.
      */
     public $allowActions = [];
 
