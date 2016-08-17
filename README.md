@@ -208,17 +208,97 @@ To be able create the migrations, you need to add the following code to your con
 ]
 ```
 
-**Usage**
+**Methods**
 
-Below are some common usages of this command:
- 
+1. `createPermission()`: creating a permission
+2. `updatePermission()`: updating a permission
+3. `removePermission()`: removing a permission
+4. `createRole()`: creating a role
+5. `updateRole()`: updating a role
+6. `removeRole()`: removing a role
+7. `createRule()`: creating a rule
+8. `updateRule()`: updating a rule
+9. `removeRule()`: removing a rule
+10. `addChild()`: creating a child
+11. `assign()`: assign a role to a user
+
+
+**Creating Migrations**
+
+To create a new migration, run the following command:
 ```
-# creates a new migration named 'create_rule'
-php yii rbac/migrate/create create_rule
+yii rbac/migrate/create <name>
+```
 
-# applies ALL new migrations
-php yii rbac/migrate
+The required `name` argument gives a brief description about the new migration. For example, if the migration is about creating a new role named admin, you may use the name `create_role_admin` and run the following command:
 
-# reverts the last applied migration
-php yii rbac/migrate/down
+```
+yii rbac/migrate/create create_role_admin
+```
+
+The above command will create a new PHP class file named m160817_085702_create_role_admin.php in the @app/rbac/migrations directory. The file contains the following code which mainly declares a migration class m160817_085702_create_role_admin with the skeleton code:
+
+```php
+<?php
+
+use yii2mod\rbac\migrations\Migration;
+
+class m160817_085702_create_role_admin extends Migration
+{
+    public function safeUp()
+    {
+
+    }
+
+    public function safeDown()
+    {
+        echo "m160817_085702_create_role_admin cannot be reverted.\n";
+
+        return false;
+    }
+}
+```
+
+The following code shows how you may implement the migration class to create a `admin` role:
+
+```php
+<?php
+
+use yii2mod\rbac\migrations\Migration;
+
+class m160817_085702_create_role_admin extends Migration
+{
+    public function safeUp()
+    {
+        $this->createRole('admin', 'admin has all available permissions.');
+    }
+
+    public function safeDown()
+    {
+        $this->removeRole('admin');
+    }
+}
+```
+
+**Applying Migrations**
+
+To upgrade a database to its latest structure, you should apply all available new migrations using the following command:
+
+```yii rbac/migrate```
+
+**Reverting Migrations**
+
+To revert (undo) one or multiple migrations that have been applied before, you can run the following command:
+
+```
+yii rbac/migrate/down     # revert the most recently applied migration
+yii rbac/migrate/down 3   # revert the most 3 recently applied migrations
+```
+
+**Redoing Migrations**
+
+Redoing migrations means first reverting the specified migrations and then applying again. This can be done as follows:
+```
+yii rbac/migrate/redo     # redo the last applied migration
+yii rbac/migrate/redo 3   # redo the last 3 applied migrations
 ```
