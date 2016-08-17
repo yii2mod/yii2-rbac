@@ -119,13 +119,13 @@ class RouteModel extends Object
         }
 
         $key = [__METHOD__, $module->getUniqueId()];
-        $cache = $this->cache;
+        $result = (($this->cache !== null) ? $this->cache->get($key) : false);
 
-        if (($result = $cache->get($key)) === false) {
+        if ($result === false) {
             $result = [];
             $this->getRouteRecursive($module, $result);
-            if ($cache !== null) {
-                $cache->set($key, $result, $this->cacheDuration, new TagDependency([
+            if ($this->cache !== null) {
+                $this->cache->set($key, $result, $this->cacheDuration, new TagDependency([
                     'tags' => self::CACHE_TAG
                 ]));
             }
