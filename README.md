@@ -279,6 +279,7 @@ class m160817_085702_create_role_admin extends Migration
     }
 }
 ```
+> You can see a complex example of migration [here.](https://github.com/yii2mod/base/blob/master/rbac/migrations/m160722_085418_init.php)
 
 ###Applying Migrations
 
