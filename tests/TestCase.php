@@ -29,7 +29,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      * @param array $config The application configuration, if needed
      * @param string $appClass name of the application class to create
      */
-    protected function mockApplication($config = [], $appClass = '\yii\console\Application')
+    protected function mockApplication($config = [], $appClass = '\yii\web\Application')
     {
         new $appClass(ArrayHelper::merge([
             'id' => 'testapp',
@@ -47,6 +47,13 @@ class TestCase extends \PHPUnit_Framework_TestCase
                     'itemChildTable' => 'AuthItemChild',
                     'assignmentTable' => 'AuthAssignment',
                     'ruleTable' => 'AuthRule',
+                ],
+                'user' => [
+                    'identityClass' => 'yii2mod\rbac\tests\data\User',
+                ],
+                'request' => [
+                    'hostInfo' => 'http://domain.com',
+                    'scriptUrl' => 'index.php'
                 ],
             ],
         ], $config));
@@ -74,6 +81,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function setupTestDbData()
     {
         $db = Yii::$app->getDb();
+
         // Structure :
 
         $db->createCommand()->createTable('AuthRule', [
@@ -109,6 +117,23 @@ class TestCase extends \PHPUnit_Framework_TestCase
             'created_at' => 'integer',
             'PRIMARY KEY (item_name, user_id)',
             'FOREIGN KEY (item_name) REFERENCES ' . '{{%AuthItem}}' . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
+        ])->execute();
+
+        $db->createCommand()->createTable('User', [
+            'id' => 'pk',
+            'username' => 'string not null unique',
+            'authKey' => 'string(32) not null',
+            'passwordHash' => 'string not null',
+            'email' => 'string not null unique',
+        ])->execute();
+
+        // Data :
+
+        $db->createCommand()->insert('User', [
+            'username' => 'demo',
+            'authKey' => Yii::$app->getSecurity()->generateRandomString(),
+            'passwordHash' => Yii::$app->getSecurity()->generatePasswordHash('password'),
+            'email' => 'demo@mail.com'
         ])->execute();
     }
 }
