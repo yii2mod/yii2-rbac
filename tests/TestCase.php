@@ -55,6 +55,14 @@ class TestCase extends \PHPUnit_Framework_TestCase
                     'hostInfo' => 'http://domain.com',
                     'scriptUrl' => 'index.php'
                 ],
+                'i18n' => [
+                    'translations' => [
+                        'yii2mod.rbac' => [
+                            'class' => 'yii\i18n\PhpMessageSource',
+                            'basePath' => '@yii2mod/rbac/messages',
+                        ]
+                    ]
+                ]
             ],
         ], $config));
     }

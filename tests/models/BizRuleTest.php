@@ -32,8 +32,18 @@ class BizRuleTest extends TestCase
      * @depends testCreateRule
      * @param $rule
      */
-    public function testRemoveRole($rule)
+    public function testRemoveRule($rule)
     {
         $this->assertTrue(Yii::$app->authManager->remove($rule));
+    }
+
+    public function testTryToCreateRuleWithInvalidClassName()
+    {
+        $model = new BizRuleModel;
+        $model->name = 'guest';
+        $model->className = 'invalid className';
+
+        $this->assertFalse($model->save());
+        $this->assertArrayHasKey('className', $model->getErrors());
     }
 }
