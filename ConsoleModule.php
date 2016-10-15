@@ -2,8 +2,6 @@
 
 namespace yii2mod\rbac;
 
-use yii\base\BootstrapInterface;
-
 /**
  * Class ConsoleModule
  *
@@ -20,20 +18,10 @@ use yii\base\BootstrapInterface;
  * ]
  * ~~~
  */
-class ConsoleModule extends Module implements BootstrapInterface
+class ConsoleModule extends Module
 {
     /**
      * @var string the namespace that controller classes are in.
      */
     public $controllerNamespace = 'yii2mod\rbac\commands';
-
-    /**
-     * @param $app
-     */
-    public function bootstrap($app)
-    {
-        if ($app instanceof \yii\console\Application) {
-            $this->controllerNamespace = 'yii2mod\rbac\commands';
-        }
-    }
 }
