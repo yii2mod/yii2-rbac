@@ -1,6 +1,7 @@
 <?php
 
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
@@ -22,7 +23,12 @@ $this->render('/layouts/_sidebar');
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'columns' => $gridViewColumns
+        'columns' => ArrayHelper::merge($gridViewColumns, [
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}'
+            ]
+        ])
     ]); ?>
 
     <?php Pjax::end(); ?>

@@ -52,11 +52,7 @@ class AssignmentController extends Controller
         if (empty($this->gridViewColumns)) {
             $this->gridViewColumns = [
                 $this->idField,
-                $this->usernameField,
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'template' => '{view}'
-                ]
+                $this->usernameField
             ];
         }
 
