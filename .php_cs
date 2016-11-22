@@ -16,6 +16,7 @@ $config = Symfony\CS\Config::create()
         '-phpdoc_no_package',
         'concat_with_spaces',
         'ordered_use',
+        'short_array_syntax',
     ])
     ->finder($finder);
 
