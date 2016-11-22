@@ -10,13 +10,14 @@ use yii2mod\rbac\tests\TestCase;
 
 /**
  * Class RoleTest
+ *
  * @package yii2mod\rbac\tests\models
  */
 class RoleTest extends TestCase
 {
     public function testCreateRole()
     {
-        $model = new AuthItemModel;
+        $model = new AuthItemModel();
         $model->type = Item::TYPE_ROLE;
         $model->name = 'admin';
         $model->description = 'admin role';
@@ -29,6 +30,7 @@ class RoleTest extends TestCase
 
     /**
      * @depends testCreateRole
+     *
      * @param $role
      */
     public function testRemoveRole($role)

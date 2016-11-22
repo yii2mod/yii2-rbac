@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/**
+/*
  * @var yii\web\View $this
  * @var \yii2mod\rbac\models\BizRuleModel $model
  */
@@ -22,7 +22,7 @@ $this->render('/layouts/_sidebar');
         <?php echo Html::a(Yii::t('yii2mod.rbac', 'Delete'), ['delete', 'id' => $model->name], [
             'class' => 'btn btn-danger',
             'data-confirm' => Yii::t('yii2mod.rbac', 'Are you sure to delete this item?'),
-            'data-method' => 'post'
+            'data-method' => 'post',
         ]); ?>
     </p>
 
@@ -30,8 +30,8 @@ $this->render('/layouts/_sidebar');
         'model' => $model,
         'attributes' => [
             'name',
-            'className'
-        ]
+            'className',
+        ],
     ]); ?>
 
 </div>

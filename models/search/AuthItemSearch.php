@@ -3,13 +3,14 @@
 namespace yii2mod\rbac\models\search;
 
 use dosamigos\arrayquery\ArrayQuery;
+use Yii;
 use yii\base\Model;
 use yii\data\ArrayDataProvider;
 use yii\rbac\Item;
-use Yii;
 
 /**
  * Class AuthItemSearch
+ *
  * @package yii2mod\rbac\models\search
  */
 class AuthItemSearch extends Model
@@ -20,7 +21,7 @@ class AuthItemSearch extends Model
     public $name;
 
     /**
-     * @var integer auth item type
+     * @var int auth item type
      */
     public $type;
 
@@ -92,11 +93,11 @@ class AuthItemSearch extends Model
         return new ArrayDataProvider([
             'allModels' => $query->find(),
             'sort' => [
-                'attributes' => ['name']
+                'attributes' => ['name'],
             ],
             'pagination' => [
-                'pageSize' => 25
-            ]
+                'pageSize' => 25,
+            ],
         ]);
     }
 }

@@ -23,13 +23,13 @@ $this->registerJs("var _opts = {$opts};", View::POS_BEGIN);
             <?php echo Html::a('&gt;&gt;', $assignUrl, [
                 'class' => 'btn btn-success btn-assign',
                 'data-target' => 'available',
-                'title' => Yii::t('yii2mod.rbac', 'Assign')
+                'title' => Yii::t('yii2mod.rbac', 'Assign'),
             ]); ?>
             <br/><br/>
             <?php echo Html::a('&lt;&lt;', $removeUrl, [
                 'class' => 'btn btn-danger btn-assign',
                 'data-target' => 'assigned',
-                'title' => Yii::t('yii2mod.rbac', 'Remove')
+                'title' => Yii::t('yii2mod.rbac', 'Remove'),
             ]); ?>
         </div>
     </div>

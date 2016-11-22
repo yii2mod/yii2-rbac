@@ -13,12 +13,13 @@ use yii2mod\rbac\models\search\AuthItemSearch;
 
 /**
  * Class ItemController
+ *
  * @package yii2mod\rbac\base
  */
 class ItemController extends Controller
 {
     /**
-     * @var integer Type of Auth Item
+     * @var int Type of Auth Item
      */
     protected $type;
 
@@ -42,16 +43,16 @@ class ItemController extends Controller
                     'update' => ['get', 'post'],
                     'delete' => ['post'],
                     'assign' => ['post'],
-                    'remove' => ['post']
-                ]
+                    'remove' => ['post'],
+                ],
             ],
             'contentNegotiator' => [
                 'class' => 'yii\filters\ContentNegotiator',
                 'only' => ['assign', 'remove'],
                 'formats' => [
-                    'application/json' => Response::FORMAT_JSON
-                ]
-            ]
+                    'application/json' => Response::FORMAT_JSON,
+                ],
+            ],
         ];
     }
 
@@ -75,6 +76,7 @@ class ItemController extends Controller
      * Displays a single AuthItem model.
      *
      * @param  string $id
+     *
      * @return mixed
      */
     public function actionView($id)
@@ -93,11 +95,12 @@ class ItemController extends Controller
      */
     public function actionCreate()
     {
-        $model = new AuthItemModel;
+        $model = new AuthItemModel();
         $model->type = $this->type;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('yii2mod.rbac', 'Item has been saved.'));
+
             return $this->redirect(['view', 'id' => $model->name]);
         }
 
@@ -110,6 +113,7 @@ class ItemController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      *
      * @param string $id
+     *
      * @return mixed
      */
     public function actionUpdate($id)
@@ -118,6 +122,7 @@ class ItemController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('yii2mod.rbac', 'Item has been saved.'));
+
             return $this->redirect(['view', 'id' => $model->name]);
         }
 
@@ -130,6 +135,7 @@ class ItemController extends Controller
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
      * @param string $id
+     *
      * @return mixed
      */
     public function actionDelete($id)
@@ -145,6 +151,7 @@ class ItemController extends Controller
      * Assign items
      *
      * @param string $id
+     *
      * @return array
      */
     public function actionAssign($id)
@@ -160,6 +167,7 @@ class ItemController extends Controller
      * Remove items
      *
      * @param string $id
+     *
      * @return array
      */
     public function actionRemove($id)
@@ -201,6 +209,7 @@ class ItemController extends Controller
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
      * @param string $id
+     *
      * @return AuthItemModel the loaded model
      *
      * @throws NotFoundHttpException if the model cannot be found

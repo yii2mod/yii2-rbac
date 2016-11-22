@@ -2,8 +2,8 @@
 
 namespace yii2mod\rbac\tests;
 
-use yii\helpers\ArrayHelper;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the base class for all yii framework unit tests.
@@ -26,6 +26,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Populates Yii::$app with a new application
      * The application will be destroyed on tearDown() automatically.
+     *
      * @param array $config The application configuration, if needed
      * @param string $appClass name of the application class to create
      */
@@ -53,16 +54,16 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 ],
                 'request' => [
                     'hostInfo' => 'http://domain.com',
-                    'scriptUrl' => 'index.php'
+                    'scriptUrl' => 'index.php',
                 ],
                 'i18n' => [
                     'translations' => [
                         'yii2mod.rbac' => [
                             'class' => 'yii\i18n\PhpMessageSource',
                             'basePath' => '@yii2mod/rbac/messages',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ], $config));
     }
@@ -108,7 +109,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
             'data' => 'string',
             'created_at' => 'integer',
             'updated_at' => 'integer',
-            'FOREIGN KEY (rule_name) REFERENCES ' . 'AuthRule' . ' (name) ON DELETE SET NULL ON UPDATE CASCADE'
+            'FOREIGN KEY (rule_name) REFERENCES ' . 'AuthRule' . ' (name) ON DELETE SET NULL ON UPDATE CASCADE',
         ])->execute();
 
         $db->createCommand()->createTable('AuthItemChild', [
@@ -141,7 +142,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
             'username' => 'demo',
             'authKey' => Yii::$app->getSecurity()->generateRandomString(),
             'passwordHash' => Yii::$app->getSecurity()->generatePasswordHash('password'),
-            'email' => 'demo@mail.com'
+            'email' => 'demo@mail.com',
         ])->execute();
     }
 }

@@ -2,14 +2,15 @@
 
 namespace yii2mod\rbac\controllers;
 
+use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
-use Yii;
 use yii2mod\rbac\models\RouteModel;
 
 /**
  * Class RouteController
+ *
  * @package yii2mod\rbac\controllers
  */
 class RouteController extends Controller
@@ -36,9 +37,9 @@ class RouteController extends Controller
                 'class' => 'yii\filters\ContentNegotiator',
                 'only' => ['assign', 'remove', 'refresh'],
                 'formats' => [
-                    'application/json' => Response::FORMAT_JSON
-                ]
-            ]
+                    'application/json' => Response::FORMAT_JSON,
+                ],
+            ],
         ];
     }
 

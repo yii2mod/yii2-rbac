@@ -9,6 +9,7 @@ use yii\data\ArrayDataProvider;
 
 /**
  * Class BizRuleSearch
+ *
  * @package yii2mod\rbac\models\search
  */
 class BizRuleSearch extends Model
@@ -25,7 +26,7 @@ class BizRuleSearch extends Model
     {
         return [
             ['name', 'trim'],
-            ['name', 'safe']
+            ['name', 'safe'],
         ];
     }
 
@@ -47,11 +48,11 @@ class BizRuleSearch extends Model
         return new ArrayDataProvider([
             'allModels' => $query->find(),
             'sort' => [
-                'attributes' => ['name']
+                'attributes' => ['name'],
             ],
             'pagination' => [
-                'pageSize' => 25
-            ]
+                'pageSize' => 25,
+            ],
         ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @var string $className the new migration class name
+ * @var string the new migration class name
  */
 echo "<?php\n";
 ?>

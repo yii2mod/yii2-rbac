@@ -2,10 +2,10 @@
 
 namespace yii2mod\rbac\models;
 
+use Yii;
 use yii\base\Model;
 use yii\helpers\Json;
 use yii\rbac\Item;
-use Yii;
 use yii\rbac\Rule;
 
 /**
@@ -13,11 +13,10 @@ use yii\rbac\Rule;
  * This is the model class for table "AuthItem".
  *
  * @property string $name
- * @property integer $type
+ * @property int $type
  * @property string $description
  * @property string $ruleName
  * @property string $data
- *
  * @property Item $item
  */
 class AuthItemModel extends Model
@@ -93,14 +92,12 @@ class AuthItemModel extends Model
             }],
             ['type', 'integer'],
             [['description', 'data', 'ruleName'], 'default'],
-            ['name', 'string', 'max' => 64]
+            ['name', 'string', 'max' => 64],
         ];
     }
 
     /**
      * Check role is unique
-     *
-     * @return void
      */
     public function unique()
     {
@@ -154,7 +151,7 @@ class AuthItemModel extends Model
     /**
      * Check if is new record.
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsNewRecord()
     {
@@ -165,6 +162,7 @@ class AuthItemModel extends Model
      * Find role
      *
      * @param string $id
+     *
      * @return null|\self
      */
     public static function find($id)
@@ -180,7 +178,8 @@ class AuthItemModel extends Model
 
     /**
      * Save role to [[\yii\rbac\authManager]]
-     * @return boolean
+     *
+     * @return bool
      */
     public function save()
     {
@@ -219,6 +218,7 @@ class AuthItemModel extends Model
      * Add child to Item
      *
      * @param array $items
+     *
      * @return int
      */
     public function addChildren($items)
@@ -240,6 +240,7 @@ class AuthItemModel extends Model
      * Remove child from an item
      *
      * @param array $items
+     *
      * @return int
      */
     public function removeChildren($items)
@@ -285,7 +286,7 @@ class AuthItemModel extends Model
 
         return [
             'available' => $available,
-            'assigned' => $assigned
+            'assigned' => $assigned,
         ];
     }
 
@@ -301,13 +302,14 @@ class AuthItemModel extends Model
      * Get type name
      *
      * @param mixed $type
+     *
      * @return string|array
      */
     public static function getTypeName($type = null)
     {
         $result = [
             Item::TYPE_PERMISSION => 'Permission',
-            Item::TYPE_ROLE => 'Role'
+            Item::TYPE_ROLE => 'Role',
         ];
 
         if ($type === null) {

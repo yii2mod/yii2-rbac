@@ -33,15 +33,15 @@ $this->render('/layouts/_sidebar');
                     'description:ntext',
                     'ruleName',
                     'data:ntext',
-                ]
+                ],
             ]); ?>
         </div>
     </div>
     <?php echo $this->render('../_dualListBox', [
         'opts' => Json::htmlEncode([
-            'items' => $model->getItems()
+            'items' => $model->getItems(),
         ]),
         'assignUrl' => ['assign', 'id' => $model->name],
-        'removeUrl' => ['remove', 'id' => $model->name]
+        'removeUrl' => ['remove', 'id' => $model->name],
     ]); ?>
 </div>

@@ -14,12 +14,13 @@ use yii\rbac\Rule;
 
 /**
  * Class Migration
+ *
  * @package yii2mod\rbac\migrations
  */
 class Migration extends Component implements MigrationInterface
 {
     /**
-     * @var string|DbManager The auth manager component ID that this migration should work with.
+     * @var string|DbManager The auth manager component ID that this migration should work with
      */
     public $authManager = 'authManager';
 
@@ -42,16 +43,19 @@ class Migration extends Component implements MigrationInterface
         try {
             if ($this->safeUp() === false) {
                 $transaction->rollBack();
+
                 return false;
             }
             $transaction->commit();
             $this->authManager->invalidateCache();
+
             return true;
         } catch (\Exception $e) {
             echo "Rolling transaction back\n";
             echo 'Exception: ' . $e->getMessage() . ' (' . $e->getFile() . ':' . $e->getLine() . ")\n";
             echo $e->getTraceAsString() . "\n";
             $transaction->rollBack();
+
             return false;
         }
     }
@@ -65,16 +69,19 @@ class Migration extends Component implements MigrationInterface
         try {
             if ($this->safeDown() === false) {
                 $transaction->rollBack();
+
                 return false;
             }
             $transaction->commit();
             $this->authManager->invalidateCache();
+
             return true;
         } catch (\Exception $e) {
             echo "Rolling transaction back\n";
             echo 'Exception: ' . $e->getMessage() . ' (' . $e->getFile() . ':' . $e->getLine() . ")\n";
             echo $e->getTraceAsString() . "\n";
             $transaction->rollBack();
+
             return false;
         }
     }
@@ -82,8 +89,8 @@ class Migration extends Component implements MigrationInterface
     /**
      * This method contains the logic to be executed when applying this migration.
      *
-     * @return boolean return a false value to indicate the migration fails
-     * and should not proceed further. All other return values mean the migration succeeds.
+     * @return bool return a false value to indicate the migration fails
+     * and should not proceed further. All other return values mean the migration succeeds
      */
     public function safeUp()
     {
@@ -92,8 +99,8 @@ class Migration extends Component implements MigrationInterface
     /**
      * This method contains the logic to be executed when removing this migration.
      *
-     * @return boolean return a false value to indicate the migration fails
-     * and should not proceed further. All other return values mean the migration succeeds.
+     * @return bool return a false value to indicate the migration fails
+     * and should not proceed further. All other return values mean the migration succeeds
      */
     public function safeDown()
     {
@@ -106,6 +113,7 @@ class Migration extends Component implements MigrationInterface
      * @param  string $description The description of the permission
      * @param  string|null $ruleName The rule associated with the permission
      * @param  mixed|null $data The additional data associated with the permission
+     *
      * @return Permission
      */
     protected function createPermission($name, $description = '', $ruleName = null, $data = null)
@@ -118,6 +126,7 @@ class Migration extends Component implements MigrationInterface
         $permission->data = $data;
         $this->authManager->add($permission);
         echo ' done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n";
+
         return $permission;
     }
 
@@ -128,6 +137,7 @@ class Migration extends Component implements MigrationInterface
      * @param  string $description The description of the role
      * @param  string|null $ruleName The rule associated with the role
      * @param  mixed|null $data The additional data associated with the role
+     *
      * @return Role
      */
     protected function createRole($name, $description = '', $ruleName = null, $data = null)
@@ -140,6 +150,7 @@ class Migration extends Component implements MigrationInterface
         $role->data = $data;
         $this->authManager->add($role);
         echo ' done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n";
+
         return $role;
     }
 
@@ -148,6 +159,7 @@ class Migration extends Component implements MigrationInterface
      *
      * @param  string $ruleName The name of the rule
      * @param  string|array $definition The class of the rule
+     *
      * @return Rule
      */
     protected function createRule($ruleName, $definition)
@@ -166,6 +178,7 @@ class Migration extends Component implements MigrationInterface
         $rule = \Yii::createObject($definition);
         $this->authManager->add($rule);
         echo ' done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n";
+
         return $rule;
     }
 
@@ -173,6 +186,7 @@ class Migration extends Component implements MigrationInterface
      * Finds either role or permission or throws an exception if it is not found.
      *
      * @param  string $name
+     *
      * @return Permission|Role|null
      */
     protected function findItem($name)
@@ -185,6 +199,7 @@ class Migration extends Component implements MigrationInterface
         if ($item instanceof Permission) {
             return $item;
         }
+
         return null;
     }
 
@@ -192,6 +207,7 @@ class Migration extends Component implements MigrationInterface
      * Finds the role or throws an exception if it is not found.
      *
      * @param  string $name
+     *
      * @return Role|null
      */
     protected function findRole($name)
@@ -200,6 +216,7 @@ class Migration extends Component implements MigrationInterface
         if ($role instanceof Role) {
             return $role;
         }
+
         return null;
     }
 
@@ -207,6 +224,7 @@ class Migration extends Component implements MigrationInterface
      * Finds the permission or throws an exception if it is not found.
      *
      * @param  string $name
+     *
      * @return Permission|null
      */
     protected function findPermission($name)
@@ -215,6 +233,7 @@ class Migration extends Component implements MigrationInterface
         if ($permission instanceof Permission) {
             return $permission;
         }
+
         return null;
     }
 
@@ -262,6 +281,7 @@ class Migration extends Component implements MigrationInterface
      * @param  string $description
      * @param  string $ruleName
      * @param  mixed $data
+     *
      * @return Role
      */
     protected function updateRole($role, $description = '', $ruleName = null, $data = null)
@@ -276,6 +296,7 @@ class Migration extends Component implements MigrationInterface
         $role->data = $data;
         $this->authManager->update($role->name, $role);
         echo ' done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n";
+
         return $role;
     }
 
@@ -303,6 +324,7 @@ class Migration extends Component implements MigrationInterface
      * @param  string $description
      * @param  string $ruleName
      * @param  mixed $data
+     *
      * @return Permission
      */
     protected function updatePermission($permission, $description = '', $ruleName = null, $data = null)
@@ -317,6 +339,7 @@ class Migration extends Component implements MigrationInterface
         $permission->data = $data;
         $this->authManager->update($permission->name, $permission);
         echo ' done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n";
+
         return $permission;
     }
 
@@ -342,6 +365,7 @@ class Migration extends Component implements MigrationInterface
      *
      * @param  string $ruleName
      * @param  string $className
+     *
      * @return Rule
      */
     protected function updateRule($ruleName, $className)

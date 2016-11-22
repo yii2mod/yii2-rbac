@@ -6,7 +6,7 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
- * @property integer $id
+ * @property int $id
  * @property string $username
  * @property string $email
  */

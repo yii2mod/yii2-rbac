@@ -1,8 +1,8 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
@@ -28,24 +28,24 @@ $this->render('/layouts/_sidebar');
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'name',
-                'label' => Yii::t('yii2mod.rbac', 'Name')
+                'label' => Yii::t('yii2mod.rbac', 'Name'),
             ],
             [
                 'attribute' => 'ruleName',
                 'label' => Yii::t('yii2mod.rbac', 'Rule Name'),
                 'filter' => ArrayHelper::map(Yii::$app->getAuthManager()->getRules(), 'name', 'name'),
-                'filterInputOptions' => ['class' => 'form-control', 'prompt' => Yii::t('yii2mod.rbac', 'Select Rule')]
+                'filterInputOptions' => ['class' => 'form-control', 'prompt' => Yii::t('yii2mod.rbac', 'Select Rule')],
             ],
             [
                 'attribute' => 'description',
                 'format' => 'ntext',
-                'label' => Yii::t('yii2mod.rbac', 'Description')
+                'label' => Yii::t('yii2mod.rbac', 'Description'),
             ],
             [
                 'header' => Yii::t('yii2mod.rbac', 'Action'),
-                'class' => 'yii\grid\ActionColumn'
-            ]
-        ]
+                'class' => 'yii\grid\ActionColumn',
+            ],
+        ],
     ]); ?>
 
     <?php Pjax::end(); ?>

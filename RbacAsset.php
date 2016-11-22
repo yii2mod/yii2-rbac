@@ -6,6 +6,7 @@ use yii\web\AssetBundle;
 
 /**
  * Class RbacAsset
+ *
  * @package yii2mod\rbac
  */
 class RbacAsset extends AssetBundle
@@ -19,7 +20,7 @@ class RbacAsset extends AssetBundle
      * @var array
      */
     public $js = [
-        'js/rbac.js'
+        'js/rbac.js',
     ];
 
     public $css = [
@@ -30,7 +31,7 @@ class RbacAsset extends AssetBundle
      * @var array
      */
     public $depends = [
-        'yii\web\YiiAsset'
+        'yii\web\YiiAsset',
     ];
 
     /**
@@ -45,7 +46,7 @@ class RbacAsset extends AssetBundle
     {
         if ($this->registerOnlyRouteScript) {
             $this->js = [
-                'js/rbac-route.js'
+                'js/rbac-route.js',
             ];
         }
         parent::init();

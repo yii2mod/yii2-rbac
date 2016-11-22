@@ -8,6 +8,7 @@ use yii\rbac\Rule;
 
 /**
  * Class BizRuleModel
+ *
  * @package yii2mod\rbac\models
  */
 class BizRuleModel extends Model
@@ -18,17 +19,17 @@ class BizRuleModel extends Model
     public $name;
 
     /**
-     * @var integer UNIX timestamp representing the rule creation time
+     * @var int UNIX timestamp representing the rule creation time
      */
     public $createdAt;
 
     /**
-     * @var integer UNIX timestamp representing the rule updating time
+     * @var int UNIX timestamp representing the rule updating time
      */
     public $updatedAt;
 
     /**
-     * @var string Rule className.
+     * @var string Rule className
      */
     public $className;
 
@@ -71,26 +72,25 @@ class BizRuleModel extends Model
             [['name', 'className'], 'required'],
             ['className', 'string'],
             ['name', 'string', 'max' => 64],
-            ['className', 'classExists']
+            ['className', 'classExists'],
         ];
     }
 
     /**
      * Validate className
-     *
-     * @return void
      */
     public function classExists()
     {
         if (!class_exists($this->className)) {
             $message = Yii::t('yii2mod.rbac', "Unknown class '{class}'", ['class' => $this->className]);
             $this->addError('className', $message);
+
             return;
         }
 
         if (!is_subclass_of($this->className, Rule::className())) {
             $message = Yii::t('yii2mod.rbac', "'{class}' must extend from 'yii\\rbac\\Rule' or its child class", [
-                'class' => $this->className]);
+                'class' => $this->className, ]);
             $this->addError('className', $message);
         }
     }
@@ -137,7 +137,7 @@ class BizRuleModel extends Model
     /**
      * Save rule
      *
-     * @return boolean
+     * @return bool
      */
     public function save()
     {

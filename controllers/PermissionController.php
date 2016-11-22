@@ -7,6 +7,7 @@ use yii2mod\rbac\base\ItemController;
 
 /**
  * Class PermissionController
+ *
  * @package yii2mod\rbac\controllers
  */
 class PermissionController extends ItemController

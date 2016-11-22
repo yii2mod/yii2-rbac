@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 
 /**
  * Class AssignmentSearch
+ *
  * @package yii2mod\rbac\models\search
  */
 class AssignmentSearch extends Model
@@ -48,8 +49,8 @@ class AssignmentSearch extends Model
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 20
-            ]
+                'pageSize' => 20,
+            ],
         ]);
 
         if (!($this->load($params) && $this->validate())) {

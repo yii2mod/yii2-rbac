@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/**
+/*
  * @var $this yii\web\View
  * @var $model yii2mod\rbac\models\AuthItemModel
  */
@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
         ],
         'clientOptions' => [
             'source' => array_keys(Yii::$app->authManager->getRules()),
-        ]
+        ],
     ]);
     ?>
 

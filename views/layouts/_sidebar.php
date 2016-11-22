@@ -27,5 +27,5 @@ $this->params['sidebar'] = [
     [
         'label' => Yii::t('yii2mod.rbac', 'Rules'),
         'url' => ['/admin/rbac/rule/index'],
-    ]
+    ],
 ];

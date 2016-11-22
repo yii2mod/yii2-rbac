@@ -29,13 +29,13 @@ $this->render('/layouts/_sidebar');
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'name',
-                'label' => Yii::t('yii2mod.rbac', 'Name')
+                'label' => Yii::t('yii2mod.rbac', 'Name'),
             ],
             [
                 'header' => Yii::t('yii2mod.rbac', 'Action'),
-                'class' => 'yii\grid\ActionColumn'
-            ]
-        ]
+                'class' => 'yii\grid\ActionColumn',
+            ],
+        ],
     ]);
     ?>
 

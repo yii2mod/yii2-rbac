@@ -10,13 +10,14 @@ use yii2mod\rbac\tests\TestCase;
 
 /**
  * Class BizRuleTest
+ *
  * @package yii2mod\rbac\tests\models
  */
 class BizRuleTest extends TestCase
 {
     public function testCreateRule()
     {
-        $model = new BizRuleModel;
+        $model = new BizRuleModel();
         $model->name = 'guest';
         $model->className = GuestRule::className();
 
@@ -30,6 +31,7 @@ class BizRuleTest extends TestCase
 
     /**
      * @depends testCreateRule
+     *
      * @param $rule
      */
     public function testRemoveRule($rule)
@@ -39,7 +41,7 @@ class BizRuleTest extends TestCase
 
     public function testTryToCreateRuleWithInvalidClassName()
     {
-        $model = new BizRuleModel;
+        $model = new BizRuleModel();
         $model->name = 'guest';
         $model->className = 'invalid className';
 

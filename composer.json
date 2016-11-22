@@ -1,7 +1,15 @@
 {
     "name": "yii2mod/yii2-rbac",
     "description": "RBAC management module for Yii2",
-    "keywords": ["yii2", "yii2-rbac", "rbac management", "yii2mod", "rbac gui", "yii rbac", "rbac module"],
+    "keywords": [
+        "yii2",
+        "yii2-rbac",
+        "rbac management",
+        "yii2mod",
+        "rbac gui",
+        "yii rbac",
+        "rbac module"
+    ],
     "type": "yii2-extension",
     "license": "MIT",
     "authors": [
@@ -18,6 +26,9 @@
         "yiisoft/yii2": "^2.0.8",
         "2amigos/yii2-arrayquery-component": "*",
         "yiisoft/yii2-jui": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~1.7"
     },
     "autoload": {
         "psr-4": {

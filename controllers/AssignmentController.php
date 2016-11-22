@@ -2,8 +2,8 @@
 
 namespace yii2mod\rbac\controllers;
 
-use yii\web\Controller;
 use Yii;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii2mod\rbac\models\AssignmentModel;
@@ -11,12 +11,13 @@ use yii2mod\rbac\models\search\AssignmentSearch;
 
 /**
  * Class AssignmentController
+ *
  * @package yii2mod\rbac\controllers
  */
 class AssignmentController extends Controller
 {
     /**
-     * @var \yii\web\IdentityInterface the class name of the [[identity]] object.
+     * @var \yii\web\IdentityInterface the class name of the [[identity]] object
      */
     public $userIdentityClass;
 
@@ -52,7 +53,7 @@ class AssignmentController extends Controller
         if (empty($this->gridViewColumns)) {
             $this->gridViewColumns = [
                 $this->idField,
-                $this->usernameField
+                $this->usernameField,
             ];
         }
 
@@ -73,16 +74,16 @@ class AssignmentController extends Controller
                     'index' => ['get'],
                     'view' => ['get'],
                     'assign' => ['post'],
-                    'remove' => ['post']
-                ]
+                    'remove' => ['post'],
+                ],
             ],
             'contentNegotiator' => [
                 'class' => 'yii\filters\ContentNegotiator',
                 'only' => ['assign', 'remove'],
                 'formats' => [
-                    'application/json' => Response::FORMAT_JSON
-                ]
-            ]
+                    'application/json' => Response::FORMAT_JSON,
+                ],
+            ],
         ];
     }
 
@@ -104,14 +105,15 @@ class AssignmentController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'gridViewColumns' => $this->gridViewColumns
+            'gridViewColumns' => $this->gridViewColumns,
         ]);
     }
 
     /**
      * Displays a single Assignment model.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return mixed
      */
     public function actionView($id)
@@ -120,7 +122,7 @@ class AssignmentController extends Controller
 
         return $this->render('view', [
             'model' => $model,
-            'usernameField' => $this->usernameField
+            'usernameField' => $this->usernameField,
         ]);
     }
 
@@ -128,6 +130,7 @@ class AssignmentController extends Controller
      * Assign items
      *
      * @param string $id
+     *
      * @return array
      */
     public function actionAssign($id)
@@ -143,6 +146,7 @@ class AssignmentController extends Controller
      * Remove items
      *
      * @param string $id
+     *
      * @return array
      */
     public function actionRemove($id)
@@ -158,7 +162,8 @@ class AssignmentController extends Controller
      * Finds the Assignment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return AssignmentModel the loaded model
      *
      * @throws NotFoundHttpException if the model cannot be found

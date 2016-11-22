@@ -19,10 +19,10 @@ $this->render('/layouts/_sidebar');
 
     <?php echo $this->render('../_dualListBox', [
         'opts' => Json::htmlEncode([
-            'items' => $model->getItems()
+            'items' => $model->getItems(),
         ]),
         'assignUrl' => ['assign', 'id' => $model->userId],
-        'removeUrl' => ['remove', 'id' => $model->userId]
+        'removeUrl' => ['remove', 'id' => $model->userId],
     ]); ?>
 
 </div>

@@ -21,7 +21,7 @@ namespace yii2mod\rbac;
 class ConsoleModule extends Module
 {
     /**
-     * @var string the namespace that controller classes are in.
+     * @var string the namespace that controller classes are in
      */
     public $controllerNamespace = 'yii2mod\rbac\commands';
 }

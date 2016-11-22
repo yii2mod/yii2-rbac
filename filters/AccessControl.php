@@ -10,6 +10,7 @@ use yii\helpers\Url;
 
 /**
  * Class AccessControl
+ *
  * @package yii2mod\rbac\filters
  */
 class AccessControl extends \yii\filters\AccessControl
@@ -20,7 +21,7 @@ class AccessControl extends \yii\filters\AccessControl
     public $params = [];
 
     /**
-     * @var array list of actions that not need to check access.
+     * @var array list of actions that not need to check access
      */
     public $allowActions = [];
 
@@ -62,6 +63,7 @@ class AccessControl extends \yii\filters\AccessControl
      * Returns a value indicating whether a current url equals `errorAction` property of the ErrorHandler component
      *
      * @param Action $action
+     *
      * @return bool
      */
     private function isErrorPage($action)
@@ -77,6 +79,7 @@ class AccessControl extends \yii\filters\AccessControl
      * Returns a value indicating whether a current url equals `loginUrl` property of the User component
      *
      * @param Action $action
+     *
      * @return bool
      */
     private function isLoginPage($action)
@@ -94,6 +97,7 @@ class AccessControl extends \yii\filters\AccessControl
      * Returns a value indicating whether a current url exists in the `allowActions` list.
      *
      * @param Action $action
+     *
      * @return bool
      */
     private function isAllowedAction($action)
@@ -110,7 +114,7 @@ class AccessControl extends \yii\filters\AccessControl
 
         foreach ($this->allowActions as $route) {
             if (substr($route, -1) === '*') {
-                $route = rtrim($route, "*");
+                $route = rtrim($route, '*');
                 if ($route === '' || strpos($id, $route) === 0) {
                     return true;
                 }

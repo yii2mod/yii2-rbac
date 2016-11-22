@@ -12,6 +12,7 @@ use yii2mod\rbac\tests\TestCase;
 
 /**
  * Class AssignmentTest
+ *
  * @package yii2mod\rbac\tests\models
  */
 class AssignmentTest extends TestCase
@@ -57,6 +58,7 @@ class AssignmentTest extends TestCase
     /**
      * @depends testAssignRole
      * @depends testAssignPermission
+     *
      * @param AssignmentModel $role
      * @param AssignmentModel $permission
      */
@@ -68,6 +70,7 @@ class AssignmentTest extends TestCase
 
     /**
      * @depends testAssignRole
+     *
      * @param AssignmentModel $model
      */
     public function testRevokeRole(AssignmentModel $model)
@@ -77,6 +80,7 @@ class AssignmentTest extends TestCase
 
     /**
      * @depends testAssignPermission
+     *
      * @param AssignmentModel $model
      */
     public function testRevokePermission(AssignmentModel $model)
@@ -87,7 +91,6 @@ class AssignmentTest extends TestCase
     /**
      * Create role for testing purposes
      *
-     * @return void
      *
      * @throws Exception
      */
@@ -105,7 +108,6 @@ class AssignmentTest extends TestCase
     /**
      * Create permission for testing purposes
      *
-     * @return void
      *
      * @throws Exception
      */

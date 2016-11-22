@@ -58,5 +58,5 @@ return [
     'Update Rule : {0}' => 'Update Rule : {0}',
     'Update Role : {0}' => 'Update Role : {0}',
     'Update Permission : {0}' => 'Update Permission : {0}',
-    'Select Rule' => 'Select Rule'
+    'Select Rule' => 'Select Rule',
 ];

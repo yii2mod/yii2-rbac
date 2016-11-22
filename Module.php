@@ -23,17 +23,16 @@ namespace yii2mod\rbac;
  *     ]
  * ],
  * ~~~
- *
  */
 class Module extends \yii\base\Module
 {
     /**
-     * @var string the default route of this module. Defaults to 'default'.
+     * @var string the default route of this module. Defaults to 'default'
      */
     public $defaultRoute = 'assignment';
 
     /**
-     * @var string the namespace that controller classes are in.
+     * @var string the namespace that controller classes are in
      */
     public $controllerNamespace = 'yii2mod\rbac\controllers';
 }

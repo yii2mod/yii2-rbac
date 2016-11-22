@@ -7,6 +7,7 @@ use yii2mod\rbac\base\ItemController;
 
 /**
  * Class RoleController
+ *
  * @package yii2mod\rbac\controllers
  */
 class RoleController extends ItemController

@@ -7,6 +7,7 @@ use yii\rbac\Rule;
 
 /**
  * Class UserRule
+ *
  * @package yii2mod\rbac\rules
  */
 class UserRule extends Rule
@@ -20,6 +21,7 @@ class UserRule extends Rule
      * @param int|string $user
      * @param \yii\rbac\Item $item
      * @param array $params
+     *
      * @return mixed
      */
     public function execute($user, $item, $params)

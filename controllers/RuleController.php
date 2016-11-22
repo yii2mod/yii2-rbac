@@ -11,6 +11,7 @@ use yii2mod\rbac\models\search\BizRuleSearch;
 
 /**
  * Class RuleController
+ *
  * @package yii2mod\rbac\controllers
  */
 class RuleController extends Controller
@@ -30,9 +31,9 @@ class RuleController extends Controller
                     'view' => ['get'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
-                    'delete' => ['post']
-                ]
-            ]
+                    'delete' => ['post'],
+                ],
+            ],
         ];
     }
 
@@ -56,6 +57,7 @@ class RuleController extends Controller
      * Displays a single Rule item.
      *
      * @param string $id
+     *
      * @return mixed
      */
     public function actionView($id)
@@ -78,6 +80,7 @@ class RuleController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('yii2mod.rbac', 'Rule has been saved.'));
+
             return $this->redirect(['view', 'id' => $model->name]);
         }
 
@@ -99,6 +102,7 @@ class RuleController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('yii2mod.rbac', 'Rule has been saved.'));
+
             return $this->redirect(['view', 'id' => $model->name]);
         }
 
@@ -129,6 +133,7 @@ class RuleController extends Controller
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
      * @param string $id
+     *
      * @return BizRuleModel the loaded model
      *
      * @throws \yii\web\NotFoundHttpException

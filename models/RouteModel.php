@@ -9,6 +9,7 @@ use yii\helpers\VarDumper;
 
 /**
  * Class RouteModel
+ *
  * @package yii2mod\rbac\models
  */
 class RouteModel extends Object
@@ -24,7 +25,7 @@ class RouteModel extends Object
     public $cache;
 
     /**
-     * @var integer cache duration
+     * @var int cache duration
      */
     public $cacheDuration = 3600;
 
@@ -50,6 +51,7 @@ class RouteModel extends Object
      * Assign items
      *
      * @param array $routes
+     *
      * @return bool
      */
     public function addNew($routes)
@@ -67,6 +69,7 @@ class RouteModel extends Object
      * Remove items
      *
      * @param array $routes
+     *
      * @return bool
      */
     public function remove($routes)
@@ -100,7 +103,7 @@ class RouteModel extends Object
 
         return [
             'available' => array_keys($routes),
-            'assigned' => $exists
+            'assigned' => $exists,
         ];
     }
 
@@ -108,6 +111,7 @@ class RouteModel extends Object
      * Get list of application routes
      *
      * @param string|null $module
+     *
      * @return array
      */
     public function getAppRoutes($module = null)
@@ -126,7 +130,7 @@ class RouteModel extends Object
             $this->getRouteRecursive($module, $result);
             if ($this->cache !== null) {
                 $this->cache->set($key, $result, $this->cacheDuration, new TagDependency([
-                    'tags' => self::CACHE_TAG
+                    'tags' => self::CACHE_TAG,
                 ]));
             }
         }
@@ -136,8 +140,6 @@ class RouteModel extends Object
 
     /**
      * Invalidate the cache
-     *
-     * @return void
      */
     public function invalidate()
     {
@@ -158,7 +160,6 @@ class RouteModel extends Object
         Yii::beginProfile($token, __METHOD__);
 
         try {
-
             foreach ($module->getModules() as $id => $child) {
                 if (($child = $module->getModule($id)) !== null) {
                     $this->getRouteRecursive($child, $result);
@@ -173,7 +174,6 @@ class RouteModel extends Object
             $this->getControllerFiles($module, $namespace, '', $result);
             $all = '/' . ltrim($module->uniqueId . '/*', '/');
             $result[$all] = $all;
-
         } catch (\Exception $exc) {
             Yii::error($exc->getMessage(), __METHOD__);
         }
@@ -188,6 +188,7 @@ class RouteModel extends Object
      * @param string $namespace
      * @param string $prefix
      * @param mixed $result
+     *
      * @return mixed
      */
     protected function getControllerFiles($module, $namespace, $prefix, &$result)
@@ -234,7 +235,7 @@ class RouteModel extends Object
      */
     protected function getControllerActions($type, $id, $module, &$result)
     {
-        $token = "Create controller with cofig=" . VarDumper::dumpAsString($type) . " and id='$id'";
+        $token = 'Create controller with cofig=' . VarDumper::dumpAsString($type) . " and id='$id'";
         Yii::beginProfile($token, __METHOD__);
 
         try {
@@ -254,7 +255,7 @@ class RouteModel extends Object
      * Get route of action
      *
      * @param \yii\base\Controller $controller
-     * @param array $result all controller action.
+     * @param array $result all controller action
      */
     protected function getActionRoutes($controller, &$result)
     {

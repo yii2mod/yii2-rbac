@@ -10,6 +10,7 @@ use yii\helpers\Console;
 
 /**
  * Class MigrateController
+ *
  * @package yii2mod\rbac\commands
  *
  * Below are some common usages of this command:
@@ -28,7 +29,7 @@ use yii\helpers\Console;
 class MigrateController extends BaseMigrateController
 {
     /**
-     * @var Connection The database connection.
+     * @var Connection The database connection
      */
     public $db = 'db';
 

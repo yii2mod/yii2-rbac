@@ -26,9 +26,9 @@ $this->render('/layouts/_sidebar');
         'columns' => ArrayHelper::merge($gridViewColumns, [
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view}'
-            ]
-        ])
+                'template' => '{view}',
+            ],
+        ]),
     ]); ?>
 
     <?php Pjax::end(); ?>

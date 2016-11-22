@@ -9,6 +9,7 @@ use yii\web\IdentityInterface;
 
 /**
  * Class AssignmentModel
+ *
  * @package yii2mod\rbac\models
  */
 class AssignmentModel extends Object
@@ -19,7 +20,7 @@ class AssignmentModel extends Object
     public $user;
 
     /**
-     * @var integer User id
+     * @var int User id
      */
     public $userId;
 
@@ -53,7 +54,8 @@ class AssignmentModel extends Object
      * Assign a roles and permissions to the user.
      *
      * @param array $items
-     * @return integer number of successful grand
+     *
+     * @return int number of successful grand
      */
     public function assign($items)
     {
@@ -70,7 +72,8 @@ class AssignmentModel extends Object
      * Revokes a roles and permissions from the user.
      *
      * @param array $items
-     * @return integer number of successful revoke
+     *
+     * @return int number of successful revoke
      */
     public function revoke($items)
     {
@@ -110,7 +113,7 @@ class AssignmentModel extends Object
 
         return [
             'available' => $available,
-            'assigned' => $assigned
+            'assigned' => $assigned,
         ];
     }
 }
