@@ -5,9 +5,8 @@
         "yii2",
         "yii2-rbac",
         "rbac management",
-        "yii2mod",
         "rbac gui",
-        "yii rbac",
+        "yii2 rbac",
         "rbac module"
     ],
     "type": "yii2-extension",
@@ -28,7 +27,7 @@
         "yiisoft/yii2-jui": "*"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~1.7"
+        "friendsofphp/php-cs-fixer": "~2.0"
     },
     "autoload": {
         "psr-4": {

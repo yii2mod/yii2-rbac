@@ -1,23 +1,25 @@
 <?php
 
-$finder = Symfony\CS\Finder::create()
+$finder = PhpCsFixer\Finder::create()
     ->exclude('vendor')
     ->in([__DIR__]);
 
-$config = Symfony\CS\Config::create()
-    ->fixers([
-        '-phpdoc_params',
-        '-phpdoc_short_description',
-        '-phpdoc_inline_tag',
-        '-pre_increment',
-        '-heredoc_to_nowdoc',
-        '-spaces_cast',
-        '-include',
-        '-phpdoc_no_package',
-        'concat_with_spaces',
-        'ordered_use',
-        'short_array_syntax',
+$config = PhpCsFixer\Config::create()
+    ->setUsingCache(false)
+    ->setRules([
+        '@Symfony' => true,
+        'phpdoc_align' => false,
+        'phpdoc_summary' => false,
+        'phpdoc_inline_tag' => false,
+        'pre_increment' => false,
+        'heredoc_to_nowdoc' => false,
+        'cast_spaces' => false,
+        'include' => false,
+        'phpdoc_no_package' => false,
+        'concat_space' => ['spacing' => 'one'],
+        'ordered_imports' => true,
+        'array_syntax' => ['syntax' => 'short'],
     ])
-    ->finder($finder);
+    ->setFinder($finder);
 
 return $config;
