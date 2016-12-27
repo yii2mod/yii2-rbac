@@ -3,12 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/*
- * @var $this yii\web\View
- * @var $model yii2mod\rbac\models\AuthItemModel
- */
+/* @var $this yii\web\View */
+/* @var $model yii2mod\rbac\models\AuthItemModel */
 ?>
-
 <div class="auth-item-form">
 
     <?php $form = ActiveForm::begin(); ?>

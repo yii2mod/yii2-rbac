@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii2mod\rbac\RbacAsset;
+
+RbacAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model \yii2mod\rbac\models\AssignmentModel */

@@ -33,22 +33,4 @@ class RbacAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
     ];
-
-    /**
-     * @var bool whether RbacAsset will be register only `rbac-route.js` without `js/rbac.js`
-     */
-    public $registerOnlyRouteScript = false;
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        if ($this->registerOnlyRouteScript) {
-            $this->js = [
-                'js/rbac-route.js',
-            ];
-        }
-        parent::init();
-    }
 }
