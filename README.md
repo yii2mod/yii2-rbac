@@ -220,7 +220,8 @@ To be able create the migrations, you need to add the following code to your con
 8. `updateRule()`: updating a rule
 9. `removeRule()`: removing a rule
 10. `addChild()`: creating a child
-11. `assign()`: assign a role to a user
+12. `removeChild()`: removing a child
+13. `assign()`: assign a role to a user
 
 
 ###Creating Migrations
