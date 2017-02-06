@@ -258,6 +258,26 @@ class Migration extends Component implements MigrationInterface
     }
 
     /**
+     * Removes child.
+     *
+     * @param Item|string $parent Either name or Item instance which is parent
+     * @param Item|string $child Either name or Item instance which is child
+     */
+    protected function removeChild($parent, $child)
+    {
+        if (is_string($parent)) {
+            $parent = $this->findItem($parent);
+        }
+        if (is_string($child)) {
+            $child = $this->findItem($child);
+        }
+        echo "    > removing $child->name from $parent->name ...";
+        $time = microtime(true);
+        $this->authManager->removeChild($parent, $child);
+        echo ' done (time: ' . sprintf('%.3f', microtime(true) - $time) . "s)\n";
+    }
+
+    /**
      * Assigns a role to a user.
      *
      * @param string|Role $role
