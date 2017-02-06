@@ -44,12 +44,15 @@ return [
             'modules' => [
                 'rbac' => [
                     'class' => 'yii2mod\rbac\Module',
-                    // Some controller property maybe need to change. 
+                    // Some controller property maybe need to change.
                     'controllerMap' => [
                         'assignment' => [
                             'class' => 'yii2mod\rbac\controllers\AssignmentController',
                             'userIdentityClass' => 'app\models\User',
-                            'searchClass' => 'Your own search model class',
+                            'searchClass' => [
+                                'class' => 'yii2mod\rbac\models\search\AssignmentSearch',
+                                'pageSize' => 10,
+                            ],
                             'idField' => 'id',
                             'usernameField' => 'username',
                             'gridViewColumns' => [
@@ -57,7 +60,14 @@ return [
                                  'username',
                                  'email'
                              ]
-                        ]
+                        ],
+                        'role' => [
+                            'class' => 'yii2mod\rbac\controllers\RoleController',
+                            'searchClass' => [
+                                'class' => 'yii2mod\rbac\models\search\AuthItemSearch',
+                                'pageSize' => 10,
+                            ],
+                        ],
                     ]
                 ],
             ]

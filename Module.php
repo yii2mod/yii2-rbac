@@ -7,22 +7,25 @@ namespace yii2mod\rbac;
  *
  * Use [[\yii\base\Module::$controllerMap]] to change property of controller.
  *
- * ~~~
+ * ```php
  * 'controllerMap' => [
  *     'assignment' => [
  *         'class' => 'yii2mod\rbac\controllers\AssignmentController',
  *         'userIdentityClass' => 'app\models\User',
- *         'searchClass' => 'Your own search model'
+ *         'searchClass' => [
+ *              'class' => 'yii2mod\rbac\models\search\AssignmentSearch',
+ *              'pageSize' => 10,
+ *         ],
  *         'idField' => 'id',
  *         'usernameField' => 'username'
  *         'gridViewColumns' => [
  *              'id',
  *              'username',
  *              'email'
- *         ]
- *     ]
+ *         ],
+ *     ],
  * ],
- * ~~~
+ * ```php
  */
 class Module extends \yii\base\Module
 {
