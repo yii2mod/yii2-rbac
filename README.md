@@ -68,6 +68,13 @@ return [
                                 'pageSize' => 10,
                             ],
                         ],
+                        'rule' => [
+                            'class' => 'yii2mod\rbac\controllers\RuleController',
+                            'searchClass' => [
+                                'class' => 'yii2mod\rbac\models\search\BizRuleSearch',
+                                'pageSize' => 10
+                            ],
+                        ],
                     ]
                 ],
             ]
