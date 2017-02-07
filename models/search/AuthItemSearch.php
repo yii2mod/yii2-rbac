@@ -36,6 +36,11 @@ class AuthItemSearch extends Model
     public $ruleName;
 
     /**
+     * @var int the default page size
+     */
+    public $pageSize = 25;
+
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -96,7 +101,7 @@ class AuthItemSearch extends Model
                 'attributes' => ['name'],
             ],
             'pagination' => [
-                'pageSize' => 25,
+                'pageSize' => $this->pageSize,
             ],
         ]);
     }
