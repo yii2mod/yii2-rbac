@@ -19,12 +19,12 @@ class BizRuleTest extends TestCase
     {
         $model = new BizRuleModel();
         $model->name = 'guest';
-        $model->className = GuestRule::className();
+        $model->className = GuestRule::class;
 
         $this->assertTrue($model->save());
 
         $rule = Yii::$app->authManager->getRule($model->name);
-        $this->assertInstanceOf(Rule::className(), $rule);
+        $this->assertInstanceOf(Rule::class, $rule);
 
         return $rule;
     }

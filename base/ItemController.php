@@ -19,6 +19,13 @@ use yii2mod\rbac\models\search\AuthItemSearch;
 class ItemController extends Controller
 {
     /**
+     * @var string search class name for auth items search
+     */
+    public $searchClass = [
+        'class' => AuthItemSearch::class,
+    ];
+
+    /**
      * @var int Type of Auth Item
      */
     protected $type;
@@ -35,7 +42,7 @@ class ItemController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['get'],
                     'view' => ['get'],
@@ -63,7 +70,8 @@ class ItemController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new AuthItemSearch(['type' => $this->type]);
+        $searchModel = Yii::createObject($this->searchClass);
+        $searchModel->type = $this->type;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

@@ -53,7 +53,7 @@ class MigrateController extends BaseMigrateController
      */
     public function init()
     {
-        $this->db = Instance::ensure($this->db, Connection::className());
+        $this->db = Instance::ensure($this->db, Connection::class);
         parent::init();
     }
 

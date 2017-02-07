@@ -20,6 +20,11 @@ class BizRuleSearch extends Model
     public $name;
 
     /**
+     * @var int the default page size
+     */
+    public $pageSize = 25;
+
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -51,7 +56,7 @@ class BizRuleSearch extends Model
                 'attributes' => ['name'],
             ],
             'pagination' => [
-                'pageSize' => 25,
+                'pageSize' => $this->pageSize,
             ],
         ]);
     }

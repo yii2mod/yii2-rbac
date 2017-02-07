@@ -24,7 +24,7 @@ class RouteController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['get', 'post'],
                     'create' => ['post'],

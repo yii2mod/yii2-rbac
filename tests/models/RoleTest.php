@@ -23,7 +23,7 @@ class RoleTest extends TestCase
         $model->description = 'admin role';
 
         $this->assertTrue($model->save());
-        $this->assertInstanceOf(Role::className(), Yii::$app->authManager->getRole('admin'));
+        $this->assertInstanceOf(Role::class, Yii::$app->authManager->getRole('admin'));
 
         return Yii::$app->authManager->getRole('admin');
     }

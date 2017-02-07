@@ -17,6 +17,13 @@ use yii2mod\rbac\models\search\BizRuleSearch;
 class RuleController extends Controller
 {
     /**
+     * @var string search class name for rules search
+     */
+    public $searchClass = [
+        'class' => BizRuleSearch::class,
+    ];
+
+    /**
      * Returns a list of behaviors that this component should behave as.
      *
      * @return array
@@ -25,7 +32,7 @@ class RuleController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['get'],
                     'view' => ['get'],
@@ -44,7 +51,7 @@ class RuleController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new BizRuleSearch();
+        $searchModel = Yii::createObject($this->searchClass);
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [

@@ -7,7 +7,7 @@ namespace yii2mod\rbac;
  *
  * Use [[\yii\base\Module::$controllerMap]] to change property of controller.
  *
- * ~~~
+ * ```php
  * 'controllerMap' => [
  *     'migrate' => [
  *         'class' => 'yii2mod\rbac\commands\MigrateController',
@@ -16,7 +16,7 @@ namespace yii2mod\rbac;
  *         'templateFile' => 'your own template file'
  *     ]
  * ]
- * ~~~
+ * ```
  */
 class ConsoleModule extends Module
 {

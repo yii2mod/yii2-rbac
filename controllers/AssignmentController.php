@@ -24,7 +24,9 @@ class AssignmentController extends Controller
     /**
      * @var string search class name for assignments search
      */
-    public $searchClass;
+    public $searchClass = [
+        'class' => AssignmentSearch::class,
+    ];
 
     /**
      * @var string id column name
@@ -42,11 +44,13 @@ class AssignmentController extends Controller
     public $gridViewColumns = [];
 
     /**
-     * Initializes the object.
+     * @inheritdoc
      */
     public function init()
     {
-        if (empty($this->userIdentityClass)) {
+        parent::init();
+
+        if ($this->userIdentityClass === null) {
             $this->userIdentityClass = Yii::$app->user->identityClass;
         }
 
@@ -56,14 +60,10 @@ class AssignmentController extends Controller
                 $this->usernameField,
             ];
         }
-
-        parent::init();
     }
 
     /**
-     * Returns a list of behaviors that this component should behave as.
-     *
-     * @return array
+     * @inheritdoc
      */
     public function behaviors()
     {
@@ -94,11 +94,12 @@ class AssignmentController extends Controller
      */
     public function actionIndex()
     {
-        if (empty($this->searchClass)) {
-            $searchModel = Yii::createObject(AssignmentSearch::className());
+        /* @var AssignmentSearch */
+        $searchModel = Yii::createObject($this->searchClass);
+
+        if ($searchModel instanceof AssignmentSearch) {
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $this->userIdentityClass, $this->idField, $this->usernameField);
         } else {
-            $searchModel = Yii::createObject($this->searchClass);
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         }
 

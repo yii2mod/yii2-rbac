@@ -23,6 +23,11 @@ class AssignmentSearch extends Model
     public $username;
 
     /**
+     * @var int the default page size
+     */
+    public $pageSize = 25;
+
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -49,11 +54,13 @@ class AssignmentSearch extends Model
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => $this->pageSize,
             ],
         ]);
 
-        if (!($this->load($params) && $this->validate())) {
+        $this->load($params);
+
+        if (!$this->validate()) {
             return $dataProvider;
         }
 
