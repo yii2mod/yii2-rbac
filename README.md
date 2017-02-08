@@ -75,6 +75,14 @@ return [
                                 'pageSize' => 10
                             ],
                         ],
+                        'route' => [
+                            'class' => 'yii2mod\rbac\controllers\RouteController',
+                            // for example: exclude `api, debug and gii` modules from list of routes
+                            'modelClass' => [
+                                'class' => 'yii2mod\rbac\models\RouteModel',
+                                'excludeModules' => ['api', 'debug', 'gii'],
+                            ],
+                        ],
                     ]
                 ],
             ]

@@ -30,6 +30,11 @@ class RouteModel extends Object
     public $cacheDuration = 3600;
 
     /**
+     * @var array list of module IDs that will be excluded
+     */
+    public $excludeModules = [];
+
+    /**
      * @var \yii\rbac\ManagerInterface
      */
     protected $manager;
@@ -156,29 +161,31 @@ class RouteModel extends Object
      */
     protected function getRouteRecursive($module, &$result)
     {
-        $token = "Get Route of '" . get_class($module) . "' with id '" . $module->uniqueId . "'";
-        Yii::beginProfile($token, __METHOD__);
+        if (!in_array($module->id, $this->excludeModules)) {
+            $token = "Get Route of '" . get_class($module) . "' with id '" . $module->uniqueId . "'";
+            Yii::beginProfile($token, __METHOD__);
 
-        try {
-            foreach ($module->getModules() as $id => $child) {
-                if (($child = $module->getModule($id)) !== null) {
-                    $this->getRouteRecursive($child, $result);
+            try {
+                foreach ($module->getModules() as $id => $child) {
+                    if (($child = $module->getModule($id)) !== null) {
+                        $this->getRouteRecursive($child, $result);
+                    }
                 }
+
+                foreach ($module->controllerMap as $id => $type) {
+                    $this->getControllerActions($type, $id, $module, $result);
+                }
+
+                $namespace = trim($module->controllerNamespace, '\\') . '\\';
+                $this->getControllerFiles($module, $namespace, '', $result);
+                $all = '/' . ltrim($module->uniqueId . '/*', '/');
+                $result[$all] = $all;
+            } catch (\Exception $exc) {
+                Yii::error($exc->getMessage(), __METHOD__);
             }
 
-            foreach ($module->controllerMap as $id => $type) {
-                $this->getControllerActions($type, $id, $module, $result);
-            }
-
-            $namespace = trim($module->controllerNamespace, '\\') . '\\';
-            $this->getControllerFiles($module, $namespace, '', $result);
-            $all = '/' . ltrim($module->uniqueId . '/*', '/');
-            $result[$all] = $all;
-        } catch (\Exception $exc) {
-            Yii::error($exc->getMessage(), __METHOD__);
+            Yii::endProfile($token, __METHOD__);
         }
-
-        Yii::endProfile($token, __METHOD__);
     }
 
     /**

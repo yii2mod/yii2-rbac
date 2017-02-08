@@ -16,6 +16,13 @@ use yii2mod\rbac\models\RouteModel;
 class RouteController extends Controller
 {
     /**
+     * @var array route model class
+     */
+    public $modelClass = [
+        'class' => RouteModel::class,
+    ];
+
+    /**
      * Returns a list of behaviors that this component should behave as.
      *
      * @return array
@@ -50,7 +57,7 @@ class RouteController extends Controller
      */
     public function actionIndex()
     {
-        $model = new RouteModel();
+        $model = Yii::createObject($this->modelClass);
 
         return $this->render('index', ['routes' => $model->getRoutes()]);
     }
@@ -63,7 +70,7 @@ class RouteController extends Controller
     public function actionAssign()
     {
         $routes = Yii::$app->getRequest()->post('routes', []);
-        $model = new RouteModel();
+        $model = Yii::createObject($this->modelClass);
         $model->addNew($routes);
 
         return $model->getRoutes();
@@ -77,7 +84,7 @@ class RouteController extends Controller
     public function actionRemove()
     {
         $routes = Yii::$app->getRequest()->post('routes', []);
-        $model = new RouteModel();
+        $model = Yii::createObject($this->modelClass);
         $model->remove($routes);
 
         return $model->getRoutes();
@@ -88,7 +95,7 @@ class RouteController extends Controller
      */
     public function actionRefresh()
     {
-        $model = new RouteModel();
+        $model = Yii::createObject($this->modelClass);
         $model->invalidate();
 
         return $model->getRoutes();
