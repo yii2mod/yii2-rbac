@@ -5,22 +5,22 @@
 $this->params['sidebar'] = [
     [
         'label' => Yii::t('yii2mod.rbac', 'Assignments'),
-        'url' => ['/admin/rbac/assignment/index'],
+        'url' => ['assignment/index'],
     ],
     [
         'label' => Yii::t('yii2mod.rbac', 'Roles'),
-        'url' => ['/admin/rbac/role/index'],
+        'url' => ['role/index'],
     ],
     [
         'label' => Yii::t('yii2mod.rbac', 'Permissions'),
-        'url' => ['/admin/rbac/permission/index'],
+        'url' => ['permission/index'],
     ],
     [
         'label' => Yii::t('yii2mod.rbac', 'Routes'),
-        'url' => ['/admin/rbac/route/index'],
+        'url' => ['route/index'],
     ],
     [
         'label' => Yii::t('yii2mod.rbac', 'Rules'),
-        'url' => ['/admin/rbac/rule/index'],
+        'url' => ['rule/index'],
     ],
 ];
