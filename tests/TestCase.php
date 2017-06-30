@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the base class for all yii framework unit tests.
  */
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {
@@ -44,10 +44,6 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 'authManager' => [
                     'class' => 'yii\rbac\DbManager',
                     'defaultRoles' => ['guest', 'user'],
-                    'itemTable' => 'AuthItem',
-                    'itemChildTable' => 'AuthItemChild',
-                    'assignmentTable' => 'AuthAssignment',
-                    'ruleTable' => 'AuthRule',
                 ],
                 'user' => [
                     'identityClass' => 'yii2mod\rbac\tests\data\User',
@@ -93,7 +89,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
 
         // Structure :
 
-        $db->createCommand()->createTable('AuthRule', [
+        $db->createCommand()->createTable('{{%auth_rule}}', [
             'name' => 'string',
             'data' => 'text',
             'created_at' => 'integer',
@@ -101,7 +97,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
             'PRIMARY KEY (name)',
         ])->execute();
 
-        $db->createCommand()->createTable('AuthItem', [
+        $db->createCommand()->createTable('{{%auth_item}}', [
             'name' => 'string',
             'type' => 'integer',
             'description' => 'text',
@@ -109,39 +105,39 @@ class TestCase extends \PHPUnit_Framework_TestCase
             'data' => 'string',
             'created_at' => 'integer',
             'updated_at' => 'integer',
-            'FOREIGN KEY (rule_name) REFERENCES ' . 'AuthRule' . ' (name) ON DELETE SET NULL ON UPDATE CASCADE',
+            'FOREIGN KEY (rule_name) REFERENCES ' . '{{%auth_rule}}' . ' (name) ON DELETE SET NULL ON UPDATE CASCADE',
         ])->execute();
 
-        $db->createCommand()->createTable('AuthItemChild', [
+        $db->createCommand()->createTable('{{%auth_item_child}}', [
             'parent' => 'string',
             'child' => 'string',
             'PRIMARY KEY (parent, child)',
-            'FOREIGN KEY (parent) REFERENCES ' . 'AuthItem' . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
-            'FOREIGN KEY (child) REFERENCES ' . 'AuthItem' . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
+            'FOREIGN KEY (parent) REFERENCES ' . '{{%auth_item}}' . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
+            'FOREIGN KEY (child) REFERENCES ' . '{{%auth_item}}' . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
         ])->execute();
 
-        $db->createCommand()->createTable('AuthAssignment', [
+        $db->createCommand()->createTable('{{%auth_assignment}}', [
             'item_name' => 'string',
             'user_id' => 'integer',
             'created_at' => 'integer',
             'PRIMARY KEY (item_name, user_id)',
-            'FOREIGN KEY (item_name) REFERENCES ' . '{{%AuthItem}}' . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
+            'FOREIGN KEY (item_name) REFERENCES ' . '{{%auth_item}}' . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
         ])->execute();
 
-        $db->createCommand()->createTable('User', [
+        $db->createCommand()->createTable('{{%user}}', [
             'id' => 'pk',
             'username' => 'string not null unique',
-            'authKey' => 'string(32) not null',
-            'passwordHash' => 'string not null',
+            'auth_key' => 'string(32) not null',
+            'password_hash' => 'string not null',
             'email' => 'string not null unique',
         ])->execute();
 
         // Data :
 
-        $db->createCommand()->insert('User', [
+        $db->createCommand()->insert('{{%user}}', [
             'username' => 'demo',
-            'authKey' => Yii::$app->getSecurity()->generateRandomString(),
-            'passwordHash' => Yii::$app->getSecurity()->generatePasswordHash('password'),
+            'auth_key' => Yii::$app->getSecurity()->generateRandomString(),
+            'password_hash' => Yii::$app->getSecurity()->generatePasswordHash('password'),
             'email' => 'demo@mail.com',
         ])->execute();
     }
