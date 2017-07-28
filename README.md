@@ -178,7 +178,7 @@ return [
 
 You can create the console migrations for creating/updating RBAC items.
 
-###Module setup
+### Module setup
 
 To be able create the migrations, you need to add the following code to your console application configuration:
 
@@ -191,7 +191,7 @@ To be able create the migrations, you need to add the following code to your con
 ]
 ```
 
-###Methods
+### Methods
 
 1. `createPermission()`: creating a permission
 2. `updatePermission()`: updating a permission
@@ -207,7 +207,7 @@ To be able create the migrations, you need to add the following code to your con
 13. `assign()`: assign a role to a user
 
 
-###Creating Migrations
+### Creating Migrations
 
 To create a new migration, run the following command:
 ```bash
@@ -265,7 +265,7 @@ class m160817_085702_create_role_admin extends Migration
 ```
 > You can see a complex example of migration [here.](https://github.com/yii2mod/base/blob/master/rbac/migrations/m160722_085418_init.php)
 
-###Applying Migrations
+### Applying Migrations
 
 To upgrade a database to its latest structure, you should apply all available new migrations using the following command:
 
@@ -273,7 +273,7 @@ To upgrade a database to its latest structure, you should apply all available ne
 $ php yii rbac/migrate
 ```
 
-###Reverting Migrations
+### Reverting Migrations
 
 To revert (undo) one or multiple migrations that have been applied before, you can run the following command:
 
@@ -282,7 +282,7 @@ $ php yii rbac/migrate/down     # revert the most recently applied migration
 $ php yii rbac/migrate/down 3   # revert the most 3 recently applied migrations
 ```
 
-###Redoing Migrations
+### Redoing Migrations
 
 Redoing migrations means first reverting the specified migrations and then applying again. This can be done as follows:
 ```bash
