@@ -6,7 +6,7 @@
     <br>
 </p>
 
-Yii2-rbac provides a web interface for advanced access control and includes following features:
+Yii2-RBAC provides a web interface for advanced access control and includes following features:
 
 - Allows CRUD operations for roles, permissions, rules
 - Allows to assign multiple roles or permissions to the user
