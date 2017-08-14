@@ -41,7 +41,6 @@ Once the extension is installed, simply modify your application configuration as
 
 ```php
 return [
-    //....
     'modules' => [
         'class' => 'app\modules\admin\Module',
         'modules' => [
@@ -50,12 +49,12 @@ return [
             ],
         ],
     ],
-  'components' => [
+    'components' => [
          'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['guest', 'user'],
         ],
-    ]
+    ],
 ];
 ```
 After you downloaded and configured Yii2-rbac, the last thing you need to do is updating your database schema by 
