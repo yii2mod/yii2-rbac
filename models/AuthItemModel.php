@@ -10,7 +10,6 @@ use yii\rbac\Rule;
 
 /**
  * Class AuthItemModel
- * This is the model class for table "AuthItem".
  *
  * @property string $name
  * @property int $type
@@ -81,7 +80,7 @@ class AuthItemModel extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'description', 'data', 'ruleName'], 'trim'],
@@ -99,7 +98,7 @@ class AuthItemModel extends Model
     /**
      * Check role is unique
      */
-    public function unique()
+    public function unique(): void
     {
         $value = $this->name;
         if ($this->manager->getRole($value) !== null || $this->manager->getPermission($value) !== null) {
@@ -115,7 +114,7 @@ class AuthItemModel extends Model
     /**
      * Check for rule
      */
-    public function checkRule()
+    public function checkRule(): void
     {
         $name = $this->ruleName;
 
@@ -137,7 +136,7 @@ class AuthItemModel extends Model
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'name' => Yii::t('yii2mod.rbac', 'Name'),
@@ -153,7 +152,7 @@ class AuthItemModel extends Model
      *
      * @return bool
      */
-    public function getIsNewRecord()
+    public function getIsNewRecord(): bool
     {
         return $this->_item === null;
     }
@@ -165,7 +164,7 @@ class AuthItemModel extends Model
      *
      * @return null|\self
      */
-    public static function find($id)
+    public static function find(string $id)
     {
         $item = Yii::$app->authManager->getRole($id);
 
@@ -181,7 +180,7 @@ class AuthItemModel extends Model
      *
      * @return bool
      */
-    public function save()
+    public function save(): bool
     {
         if ($this->validate()) {
             if ($this->_item === null) {
@@ -219,9 +218,9 @@ class AuthItemModel extends Model
      *
      * @param array $items
      *
-     * @return int
+     * @return bool
      */
-    public function addChildren($items)
+    public function addChildren(array $items): bool
     {
         if ($this->_item) {
             foreach ($items as $name) {
@@ -241,9 +240,9 @@ class AuthItemModel extends Model
      *
      * @param array $items
      *
-     * @return int
+     * @return bool
      */
-    public function removeChildren($items)
+    public function removeChildren(array $items): bool
     {
         if ($this->_item !== null) {
             foreach ($items as $name) {
@@ -263,7 +262,7 @@ class AuthItemModel extends Model
      *
      * @return array
      */
-    public function getItems()
+    public function getItems(): array
     {
         $available = [];
         $assigned = [];
@@ -293,7 +292,7 @@ class AuthItemModel extends Model
     /**
      * @return null|Item
      */
-    public function getItem()
+    public function getItem(): ?Item
     {
         return $this->_item;
     }

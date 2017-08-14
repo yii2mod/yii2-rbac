@@ -59,7 +59,7 @@ class RouteModel extends Object
      *
      * @return bool
      */
-    public function addNew($routes)
+    public function addNew($routes): bool
     {
         foreach ($routes as $route) {
             $this->manager->add($this->manager->createPermission('/' . trim($route, ' /')));
@@ -77,7 +77,7 @@ class RouteModel extends Object
      *
      * @return bool
      */
-    public function remove($routes)
+    public function remove($routes): bool
     {
         foreach ($routes as $route) {
             $item = $this->manager->createPermission('/' . trim($route, '/'));
@@ -93,7 +93,7 @@ class RouteModel extends Object
      *
      * @return array
      */
-    public function getRoutes()
+    public function getRoutes(): array
     {
         $routes = $this->getAppRoutes();
         $exists = [];
@@ -119,7 +119,7 @@ class RouteModel extends Object
      *
      * @return array
      */
-    public function getAppRoutes($module = null)
+    public function getAppRoutes($module = null): array
     {
         if ($module === null) {
             $module = Yii::$app;
@@ -146,7 +146,7 @@ class RouteModel extends Object
     /**
      * Invalidate the cache
      */
-    public function invalidate()
+    public function invalidate(): void
     {
         if ($this->cache !== null) {
             TagDependency::invalidate($this->cache, self::CACHE_TAG);
@@ -159,7 +159,7 @@ class RouteModel extends Object
      * @param \yii\base\Module $module
      * @param array $result
      */
-    protected function getRouteRecursive($module, &$result)
+    protected function getRouteRecursive($module, &$result): void
     {
         if (!in_array($module->id, $this->excludeModules)) {
             $token = "Get Route of '" . get_class($module) . "' with id '" . $module->uniqueId . "'";

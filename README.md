@@ -29,7 +29,7 @@ php composer.phar require --prefer-dist yii2mod/yii2-rbac "*"
 
 or add
 
-```json
+```
 "yii2mod/yii2-rbac": "*"
 ```
 
@@ -43,19 +43,17 @@ Once the extension is installed, simply modify your application configuration as
 return [
     //....
     'modules' => [
-        'admin' => [
-            'class' => 'app\modules\admin\Module',
-            'modules' => [
-                'rbac' => [
-                    'class' => 'yii2mod\rbac\Module',
-                ],
+        'class' => 'app\modules\admin\Module',
+        'modules' => [
+            'rbac' => [
+                'class' => 'yii2mod\rbac\Module',
             ],
         ],
     ],
   'components' => [
          'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'defaultRoles' => ['guest', 'user']
+            'defaultRoles' => ['guest', 'user'],
         ],
     ]
 ];
@@ -68,12 +66,23 @@ $ php yii migrate/up --migrationPath=@yii/rbac/migrations
 ```
 
 You can then access Auth manager through the following URL:
+
 ```
-http://localhost/path/to/index.php?r=admin/rbac/
-http://localhost/path/to/index.php?r=admin/rbac/route
-http://localhost/path/to/index.php?r=admin/rbac/permission
-http://localhost/path/to/index.php?r=admin/rbac/role
-http://localhost/path/to/index.php?r=admin/rbac/assignment
+http://localhost/path/to/index.php?r=rbac/
+http://localhost/path/to/index.php?r=rbac/route
+http://localhost/path/to/index.php?r=rbac/permission
+http://localhost/path/to/index.php?r=rbac/role
+http://localhost/path/to/index.php?r=rbac/assignment
+```
+
+or if you have enabled pretty URLs, you may use the following URL:
+
+```
+http://localhost/path/to/index.php/rbac
+http://localhost/path/to/index.php/rbac/route
+http://localhost/path/to/index.php/rbac/permission
+http://localhost/path/to/index.php/rbac/role
+http://localhost/path/to/index.php/rbac/assignment
 ```
 
 **Applying rules:**

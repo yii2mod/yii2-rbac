@@ -28,7 +28,7 @@ class AccessControl extends \yii\filters\AccessControl
     /**
      * @inheritdoc
      */
-    public function beforeAction($action)
+    public function beforeAction($action): bool
     {
         $controller = $action->controller;
         $params = ArrayHelper::getValue($this->params, $action->id, []);
@@ -50,7 +50,7 @@ class AccessControl extends \yii\filters\AccessControl
     /**
      * @inheritdoc
      */
-    protected function isActive($action)
+    protected function isActive($action): bool
     {
         if ($this->isErrorPage($action) || $this->isLoginPage($action) || $this->isAllowedAction($action)) {
             return false;
@@ -66,7 +66,7 @@ class AccessControl extends \yii\filters\AccessControl
      *
      * @return bool
      */
-    private function isErrorPage($action)
+    private function isErrorPage(Action $action): bool
     {
         if ($action->getUniqueId() === Yii::$app->getErrorHandler()->errorAction) {
             return true;
@@ -82,7 +82,7 @@ class AccessControl extends \yii\filters\AccessControl
      *
      * @return bool
      */
-    private function isLoginPage($action)
+    private function isLoginPage(Action $action): bool
     {
         $loginUrl = trim(Url::to(Yii::$app->user->loginUrl), '/');
 
@@ -100,7 +100,7 @@ class AccessControl extends \yii\filters\AccessControl
      *
      * @return bool
      */
-    private function isAllowedAction($action)
+    private function isAllowedAction(Action $action): bool
     {
         if ($this->owner instanceof Module) {
             $ownerId = $this->owner->getUniqueId();

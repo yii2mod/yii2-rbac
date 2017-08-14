@@ -55,9 +55,9 @@ class AssignmentModel extends Object
      *
      * @param array $items
      *
-     * @return int number of successful grand
+     * @return bool
      */
-    public function assign($items)
+    public function assign(array $items): bool
     {
         foreach ($items as $name) {
             $item = $this->manager->getRole($name);
@@ -73,9 +73,9 @@ class AssignmentModel extends Object
      *
      * @param array $items
      *
-     * @return int number of successful revoke
+     * @return bool
      */
-    public function revoke($items)
+    public function revoke(array $items): bool
     {
         foreach ($items as $name) {
             $item = $this->manager->getRole($name);
@@ -91,7 +91,7 @@ class AssignmentModel extends Object
      *
      * @return array
      */
-    public function getItems()
+    public function getItems(): array
     {
         $available = [];
         $assigned = [];

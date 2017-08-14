@@ -27,7 +27,7 @@ class BizRuleSearch extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             ['name', 'trim'],
@@ -42,7 +42,7 @@ class BizRuleSearch extends Model
      *
      * @return ArrayDataProvider
      */
-    public function search($params)
+    public function search(array $params): ArrayDataProvider
     {
         $query = new ArrayQuery(Yii::$app->authManager->getRules());
 

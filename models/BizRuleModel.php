@@ -65,7 +65,7 @@ class BizRuleModel extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'className'], 'trim'],
@@ -98,7 +98,7 @@ class BizRuleModel extends Model
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'name' => Yii::t('yii2mod.rbac', 'Name'),
@@ -111,7 +111,7 @@ class BizRuleModel extends Model
      *
      * @return bool
      */
-    public function getIsNewRecord()
+    public function getIsNewRecord(): bool
     {
         return $this->_item === null;
     }
@@ -123,7 +123,7 @@ class BizRuleModel extends Model
      *
      * @return BizRuleModel|null
      */
-    public static function find($id)
+    public static function find(int $id)
     {
         $item = Yii::$app->authManager->getRule($id);
 
@@ -139,7 +139,7 @@ class BizRuleModel extends Model
      *
      * @return bool
      */
-    public function save()
+    public function save(): bool
     {
         if ($this->validate()) {
             $class = $this->className;
@@ -169,7 +169,7 @@ class BizRuleModel extends Model
     /**
      * @return null|Rule
      */
-    public function getItem()
+    public function getItem(): ?Rule
     {
         return $this->_item;
     }

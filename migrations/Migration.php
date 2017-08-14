@@ -31,6 +31,7 @@ class Migration extends Component implements MigrationInterface
     public function init()
     {
         $this->authManager = Instance::ensure($this->authManager, DbManager::class);
+
         parent::init();
     }
 

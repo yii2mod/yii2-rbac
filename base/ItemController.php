@@ -38,7 +38,7 @@ class ItemController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'verbs' => [
@@ -83,11 +83,11 @@ class ItemController extends Controller
     /**
      * Displays a single AuthItem model.
      *
-     * @param  string $id
+     * @param int $id
      *
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView(int $id)
     {
         $model = $this->findModel($id);
 
@@ -120,11 +120,11 @@ class ItemController extends Controller
      *
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param string $id
+     * @param int $id
      *
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id)
     {
         $model = $this->findModel($id);
 
@@ -142,11 +142,11 @@ class ItemController extends Controller
      *
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
-     * @param string $id
+     * @param int $id
      *
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id)
     {
         $model = $this->findModel($id);
         Yii::$app->getAuthManager()->remove($model->item);
@@ -158,11 +158,11 @@ class ItemController extends Controller
     /**
      * Assign items
      *
-     * @param string $id
+     * @param int $id
      *
      * @return array
      */
-    public function actionAssign($id)
+    public function actionAssign(int $id)
     {
         $items = Yii::$app->getRequest()->post('items', []);
         $model = $this->findModel($id);
@@ -174,11 +174,11 @@ class ItemController extends Controller
     /**
      * Remove items
      *
-     * @param string $id
+     * @param int $id
      *
      * @return array
      */
-    public function actionRemove($id)
+    public function actionRemove(int $id): array
     {
         $items = Yii::$app->getRequest()->post('items', []);
         $model = $this->findModel($id);
@@ -190,7 +190,7 @@ class ItemController extends Controller
     /**
      * @inheritdoc
      */
-    public function getViewPath()
+    public function getViewPath(): string
     {
         return $this->module->getViewPath() . DIRECTORY_SEPARATOR . 'item';
     }
@@ -198,7 +198,7 @@ class ItemController extends Controller
     /**
      * @return int
      */
-    public function getType()
+    public function getType(): int
     {
         return $this->type;
     }
@@ -206,7 +206,7 @@ class ItemController extends Controller
     /**
      * @return array
      */
-    public function getLabels()
+    public function getLabels(): array
     {
         return $this->labels;
     }
@@ -216,13 +216,13 @@ class ItemController extends Controller
      *
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param string $id
+     * @param int $id
      *
      * @return AuthItemModel the loaded model
      *
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel(int $id): AuthItemModel
     {
         $auth = Yii::$app->getAuthManager();
         $item = $this->type === Item::TYPE_ROLE ? $auth->getRole($id) : $auth->getPermission($id);

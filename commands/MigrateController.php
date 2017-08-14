@@ -11,8 +11,6 @@ use yii\helpers\Console;
 /**
  * Class MigrateController
  *
- * @package yii2mod\rbac\commands
- *
  * Below are some common usages of this command:
  *
  * ```
@@ -51,16 +49,17 @@ class MigrateController extends BaseMigrateController
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         $this->db = Instance::ensure($this->db, Connection::class);
+
         parent::init();
     }
 
     /**
-     * @return array|string|Connection
+     * @return Connection
      */
-    public function getDb()
+    public function getDb(): Connection
     {
         return $this->db;
     }

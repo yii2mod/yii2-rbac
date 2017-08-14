@@ -43,7 +43,7 @@ class AuthItemSearch extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'ruleName', 'description'], 'trim'],
@@ -55,7 +55,7 @@ class AuthItemSearch extends Model
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'name' => Yii::t('yii2mod.rbac', 'Name'),
@@ -71,9 +71,9 @@ class AuthItemSearch extends Model
      *
      * @param array $params
      *
-     * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
+     * @return \yii\data\ArrayDataProvider
      */
-    public function search($params)
+    public function search(array $params): ArrayDataProvider
     {
         $authManager = Yii::$app->getAuthManager();
 

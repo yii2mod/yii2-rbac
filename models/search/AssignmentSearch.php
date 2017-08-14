@@ -30,7 +30,7 @@ class AssignmentSearch extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id', 'username'], 'safe'],
@@ -47,7 +47,7 @@ class AssignmentSearch extends Model
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $class, $idField, $usernameField)
+    public function search(array $params, $class, string $idField, string $usernameField): ActiveDataProvider
     {
         $query = $class::find();
 
