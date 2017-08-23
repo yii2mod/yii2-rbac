@@ -83,11 +83,11 @@ class ItemController extends Controller
     /**
      * Displays a single AuthItem model.
      *
-     * @param int $id
+     * @param string $id
      *
      * @return mixed
      */
-    public function actionView(int $id)
+    public function actionView(string $id)
     {
         $model = $this->findModel($id);
 
@@ -120,11 +120,11 @@ class ItemController extends Controller
      *
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param int $id
+     * @param string $id
      *
      * @return mixed
      */
-    public function actionUpdate(int $id)
+    public function actionUpdate(string $id)
     {
         $model = $this->findModel($id);
 
@@ -142,11 +142,11 @@ class ItemController extends Controller
      *
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
-     * @param int $id
+     * @param string $id
      *
      * @return mixed
      */
-    public function actionDelete(int $id)
+    public function actionDelete(string $id)
     {
         $model = $this->findModel($id);
         Yii::$app->getAuthManager()->remove($model->item);
@@ -158,11 +158,11 @@ class ItemController extends Controller
     /**
      * Assign items
      *
-     * @param int $id
+     * @param string $id
      *
      * @return array
      */
-    public function actionAssign(int $id)
+    public function actionAssign(string $id)
     {
         $items = Yii::$app->getRequest()->post('items', []);
         $model = $this->findModel($id);
@@ -174,11 +174,11 @@ class ItemController extends Controller
     /**
      * Remove items
      *
-     * @param int $id
+     * @param string $id
      *
      * @return array
      */
-    public function actionRemove(int $id): array
+    public function actionRemove(string $id): array
     {
         $items = Yii::$app->getRequest()->post('items', []);
         $model = $this->findModel($id);
@@ -216,13 +216,13 @@ class ItemController extends Controller
      *
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param int $id
+     * @param string $id
      *
      * @return AuthItemModel the loaded model
      *
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel(int $id): AuthItemModel
+    protected function findModel(string $id): AuthItemModel
     {
         $auth = Yii::$app->getAuthManager();
         $item = $this->type === Item::TYPE_ROLE ? $auth->getRole($id) : $auth->getPermission($id);

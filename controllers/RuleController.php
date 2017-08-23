@@ -63,11 +63,11 @@ class RuleController extends Controller
     /**
      * Displays a single Rule item.
      *
-     * @param int $id
+     * @param string $id
      *
      * @return mixed
      */
-    public function actionView(int $id)
+    public function actionView(string $id)
     {
         $model = $this->findModel($id);
 
@@ -99,11 +99,11 @@ class RuleController extends Controller
      *
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param int $id
+     * @param string $id
      *
      * @return mixed
      */
-    public function actionUpdate(int $id)
+    public function actionUpdate(string $id)
     {
         $model = $this->findModel($id);
 
@@ -121,11 +121,11 @@ class RuleController extends Controller
      *
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
-     * @param int $id
+     * @param string $id
      *
      * @return mixed
      */
-    public function actionDelete(int $id)
+    public function actionDelete(string $id)
     {
         $model = $this->findModel($id);
         Yii::$app->authManager->remove($model->item);
@@ -139,13 +139,13 @@ class RuleController extends Controller
      *
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param int $id
+     * @param string $id
      *
      * @return BizRuleModel the loaded model
      *
      * @throws \yii\web\NotFoundHttpException
      */
-    protected function findModel(int $id)
+    protected function findModel(string $id)
     {
         $item = Yii::$app->authManager->getRule($id);
 
