@@ -42,12 +42,9 @@ Once the extension is installed, simply modify your application configuration as
 ```php
 return [
     'modules' => [
-        'class' => 'app\modules\admin\Module',
-        'modules' => [
-            'rbac' => [
-                'class' => 'yii2mod\rbac\Module',
-            ],
-        ],
+       'rbac' => [
+           'class' => 'yii2mod\rbac\Module',
+       ],
     ],
     'components' => [
          'authManager' => [
