@@ -46,7 +46,7 @@ class AssignmentController extends Controller
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -65,7 +65,7 @@ class AssignmentController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'verbs' => [
@@ -117,7 +117,7 @@ class AssignmentController extends Controller
      *
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView(int $id)
     {
         $model = $this->findModel($id);
 
@@ -130,11 +130,11 @@ class AssignmentController extends Controller
     /**
      * Assign items
      *
-     * @param string $id
+     * @param int $id
      *
      * @return array
      */
-    public function actionAssign($id)
+    public function actionAssign(int $id)
     {
         $items = Yii::$app->getRequest()->post('items', []);
         $assignmentModel = $this->findModel($id);
@@ -146,11 +146,11 @@ class AssignmentController extends Controller
     /**
      * Remove items
      *
-     * @param string $id
+     * @param int $id
      *
      * @return array
      */
-    public function actionRemove($id)
+    public function actionRemove(int $id)
     {
         $items = Yii::$app->getRequest()->post('items', []);
         $assignmentModel = $this->findModel($id);
@@ -169,7 +169,7 @@ class AssignmentController extends Controller
      *
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel(int $id)
     {
         $class = $this->userIdentityClass;
 

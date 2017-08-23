@@ -27,7 +27,7 @@ class RouteController extends Controller
      *
      * @return array
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'verbs' => [
@@ -67,7 +67,7 @@ class RouteController extends Controller
      *
      * @return array
      */
-    public function actionAssign()
+    public function actionAssign(): array
     {
         $routes = Yii::$app->getRequest()->post('routes', []);
         $model = Yii::createObject($this->modelClass);
@@ -81,7 +81,7 @@ class RouteController extends Controller
      *
      * @return array
      */
-    public function actionRemove()
+    public function actionRemove(): array
     {
         $routes = Yii::$app->getRequest()->post('routes', []);
         $model = Yii::createObject($this->modelClass);
@@ -92,8 +92,10 @@ class RouteController extends Controller
 
     /**
      * Refresh cache of routes
+     *
+     * @return array
      */
-    public function actionRefresh()
+    public function actionRefresh(): array
     {
         $model = Yii::createObject($this->modelClass);
         $model->invalidate();

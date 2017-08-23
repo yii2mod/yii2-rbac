@@ -3,6 +3,8 @@
 namespace yii2mod\rbac\models;
 
 use Yii;
+use yii\base\Controller;
+use yii\base\Module;
 use yii\base\Object;
 use yii\caching\TagDependency;
 use yii\helpers\VarDumper;
@@ -44,7 +46,7 @@ class RouteModel extends Object
      *
      * @param array $config
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $this->cache = Yii::$app->cache;
         $this->manager = Yii::$app->authManager;
@@ -59,7 +61,7 @@ class RouteModel extends Object
      *
      * @return bool
      */
-    public function addNew($routes): bool
+    public function addNew(array $routes): bool
     {
         foreach ($routes as $route) {
             $this->manager->add($this->manager->createPermission('/' . trim($route, ' /')));
@@ -77,7 +79,7 @@ class RouteModel extends Object
      *
      * @return bool
      */
-    public function remove($routes): bool
+    public function remove(array $routes): bool
     {
         foreach ($routes as $route) {
             $item = $this->manager->createPermission('/' . trim($route, '/'));
@@ -115,15 +117,15 @@ class RouteModel extends Object
     /**
      * Get list of application routes
      *
-     * @param string|null $module
+     * @param null|string $module
      *
      * @return array
      */
-    public function getAppRoutes($module = null): array
+    public function getAppRoutes(string $module = null): array
     {
         if ($module === null) {
             $module = Yii::$app;
-        } elseif (is_string($module)) {
+        } else {
             $module = Yii::$app->getModule($module);
         }
 
@@ -156,10 +158,10 @@ class RouteModel extends Object
     /**
      * Get route(s) recursive
      *
-     * @param \yii\base\Module $module
+     * @param Module $module
      * @param array $result
      */
-    protected function getRouteRecursive($module, &$result): void
+    protected function getRouteRecursive(Module $module, &$result): void
     {
         if (!in_array($module->id, $this->excludeModules)) {
             $token = "Get Route of '" . get_class($module) . "' with id '" . $module->uniqueId . "'";
@@ -191,14 +193,12 @@ class RouteModel extends Object
     /**
      * Get list controllers under module
      *
-     * @param \yii\base\Module $module
+     * @param Module $module
      * @param string $namespace
      * @param string $prefix
      * @param mixed $result
-     *
-     * @return mixed
      */
-    protected function getControllerFiles($module, $namespace, $prefix, &$result)
+    protected function getControllerFiles(Module $module, string $namespace, string $prefix, &$result): void
     {
         $path = Yii::getAlias('@' . str_replace('\\', '/', $namespace), false);
         $token = "Get controllers from '$path'";
@@ -237,16 +237,16 @@ class RouteModel extends Object
      *
      * @param mixed $type
      * @param string $id
-     * @param \yii\base\Module $module
-     * @param string $result
+     * @param Module $module
+     * @param mixed $result
      */
-    protected function getControllerActions($type, $id, $module, &$result)
+    protected function getControllerActions($type, $id, Module $module, &$result): void
     {
-        $token = 'Create controller with cofig=' . VarDumper::dumpAsString($type) . " and id='$id'";
+        $token = 'Create controller with config=' . VarDumper::dumpAsString($type) . " and id='$id'";
         Yii::beginProfile($token, __METHOD__);
 
         try {
-            /* @var $controller \yii\base\Controller */
+            /* @var $controller Controller */
             $controller = Yii::createObject($type, [$id, $module]);
             $this->getActionRoutes($controller, $result);
             $all = "/{$controller->uniqueId}/*";
@@ -261,13 +261,14 @@ class RouteModel extends Object
     /**
      * Get route of action
      *
-     * @param \yii\base\Controller $controller
+     * @param Controller $controller
      * @param array $result all controller action
      */
-    protected function getActionRoutes($controller, &$result)
+    protected function getActionRoutes(Controller $controller, &$result): void
     {
         $token = "Get actions of controller '" . $controller->uniqueId . "'";
         Yii::beginProfile($token, __METHOD__);
+
         try {
             $prefix = '/' . $controller->uniqueId . '/';
             foreach ($controller->actions() as $id => $value) {
@@ -286,6 +287,7 @@ class RouteModel extends Object
         } catch (\Exception $exc) {
             Yii::error($exc->getMessage(), __METHOD__);
         }
+
         Yii::endProfile($token, __METHOD__);
     }
 }
