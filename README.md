@@ -15,6 +15,7 @@ Yii2-RBAC provides a web interface for advanced access control and includes foll
 
 [![Latest Stable Version](https://poser.pugx.org/yii2mod/yii2-rbac/v/stable)](https://packagist.org/packages/yii2mod/yii2-rbac) [![Total Downloads](https://poser.pugx.org/yii2mod/yii2-rbac/downloads)](https://packagist.org/packages/yii2mod/yii2-rbac) [![License](https://poser.pugx.org/yii2mod/yii2-rbac/license)](https://packagist.org/packages/yii2mod/yii2-rbac)
 [![Build Status](https://travis-ci.org/yii2mod/yii2-rbac.svg?branch=master)](https://travis-ci.org/yii2mod/yii2-rbac)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yii2mod/yii2-rbac/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yii2mod/yii2-rbac/?branch=master)
 
 Installation
 ------------
