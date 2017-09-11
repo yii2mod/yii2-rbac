@@ -91,7 +91,6 @@ class AssignmentTest extends TestCase
     /**
      * Create role for testing purposes
      *
-     *
      * @throws Exception
      */
     private function createRole()
@@ -107,7 +106,6 @@ class AssignmentTest extends TestCase
 
     /**
      * Create permission for testing purposes
-     *
      *
      * @throws Exception
      */

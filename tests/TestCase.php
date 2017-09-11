@@ -43,6 +43,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'id' => 'testapp',
             'basePath' => __DIR__,
             'vendorPath' => $this->getVendorPath(),
+            'modules' => [
+                'rbac' => [
+                    'class' => 'yii2mod\rbac\Module',
+                ],
+            ],
             'components' => [
                 'db' => [
                     'class' => 'yii\db\Connection',
@@ -145,7 +150,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'username' => 'demo',
             'auth_key' => Yii::$app->getSecurity()->generateRandomString(),
             'password_hash' => Yii::$app->getSecurity()->generatePasswordHash('password'),
-            'email' => 'demo@mail.com',
+            'email' => 'demo@example.com',
         ])->execute();
     }
 }

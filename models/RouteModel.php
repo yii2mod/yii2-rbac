@@ -95,7 +95,7 @@ class RouteModel extends Object
      *
      * @return array
      */
-    public function getRoutes(): array
+    public function getAvailableAndAssignedRoutes(): array
     {
         $routes = $this->getAppRoutes();
         $exists = [];

@@ -59,7 +59,7 @@ class RouteController extends Controller
     {
         $model = Yii::createObject($this->modelClass);
 
-        return $this->render('index', ['routes' => $model->getRoutes()]);
+        return $this->render('index', ['routes' => $model->getAvailableAndAssignedRoutes()]);
     }
 
     /**
@@ -73,7 +73,7 @@ class RouteController extends Controller
         $model = Yii::createObject($this->modelClass);
         $model->addNew($routes);
 
-        return $model->getRoutes();
+        return $model->getAvailableAndAssignedRoutes();
     }
 
     /**
@@ -87,7 +87,7 @@ class RouteController extends Controller
         $model = Yii::createObject($this->modelClass);
         $model->remove($routes);
 
-        return $model->getRoutes();
+        return $model->getAvailableAndAssignedRoutes();
     }
 
     /**
@@ -100,6 +100,6 @@ class RouteController extends Controller
         $model = Yii::createObject($this->modelClass);
         $model->invalidate();
 
-        return $model->getRoutes();
+        return $model->getAvailableAndAssignedRoutes();
     }
 }
