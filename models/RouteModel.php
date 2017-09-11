@@ -148,7 +148,7 @@ class RouteModel extends Object
     /**
      * Invalidate the cache
      */
-    public function invalidate(): void
+    public function invalidate()
     {
         if ($this->cache !== null) {
             TagDependency::invalidate($this->cache, self::CACHE_TAG);
@@ -161,7 +161,7 @@ class RouteModel extends Object
      * @param Module $module
      * @param array $result
      */
-    protected function getRouteRecursive(Module $module, &$result): void
+    protected function getRouteRecursive(Module $module, &$result)
     {
         if (!in_array($module->id, $this->excludeModules)) {
             $token = "Get Route of '" . get_class($module) . "' with id '" . $module->uniqueId . "'";
@@ -198,7 +198,7 @@ class RouteModel extends Object
      * @param string $prefix
      * @param mixed $result
      */
-    protected function getControllerFiles(Module $module, string $namespace, string $prefix, &$result): void
+    protected function getControllerFiles(Module $module, string $namespace, string $prefix, &$result)
     {
         $path = Yii::getAlias('@' . str_replace('\\', '/', $namespace), false);
         $token = "Get controllers from '$path'";
@@ -240,7 +240,7 @@ class RouteModel extends Object
      * @param Module $module
      * @param mixed $result
      */
-    protected function getControllerActions($type, $id, Module $module, &$result): void
+    protected function getControllerActions($type, $id, Module $module, &$result)
     {
         $token = 'Create controller with config=' . VarDumper::dumpAsString($type) . " and id='$id'";
         Yii::beginProfile($token, __METHOD__);
@@ -264,7 +264,7 @@ class RouteModel extends Object
      * @param Controller $controller
      * @param array $result all controller action
      */
-    protected function getActionRoutes(Controller $controller, &$result): void
+    protected function getActionRoutes(Controller $controller, &$result)
     {
         $token = "Get actions of controller '" . $controller->uniqueId . "'";
         Yii::beginProfile($token, __METHOD__);

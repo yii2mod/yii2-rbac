@@ -49,7 +49,7 @@ class MigrateController extends BaseMigrateController
     /**
      * @inheritdoc
      */
-    public function init(): void
+    public function init()
     {
         $this->db = Instance::ensure($this->db, Connection::class);
 

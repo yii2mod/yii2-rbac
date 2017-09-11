@@ -227,10 +227,10 @@ class ItemController extends Controller
         $auth = Yii::$app->getAuthManager();
         $item = $this->type === Item::TYPE_ROLE ? $auth->getRole($id) : $auth->getPermission($id);
 
-        if ($item) {
-            return new AuthItemModel($item);
-        } else {
+        if (empty($item)) {
             throw new NotFoundHttpException(Yii::t('yii2mod.rbac', 'The requested page does not exist.'));
         }
+
+        return new AuthItemModel($item);
     }
 }

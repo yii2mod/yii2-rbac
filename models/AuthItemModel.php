@@ -98,7 +98,7 @@ class AuthItemModel extends Model
     /**
      * Check role is unique
      */
-    public function unique(): void
+    public function unique()
     {
         $value = $this->name;
         if ($this->manager->getRole($value) !== null || $this->manager->getPermission($value) !== null) {
@@ -114,7 +114,7 @@ class AuthItemModel extends Model
     /**
      * Check for rule
      */
-    public function checkRule(): void
+    public function checkRule()
     {
         $name = $this->ruleName;
 
@@ -292,7 +292,7 @@ class AuthItemModel extends Model
     /**
      * @return null|Item
      */
-    public function getItem(): ?Item
+    public function getItem()
     {
         return $this->_item;
     }

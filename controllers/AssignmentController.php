@@ -46,7 +46,7 @@ class AssignmentController extends Controller
     /**
      * @inheritdoc
      */
-    public function init(): void
+    public function init()
     {
         parent::init();
 
@@ -175,8 +175,8 @@ class AssignmentController extends Controller
 
         if (($user = $class::findIdentity($id)) !== null) {
             return new AssignmentModel($user);
-        } else {
-            throw new NotFoundHttpException(Yii::t('yii2mod.rbac', 'The requested page does not exist.'));
         }
+
+        throw new NotFoundHttpException(Yii::t('yii2mod.rbac', 'The requested page does not exist.'));
     }
 }

@@ -169,7 +169,7 @@ class BizRuleModel extends Model
     /**
      * @return null|Rule
      */
-    public function getItem(): ?Rule
+    public function getItem()
     {
         return $this->_item;
     }
