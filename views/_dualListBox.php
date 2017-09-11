@@ -35,7 +35,7 @@ $this->registerJs("var _opts = {$opts};", View::POS_BEGIN);
     </div>
     <div class="col-lg-5">
         <input class="form-control search" data-target="assigned"
-               placeholder="<?php echo Yii::t('yii2mod.rbac', 'Search for assigned') ?>">
+               placeholder="<?php echo Yii::t('yii2mod.rbac', 'Search for assigned'); ?>">
         <br/>
         <select multiple size="20" class="form-control list" data-target="assigned"></select>
     </div>

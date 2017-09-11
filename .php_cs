@@ -19,6 +19,7 @@ $config = PhpCsFixer\Config::create()
         'concat_space' => ['spacing' => 'one'],
         'ordered_imports' => true,
         'array_syntax' => ['syntax' => 'short'],
+        'yoda_style' => false,
     ])
     ->setFinder($finder);
 
