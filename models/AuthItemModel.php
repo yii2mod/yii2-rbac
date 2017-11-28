@@ -86,7 +86,7 @@ class AuthItemModel extends Model
             [['name', 'description', 'data', 'ruleName'], 'trim'],
             [['name', 'type'], 'required'],
             ['ruleName', 'checkRule'],
-            ['name', 'unique', 'when' => function () {
+            ['name', 'validateName', 'when' => function () {
                 return $this->getIsNewRecord() || ($this->_item->name != $this->name);
             }],
             ['type', 'integer'],
@@ -96,9 +96,9 @@ class AuthItemModel extends Model
     }
 
     /**
-     * Check role is unique
+     * Validate item name
      */
-    public function unique()
+    public function validateName()
     {
         $value = $this->name;
         if ($this->manager->getRole($value) !== null || $this->manager->getPermission($value) !== null) {
