@@ -3,9 +3,9 @@
 namespace yii2mod\rbac\models;
 
 use Yii;
+use yii\base\BaseObject;
 use yii\base\Controller;
 use yii\base\Module;
-use yii\base\Object;
 use yii\caching\TagDependency;
 use yii\helpers\VarDumper;
 
@@ -14,7 +14,7 @@ use yii\helpers\VarDumper;
  *
  * @package yii2mod\rbac\models
  */
-class RouteModel extends Object
+class RouteModel extends BaseObject
 {
     /**
      * @var string cache tag

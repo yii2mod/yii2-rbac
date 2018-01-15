@@ -3,8 +3,8 @@
 namespace yii2mod\rbac\models;
 
 use Yii;
+use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
-use yii\base\Object;
 use yii\web\IdentityInterface;
 
 /**
@@ -12,7 +12,7 @@ use yii\web\IdentityInterface;
  *
  * @package yii2mod\rbac\models
  */
-class AssignmentModel extends Object
+class AssignmentModel extends BaseObject
 {
     /**
      * @var IdentityInterface
