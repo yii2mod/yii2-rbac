@@ -41,7 +41,7 @@ return [
     'Role : {0}' => 'Rola : {0}',
     'Permission : {0}' => 'Uprawnienia : {0}',
     'Create Permission' => 'Nowe uprawnienie',
-    'Routes' => 'Uprawnienia do adresu',
+    'Routes' => 'Ścieżki',
     'Rule' => 'Zasada',
     'Rule "{value}" does not exists' => 'Zasada "{value}" nie istnieje',
     'Rule : {0}' => 'Zasada : {0}',
