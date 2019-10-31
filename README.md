@@ -300,3 +300,8 @@ Redoing migrations means first reverting the specified migrations and then apply
 $ php yii rbac/migrate/redo     # redo the last applied migration
 $ php yii rbac/migrate/redo 3   # redo the last 3 applied migrations
 ```
+
+## Support us
+
+Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/yii2mod). 
+All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
