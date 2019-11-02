@@ -17,6 +17,11 @@ Yii2-RBAC provides a web interface for advanced access control and includes foll
 [![Build Status](https://travis-ci.org/yii2mod/yii2-rbac.svg?branch=master)](https://travis-ci.org/yii2mod/yii2-rbac)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yii2mod/yii2-rbac/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yii2mod/yii2-rbac/?branch=master)
 
+## Support us
+
+Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/yii2mod). 
+All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
+
 Installation
 ------------
 
@@ -300,8 +305,3 @@ Redoing migrations means first reverting the specified migrations and then apply
 $ php yii rbac/migrate/redo     # redo the last applied migration
 $ php yii rbac/migrate/redo 3   # redo the last 3 applied migrations
 ```
-
-## Support us
-
-Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/yii2mod). 
-All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
