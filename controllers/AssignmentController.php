@@ -113,11 +113,11 @@ class AssignmentController extends Controller
     /**
      * Displays a single Assignment model.
      *
-     * @param int $id
+     * @param $id
      *
      * @return mixed
      */
-    public function actionView(int $id)
+    public function actionView($id)
     {
         $model = $this->findModel($id);
 
@@ -130,11 +130,11 @@ class AssignmentController extends Controller
     /**
      * Assign items
      *
-     * @param int $id
+     * @param $id
      *
      * @return array
      */
-    public function actionAssign(int $id)
+    public function actionAssign($id)
     {
         $items = Yii::$app->getRequest()->post('items', []);
         $assignmentModel = $this->findModel($id);
@@ -146,11 +146,11 @@ class AssignmentController extends Controller
     /**
      * Remove items
      *
-     * @param int $id
+     * @param $id
      *
      * @return array
      */
-    public function actionRemove(int $id)
+    public function actionRemove($id)
     {
         $items = Yii::$app->getRequest()->post('items', []);
         $assignmentModel = $this->findModel($id);
@@ -163,13 +163,13 @@ class AssignmentController extends Controller
      * Finds the Assignment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param int $id
+     * @param $id
      *
      * @return AssignmentModel the loaded model
      *
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel(int $id)
+    protected function findModel($id)
     {
         $class = $this->userIdentityClass;
 
